@@ -1,9 +1,9 @@
 """Ordinal observation model for the Digital Consciousness Model (DCM).
 
 Replaces the binary-collapse observation layer with a constrained ordered probit
-(rating-SDT) model for 7-point ordinal expert responses. The hierarchy above
-indicators (stance -> features -> subfeatures) retains the standard Beta/Bernoulli
-structure from the original DCM.
+(rating-SDT) model for 7-point ordinal expert responses. All discrete latent
+variables (stance, feature, subfeature presence) are marginalised analytically,
+yielding a fully continuous model that NUTS can sample without Metropolis steps.
 
 Current limitations
 -------------------
@@ -22,10 +22,14 @@ References
 """
 from __future__ import annotations
 
-import pytensor
-pytensor.config.gcc__cxxflags = "-fbracket-depth=4096"
 import os
-pytensor.config.compiledir = f"/tmp/pytensor_cache_{os.getpid()}"
+import pytensor
+
+try:
+    pytensor.config.gcc__cxxflags = "-fbracket-depth=4096"
+    pytensor.config.compiledir = f"/tmp/pytensor_cache_{os.getpid()}"
+except Exception:
+    pass  # already initialised (e.g. imported from notebook)
 
 import json
 import logging
@@ -429,14 +433,20 @@ class BayesianModelBuilder:
     def _create_node_variable(
         self,
         evidencer: Dict,
-        parent_node: pt.TensorVariable,
+        parent_prob: pt.TensorVariable,
         ancestor_path: Tuple[str, ...],
-    ) -> Optional[pm.Distribution]:
-        """Create Beta/Bernoulli hierarchy node.
+    ) -> Optional[pt.TensorVariable]:
+        """Create a hierarchy node with the parent's discrete state marginalised.
+
+        Instead of sampling a discrete Bernoulli for each node, we propagate
+        the continuous probability P(parent=1) downward:
+            q_j = P(parent=1) * beta_present + P(parent=0) * beta_absent
+        This is analytically equivalent (Rao-Blackwell) and keeps the entire
+        model continuous so NUTS can sample without Metropolis steps.
 
         Returns
         -------
-        pm.Bernoulli for features/subfeatures (used as parent for children).
+        Continuous P(node=1) tensor for features/subfeatures (passed to children).
         None for indicators (likelihood added via Potential).
         """
         name = self.sanitize_name(evidencer["name"])
@@ -458,7 +468,7 @@ class BayesianModelBuilder:
         )
         q_j = pm.Deterministic(
             f"{name}_p",
-            pm.math.switch(parent_node, beta_present, beta_absent),
+            parent_prob * beta_present + (1 - parent_prob) * beta_absent,
         )
 
         if evidencer["type"].lower() == "indicator":
@@ -467,7 +477,8 @@ class BayesianModelBuilder:
             )
             return None
         else:
-            return pm.Bernoulli(f"{name}_bern", p=q_j)
+            pm.Deterministic(f"{name}_bern", q_j)
+            return q_j
 
     def _add_indicator_ordinal_likelihood(
         self,
@@ -514,7 +525,7 @@ class BayesianModelBuilder:
 
     def _add_evidencer(
         self,
-        parent_node: pt.TensorVariable,
+        parent_prob: pt.TensorVariable,
         evidencer: Dict,
         ancestor_path: Tuple[str, ...],
     ) -> None:
@@ -523,7 +534,7 @@ class BayesianModelBuilder:
 
         try:
             var = self._create_node_variable(
-                evidencer, parent_node, ancestor_path
+                evidencer, parent_prob, ancestor_path
             )
         except Exception as e:
             self.logger.warning(
@@ -541,14 +552,14 @@ class BayesianModelBuilder:
 
     def _add_evidencers(
         self,
-        parent_node: pt.TensorVariable,
+        parent_prob: pt.TensorVariable,
         evidencers: List[Dict],
         ancestor_path: Tuple[str, ...],
     ) -> None:
         """Add multiple evidencer nodes to the model."""
         self.logger.info(f"Adding {len(evidencers)} evidencers")
         for evidencer in evidencers:
-            self._add_evidencer(parent_node, evidencer, ancestor_path)
+            self._add_evidencer(parent_prob, evidencer, ancestor_path)
 
     # -- public API --------------------------------------------------------
 
@@ -570,13 +581,13 @@ class BayesianModelBuilder:
 
         model = pm.Model()
         with model:
-            # --- Stance prior ---
+            # --- Stance prior (marginalised: no discrete Bernoulli) ---
             stance_p = pm.Beta(
                 f"{stance_name}_beta",
                 alpha=self.config.DEFAULT_ALPHA,
                 beta=self.config.DEFAULT_BETA,
             )
-            stance_bern = pm.Bernoulli(f"{stance_name}_bern", p=stance_p)
+            pm.Deterministic(f"{stance_name}_bern", stance_p)
 
             # --- Ordinal observation parameters (shared, defined once) ---
             self.a = pm.HalfNormal("a", sigma=2.0)
@@ -601,7 +612,7 @@ class BayesianModelBuilder:
             # --- Hierarchy ---
             evidencers = stance_data.get("evidencers", [])
             ancestor_path = (stance_name_raw,)
-            self._add_evidencers(stance_bern, evidencers, ancestor_path)
+            self._add_evidencers(stance_p, evidencers, ancestor_path)
 
         return model
 
