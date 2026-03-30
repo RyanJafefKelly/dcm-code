@@ -135,4 +135,7 @@ dmypy.json
 .idea/
 *.swp
 *.swo
+
+# Cached model results (netCDF)
+results/
 *~

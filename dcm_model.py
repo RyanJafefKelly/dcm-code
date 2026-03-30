@@ -7,12 +7,10 @@ yielding a fully continuous model that NUTS can sample without Metropolis steps.
 
 Current limitations
 -------------------
-- GWT stance only (other stances require dcm_model_binary_legacy.py)
 - Likert-only core; legacy probability data uses a temporary adapter
 - Shared discrimination parameter (a)
 - Shared cutpoints (kappa)
 - Expert-specific location shifts (b_e) with one anchored at zero
-- No rigorous sensitivity analysis or PPC yet
 
 References
 ----------
@@ -417,7 +415,7 @@ class BayesianModelBuilder:
 
     def sanitize_name(self, name: str) -> str:
         """Create a valid PyMC variable name, handling duplicates."""
-        sanitized = name.replace(" ", "_").lower()
+        sanitized = name.replace(" ", "_").replace("/", "_").lower()
         if sanitized not in self.variable_names:
             self.variable_names.append(sanitized)
             return sanitized
@@ -715,6 +713,45 @@ def load_data(config: ModelConfig) -> List[Dict]:
 
 
 # ---------------------------------------------------------------------------
+# Fit a single stance (reusable entry point)
+# ---------------------------------------------------------------------------
+
+def fit_stance(
+    stance_data: Dict,
+    config: ModelConfig,
+    system: Optional[str] = None,
+) -> Tuple[Any, BayesianModelBuilder, OrdinalDataProcessor]:
+    """Fit the ordinal DCM for a single stance.
+
+    Parameters
+    ----------
+    stance_data : dict
+        One element of the list returned by ``load_data()``.
+    config : ModelConfig
+        Sampling and prior configuration.
+    system : str, optional
+        Target system name.  Defaults to ``config.TARGET_SYSTEM``.
+
+    Returns
+    -------
+    (idata, builder, processor)
+    """
+    system = system or config.TARGET_SYSTEM
+    logger = logging.getLogger(__name__)
+    logger.info(f"Fitting stance: {stance_data['name']} | system: {system}")
+
+    processor = OrdinalDataProcessor(config)
+    processor.process(stance_data, system)
+
+    evidence_proc = EvidenceProcessor(config)
+    builder = BayesianModelBuilder(config, evidence_proc, processor)
+    model = builder.build_model(stance_data)
+    idata = builder.sample(model)
+
+    return idata, builder, processor
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -724,7 +761,6 @@ def main() -> None:
 
     config = ModelConfig()
 
-    # Load data (local cache, no API)
     all_data = load_data(config)
     stance_data = next(
         (item for item in all_data if item["name"] == config.TARGET_STANCE),
@@ -733,17 +769,7 @@ def main() -> None:
     if not stance_data:
         raise ValueError(f"Stance not found: {config.TARGET_STANCE}")
 
-    # Preprocess observations
-    processor = OrdinalDataProcessor(config)
-    processor.process(stance_data, config.TARGET_SYSTEM)
-
-    # Build model
-    evidence_proc = EvidenceProcessor(config)
-    builder = BayesianModelBuilder(config, evidence_proc, processor)
-    model = builder.build_model(stance_data)
-
-    # Sample
-    idata = builder.sample(model)
+    idata, builder, processor = fit_stance(stance_data, config)
 
     # Report
     results = ResultsManager(config, builder.node_to_varname)
@@ -753,7 +779,6 @@ def main() -> None:
     print(f"{'=' * 60}\n")
     results.summarise(idata, stance_data)
 
-    # Observation model parameters
     print(f"\n{'=' * 60}")
     print("Observation model parameters")
     print(f"{'=' * 60}")
