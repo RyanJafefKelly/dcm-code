@@ -67,6 +67,11 @@ class ModelConfig:
     DEFAULT_ALPHA: int = 1
     DEFAULT_BETA: int = 5
 
+    # Concentration for every internal tree node's Beta(alpha, beta).
+    # alpha + beta is rescaled to this value; the ratio alpha:beta is
+    # set by the (support, demandingness) mapping. Original DCM uses 10.
+    NODE_CONCENTRATION: float = 10.0
+
     # Ordinal observation model
     N_CATEGORIES: int = 7
     # Bin edges for legacy probability -> ordinal conversion.
@@ -317,11 +322,12 @@ class EvidenceProcessor:
         presence_alpha = int(absence_alpha * support_factor[0])
         presence_beta = int(absence_beta * support_factor[1])
 
+        c = self.config.NODE_CONCENTRATION
         return (
-            presence_alpha * 10 / (presence_alpha + presence_beta),
-            presence_beta * 10 / (presence_alpha + presence_beta),
-            absence_alpha * 10 / (absence_alpha + absence_beta),
-            absence_beta * 10 / (absence_alpha + absence_beta),
+            presence_alpha * c / (presence_alpha + presence_beta),
+            presence_beta * c / (presence_alpha + presence_beta),
+            absence_alpha * c / (absence_alpha + absence_beta),
+            absence_beta * c / (absence_alpha + absence_beta),
         )
 
     def _get_demandingness_parameters(
