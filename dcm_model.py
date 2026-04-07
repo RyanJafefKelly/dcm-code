@@ -73,6 +73,7 @@ class ModelConfig:
     NODE_CONCENTRATION: float = 10.0
 
     # Ordinal observation model
+    USE_EXPERT_SHIFTS: bool = True  # If False, all experts share b=0
     N_CATEGORIES: int = 7
     # Bin edges for legacy probability -> ordinal conversion.
     # Category k is assigned when bins[k-1] <= p < bins[k].
@@ -596,13 +597,13 @@ class BayesianModelBuilder:
             # --- Ordinal observation parameters (shared, defined once) ---
             self.a = pm.HalfNormal("a", sigma=2.0)
 
-            if n_experts > 1:
+            if self.config.USE_EXPERT_SHIFTS and n_experts > 1:
                 b_free = pm.Normal(
                     "b_free", mu=0.0, sigma=2.0, shape=n_experts - 1
                 )
                 self.b = pt.concatenate([pt.zeros(1), b_free])
             else:
-                self.b = pt.zeros(1)
+                self.b = pt.zeros(n_experts)
 
             self.kappa = pm.Normal(
                 "kappa",
@@ -805,6 +806,398 @@ def main() -> None:
     )
 
     logger.info("Analysis complete")
+
+
+# ---------------------------------------------------------------------------
+# Multi-system joint fit (reference systems)
+# ---------------------------------------------------------------------------
+
+class MultiSystemDataProcessor:
+    """Processes ordinal observations for multiple systems simultaneously.
+
+    Builds a merged expert pool across all systems so that experts who
+    rate multiple systems (e.g. Derek Shiller rates Human, LLMs, ELIZA)
+    share a single index and hence a single location-shift parameter.
+    """
+
+    def __init__(self, config: ModelConfig):
+        self.config = config
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.expert_names: List[str] = []
+        self.expert_to_idx: Dict[str, int] = {}
+        self.anchor_expert: Optional[str] = None
+        self.systems: List[str] = []
+        # {system: {node_key: [(global_expert_idx, ordinal_rating), ...]}}
+        self.system_observations: Dict[
+            str, Dict[str, List[Tuple[int, int]]]
+        ] = {}
+
+    def process(
+        self, stance_data: Dict, systems: List[str]
+    ) -> "MultiSystemDataProcessor":
+        self.systems = list(systems)
+
+        # --- Pass 1: count observations per expert across ALL systems ---
+        expert_system_counts: Dict[str, int] = defaultdict(int)
+        for system in systems:
+            per_sys: Dict[str, int] = defaultdict(int)
+            self._count_expert_obs(stance_data, system, per_sys)
+            for exp, cnt in per_sys.items():
+                expert_system_counts[exp] += cnt
+
+        if not expert_system_counts:
+            self.logger.warning("No observations found across any system")
+            return self
+
+        # Anchor = expert with most total observations (deterministic tie-break)
+        self.anchor_expert = max(
+            sorted(expert_system_counts.keys()),
+            key=lambda e: expert_system_counts[e],
+        )
+        other_experts = sorted(
+            e for e in expert_system_counts if e != self.anchor_expert
+        )
+        self.expert_names = [self.anchor_expert] + other_experts
+        self.expert_to_idx = {
+            name: i for i, name in enumerate(self.expert_names)
+        }
+        self.logger.info(
+            f"Merged expert pool ({len(self.expert_names)}): "
+            f"{self.expert_names}  anchor={self.anchor_expert}"
+        )
+
+        # --- Pass 2: collect ordinal observations per system ---
+        for system in systems:
+            obs: Dict[str, List[Tuple[int, int]]] = defaultdict(list)
+            self._collect_obs(stance_data, system, obs, ancestor_path=())
+            self.system_observations[system] = dict(obs)
+            n_obs = sum(len(v) for v in obs.values())
+            self.logger.info(f"  {system}: {n_obs} obs across {len(obs)} indicators")
+
+        return self
+
+    # -- helpers (mirror OrdinalDataProcessor but write to external dicts) --
+
+    @staticmethod
+    def _is_missing(val) -> bool:
+        if val is None:
+            return True
+        s = str(val).strip().lower()
+        return s in ("-1", "-1.0", "none", "", "unsure", "not tested")
+
+    def _count_expert_obs(
+        self, node: Dict, system: str, counts: Dict[str, int]
+    ) -> None:
+        if node.get("type", "").lower() == "indicator":
+            obs = node.get("observations", {}).get(system)
+            if obs:
+                for i, val in enumerate(obs["values"]):
+                    if not self._is_missing(val):
+                        counts[obs["names"][i]] += 1
+        for child in node.get("evidencers", []):
+            self._count_expert_obs(child, system, counts)
+
+    def _collect_obs(
+        self,
+        node: Dict,
+        system: str,
+        obs_dict: Dict[str, List[Tuple[int, int]]],
+        ancestor_path: Tuple[str, ...],
+    ) -> None:
+        current_path = ancestor_path + (node["name"],)
+        if node.get("type", "").lower() == "indicator":
+            obs = node.get("observations", {}).get(system)
+            if obs:
+                key = node_key(ancestor_path, node["name"])
+                for i, val in enumerate(obs["values"]):
+                    if self._is_missing(val):
+                        continue
+                    expert = obs["names"][i]
+                    ordinal = legacy_probability_to_ordinal(
+                        float(val), self.config.ORDINAL_BINS
+                    )
+                    obs_dict[key].append(
+                        (self.expert_to_idx[expert], ordinal)
+                    )
+        for child in node.get("evidencers", []):
+            self._collect_obs(child, system, obs_dict, ancestor_path=current_path)
+
+
+class MultiSystemModelBuilder:
+    """Builds a joint PyMC model across multiple systems.
+
+    Tree parameters (beta_pres, beta_abs) are shared.  Observation-layer
+    parameters (a, kappa, b_e) are shared.  Each system gets its own
+    stance-level C and per-node q_j propagation.
+    """
+
+    def __init__(
+        self,
+        config: ModelConfig,
+        evidence_processor: EvidenceProcessor,
+        multi_data: MultiSystemDataProcessor,
+        system_configs: List[Tuple[str, Optional[float]]],
+    ):
+        self.config = config
+        self.evidence_processor = evidence_processor
+        self.multi_data = multi_data
+        self.system_configs = system_configs
+        self.variable_names: List[str] = []
+        self.node_to_varname: Dict[str, str] = {}
+        self.logger = logging.getLogger(self.__class__.__name__)
+
+        self.a: Optional[pt.TensorVariable] = None
+        self.b: Optional[pt.TensorVariable] = None
+        self.kappa: Optional[pt.TensorVariable] = None
+
+    def sanitize_name(self, name: str) -> str:
+        sanitized = name.replace(" ", "_").replace("/", "_").lower()
+        if sanitized not in self.variable_names:
+            self.variable_names.append(sanitized)
+            return sanitized
+        counter = len(
+            [x for x in self.variable_names if x.startswith(sanitized)]
+        )
+        unique_name = f"{sanitized}_{counter}"
+        self.variable_names.append(unique_name)
+        return unique_name
+
+    @staticmethod
+    def _sys_prefix(system: str) -> str:
+        return system.replace(" ", "_").replace("(", "").replace(")", "").lower()
+
+    # -- tree construction with per-system q propagation -------------------
+
+    def _create_shared_node(
+        self,
+        evidencer: Dict,
+        parent_qs: Dict[str, pt.TensorVariable],
+        ancestor_path: Tuple[str, ...],
+    ) -> Optional[Dict[str, pt.TensorVariable]]:
+        """Create shared beta params + per-system q_j for one tree node."""
+        name = self.sanitize_name(evidencer["name"])
+        key = node_key(ancestor_path, evidencer["name"])
+        self.node_to_varname[key] = name
+
+        alpha_pres, beta_pres, alpha_abs, beta_abs = (
+            self.evidence_processor.get_beta_parameters(
+                evidencer.get("support", "no bearing"),
+                evidencer.get("demandingness", "neutral"),
+            )
+        )
+
+        # Shared across systems
+        bp = pm.Beta(f"{name}_beta_pres", alpha=alpha_pres, beta=beta_pres)
+        ba = pm.Beta(f"{name}_beta_abs", alpha=alpha_abs, beta=beta_abs)
+
+        # Per-system q
+        child_qs: Dict[str, pt.TensorVariable] = {}
+        for sys_name, parent_p in parent_qs.items():
+            sp = self._sys_prefix(sys_name)
+            q = pm.Deterministic(
+                f"{sp}__{name}_p",
+                parent_p * bp + (1 - parent_p) * ba,
+            )
+            child_qs[sys_name] = q
+
+        if evidencer["type"].lower() == "indicator":
+            self._add_multisystem_indicator(evidencer, name, child_qs, ancestor_path)
+            return None
+        else:
+            # Expose per-system bern for features/subfeatures
+            for sys_name, q in child_qs.items():
+                sp = self._sys_prefix(sys_name)
+                pm.Deterministic(f"{sp}__{name}_bern", q)
+            return child_qs
+
+    def _add_multisystem_indicator(
+        self,
+        evidencer: Dict,
+        name: str,
+        q_by_sys: Dict[str, pt.TensorVariable],
+        ancestor_path: Tuple[str, ...],
+    ) -> None:
+        """Add marginalised ordinal likelihood for each system that has data."""
+        key = node_key(ancestor_path, evidencer["name"])
+        for sys_name, q_j in q_by_sys.items():
+            sp = self._sys_prefix(sys_name)
+            obs_data = self.multi_data.system_observations.get(
+                sys_name, {}
+            ).get(key, [])
+
+            if not obs_data:
+                pm.Deterministic(f"{sp}__{name}_pz1", q_j)
+                continue
+
+            ratings = np.array([r for _, r in obs_data], dtype=np.int64)
+            expert_indices = np.array(
+                [e for e, _ in obs_data], dtype=np.int64
+            )
+
+            ll_z0 = pt_ordinal_logp(
+                ratings, expert_indices, self.kappa, self.b,
+                pt.constant(0.0),
+            )
+            ll_z1 = pt_ordinal_logp(
+                ratings, expert_indices, self.kappa, self.b, self.a,
+            )
+
+            log_mix = pt.logaddexp(
+                pt.log(1 - q_j + 1e-12) + ll_z0,
+                pt.log(q_j + 1e-12) + ll_z1,
+            )
+            pm.Potential(f"{sp}__{name}_lik", log_mix)
+
+            logit_q = pt.log(q_j + 1e-12) - pt.log(1 - q_j + 1e-12)
+            pz1 = pt.sigmoid(logit_q + ll_z1 - ll_z0)
+            pm.Deterministic(f"{sp}__{name}_pz1", pz1)
+
+    def _add_shared_evidencer(
+        self,
+        parent_qs: Dict[str, pt.TensorVariable],
+        evidencer: Dict,
+        ancestor_path: Tuple[str, ...],
+    ) -> None:
+        current_path = ancestor_path + (evidencer["name"],)
+        try:
+            child_qs = self._create_shared_node(
+                evidencer, parent_qs, ancestor_path
+            )
+        except Exception as e:
+            self.logger.warning(
+                f"Failed to add evidencer {evidencer['name']}: {e}"
+            )
+            return
+        if (
+            evidencer["type"].lower() in {"feature", "subfeature"}
+            and child_qs is not None
+        ):
+            for child in evidencer.get("evidencers", []):
+                self._add_shared_evidencer(
+                    child_qs, child, ancestor_path=current_path
+                )
+
+    # -- public API --------------------------------------------------------
+
+    def build_model(self, stance_data: Dict) -> pm.Model:
+        n_experts = len(self.multi_data.expert_names)
+        K = self.config.N_CATEGORIES
+        stance_name_raw = stance_data["name"]
+        stance_name = self.sanitize_name(stance_name_raw)
+        self.node_to_varname[stance_name_raw] = stance_name
+
+        self.logger.info(
+            f"Building multi-system ordinal DCM: stance={stance_name_raw}, "
+            f"{len(self.system_configs)} systems, {n_experts} experts, K={K}"
+        )
+
+        model = pm.Model()
+        with model:
+            # --- Per-system stance C ---
+            stance_qs: Dict[str, pt.TensorVariable] = {}
+            for sys_name, c_fixed in self.system_configs:
+                sp = self._sys_prefix(sys_name)
+                if c_fixed is not None:
+                    c_val = pt.constant(c_fixed, dtype="floatX")
+                    pm.Deterministic(f"{sp}__{stance_name}_C", c_val)
+                    stance_qs[sys_name] = c_val
+                else:
+                    c_var = pm.Beta(
+                        f"{sp}__{stance_name}_C",
+                        alpha=self.config.DEFAULT_ALPHA,
+                        beta=self.config.DEFAULT_BETA,
+                    )
+                    stance_qs[sys_name] = c_var
+
+            # --- Shared observation layer ---
+            self.a = pm.HalfNormal("a", sigma=2.0)
+
+            if self.config.USE_EXPERT_SHIFTS and n_experts > 1:
+                b_free = pm.Normal(
+                    "b_free", mu=0.0, sigma=2.0, shape=n_experts - 1
+                )
+                self.b = pt.concatenate([pt.zeros(1), b_free])
+            else:
+                self.b = pt.zeros(n_experts)
+
+            self.kappa = pm.Normal(
+                "kappa",
+                mu=0.0,
+                sigma=2.0,
+                shape=K - 1,
+                transform=pm.distributions.transforms.ordered,
+                initval=np.linspace(-1.5, 1.5, K - 1),
+            )
+
+            # --- Shared hierarchy with per-system q propagation ---
+            evidencers = stance_data.get("evidencers", [])
+            ancestor_path = (stance_name_raw,)
+            for ev in evidencers:
+                self._add_shared_evidencer(
+                    stance_qs, ev, ancestor_path=ancestor_path
+                )
+
+        return model
+
+    def sample(self, model: pm.Model) -> Any:
+        self.logger.info(
+            f"Sampling: {self.config.NUM_SAMPLES} draws, "
+            f"{self.config.NUM_TUNE} tune, {self.config.NUM_CHAINS} chains"
+        )
+        start = time.time()
+        with model:
+            idata = pm.sample(
+                draws=self.config.NUM_SAMPLES,
+                tune=self.config.NUM_TUNE,
+                chains=self.config.NUM_CHAINS,
+                cores=self.config.NUM_CHAINS,
+                target_accept=self.config.TARGET_ACCEPT,
+                random_seed=42,
+            )
+        elapsed = time.time() - start
+        self.logger.info(f"Sampling completed in {elapsed:.1f}s")
+        return idata
+
+
+def fit_stance_multisystem(
+    stance_data: Dict,
+    config: ModelConfig,
+    system_configs: List[Tuple[str, Optional[float]]],
+) -> Tuple[Any, MultiSystemModelBuilder, MultiSystemDataProcessor]:
+    """Fit the ordinal DCM jointly across multiple systems.
+
+    Parameters
+    ----------
+    stance_data : dict
+        One element of the list returned by ``load_data()``.
+    config : ModelConfig
+        Sampling and prior configuration.
+    system_configs : list of (system_name, fixed_c_or_None)
+        For reference systems supply a float (e.g. 0.99 for Human);
+        for target systems supply None (gets a Beta(1,5) prior).
+
+    Returns
+    -------
+    (idata, builder, processor)
+    """
+    logger = logging.getLogger(__name__)
+    systems = [s for s, _ in system_configs]
+    logger.info(
+        f"Multi-system fit: stance={stance_data['name']} | "
+        f"systems={systems}"
+    )
+
+    processor = MultiSystemDataProcessor(config)
+    processor.process(stance_data, systems)
+
+    evidence_proc = EvidenceProcessor(config)
+    builder = MultiSystemModelBuilder(
+        config, evidence_proc, processor, system_configs
+    )
+    model = builder.build_model(stance_data)
+    idata = builder.sample(model)
+
+    return idata, builder, processor
 
 
 if __name__ == "__main__":
