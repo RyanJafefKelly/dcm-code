@@ -18,9 +18,11 @@ References
   https://betanalpha.github.io/assets/case_studies/ordinal_regression.html
 - Rethink Priorities DCM specification (scheme 133).
 """
+
 from __future__ import annotations
 
 import os
+
 import pytensor
 
 try:
@@ -33,18 +35,18 @@ import json
 import logging
 import time
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import pymc as pm
 import pytensor.tensor as pt
 
-
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class ModelConfig:
@@ -74,6 +76,29 @@ class ModelConfig:
 
     # Ordinal observation model
     USE_EXPERT_SHIFTS: bool = True  # If False, all experts share b=0
+    # Prior scale on free expert location shifts b_free ~ Normal(0, sigma).
+    # 2.0 is the original diffuse default; a tight value (e.g. 0.3) lets the
+    # model express small expert calibration differences without absorbing
+    # system-level signal when expert pools are non-overlapping.
+    EXPERT_SHIFT_SIGMA: float = 2.0
+    # Prior scale on shared discrimination a ~ HalfNormal(sigma). Controls
+    # how far the latent signal shifts between indicator-absent and
+    # indicator-present. Larger sigma lets the posterior push `a` higher if
+    # the extreme-category data (e.g. Human 7s / ELIZA 1s) demand it.
+    A_PRIOR_SIGMA: float = 2.0
+    # Prior scale on shared ordered cutpoints kappa ~ Normal(0, sigma).
+    # Larger sigma lets the outer cutpoints stretch further to accommodate
+    # extreme-category observations.
+    KAPPA_PRIOR_SIGMA: float = 2.0
+    # Optional strongly regularised hierarchical expert-specific cutpoints.
+    # When enabled, expert cutpoints vary through positive inter-cutpoint gaps
+    # that are pooled hierarchically and then centered to mean zero per expert.
+    # This allows spacing / shape heterogeneity without reintroducing a free
+    # expert-specific location shift.
+    USE_HIERARCHICAL_EXPERT_CUTPOINTS: bool = False
+    HIER_KAPPA_GLOBAL_LOG_GAP_MU: float = -0.5
+    HIER_KAPPA_GLOBAL_LOG_GAP_SIGMA: float = 0.35
+    HIER_KAPPA_EXPERT_SCALE_SIGMA: float = 0.15
     N_CATEGORIES: int = 7
     # Bin edges for legacy probability -> ordinal conversion.
     # Category k is assigned when bins[k-1] <= p < bins[k].
@@ -90,6 +115,7 @@ class ModelConfig:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def setup_logging(level: str = "INFO") -> logging.Logger:
     """Set up logging configuration."""
@@ -111,9 +137,7 @@ def node_key(ancestor_path: Tuple[str, ...], name: str) -> str:
     return " > ".join(ancestor_path + (name,))
 
 
-def legacy_probability_to_ordinal(
-    p: float, bins: Tuple[float, ...]
-) -> int:
+def legacy_probability_to_ordinal(p: float, bins: Tuple[float, ...]) -> int:
     """Convert a [0, 1] probability to a 0-indexed ordinal category.
 
     TEMPORARY ADAPTER for legacy probability-valued observations.
@@ -137,9 +161,30 @@ def legacy_probability_to_ordinal(
     return len(bins)
 
 
+def centered_cutpoints_from_gaps_np(gaps: np.ndarray) -> np.ndarray:
+    """Construct ordered cutpoints from positive gaps and center to mean zero."""
+    raw = np.concatenate([np.zeros(1), np.cumsum(gaps)])
+    return raw - raw.mean()
+
+
+def pt_centered_cutpoints_from_positive_gaps(
+    gaps: pt.TensorVariable,
+) -> pt.TensorVariable:
+    """PyTensor version of centered cutpoint reconstruction from positive gaps."""
+    if gaps.ndim == 1:
+        raw = pt.concatenate([pt.zeros(1, dtype=gaps.dtype), pt.cumsum(gaps)])
+        return raw - pt.mean(raw)
+    if gaps.ndim == 2:
+        zeros = pt.zeros((gaps.shape[0], 1), dtype=gaps.dtype)
+        raw = pt.concatenate([zeros, pt.cumsum(gaps, axis=1)], axis=1)
+        return raw - pt.mean(raw, axis=1, keepdims=True)
+    raise ValueError("gaps must be a vector or matrix")
+
+
 # ---------------------------------------------------------------------------
 # Ordinal log-likelihood (PyTensor graph ops)
 # ---------------------------------------------------------------------------
+
 
 def pt_ordinal_logp(
     ratings: np.ndarray,
@@ -167,21 +212,143 @@ def pt_ordinal_logp(
     Scalar pytensor: sum of log-probabilities across all observations.
     """
     n_obs = ratings.shape[0]
-    eta = b[expert_idx] + eta_shift                              # (N,)
-    c_minus_eta = kappa[None, :] - eta[:, None]                  # (N, K-1)
-    cum_probs = pt.erfc(-c_minus_eta / pt.sqrt(2.0)) / 2.0      # Phi(c - eta)
+    eta = b[expert_idx] + eta_shift  # (N,)
+    c_minus_eta = kappa[None, :] - eta[:, None]  # (N, K-1)
+    cum_probs = pt.erfc(-c_minus_eta / pt.sqrt(2.0)) / 2.0  # Phi(c - eta)
     zeros = pt.zeros((cum_probs.shape[0], 1))
     ones = pt.ones((cum_probs.shape[0], 1))
     cum_full = pt.concatenate([zeros, cum_probs, ones], axis=1)  # (N, K+1)
-    cat_probs = cum_full[:, 1:] - cum_full[:, :-1]              # (N, K)
+    cat_probs = cum_full[:, 1:] - cum_full[:, :-1]  # (N, K)
     cat_probs = pt.clip(cat_probs, 1e-12, 1.0)
-    log_p = pt.log(cat_probs[pt.arange(n_obs), ratings])         # (N,)
+    log_p = pt.log(cat_probs[pt.arange(n_obs), ratings])  # (N,)
     return pt.sum(log_p)
+
+
+def pt_ordinal_logp_expert_kappa(
+    ratings: np.ndarray,
+    expert_idx: np.ndarray,
+    kappa_by_expert: pt.TensorVariable,
+    eta_shift: pt.TensorVariable,
+) -> pt.TensorVariable:
+    """Ordered-probit logp with expert-specific cutpoints and no free location."""
+    n_obs = ratings.shape[0]
+    kappa_obs = kappa_by_expert[expert_idx]  # (N, K-1)
+    c_minus_eta = kappa_obs - eta_shift
+    cum_probs = pt.erfc(-c_minus_eta / pt.sqrt(2.0)) / 2.0
+    zeros = pt.zeros((cum_probs.shape[0], 1), dtype=cum_probs.dtype)
+    ones = pt.ones((cum_probs.shape[0], 1), dtype=cum_probs.dtype)
+    cum_full = pt.concatenate([zeros, cum_probs, ones], axis=1)
+    cat_probs = cum_full[:, 1:] - cum_full[:, :-1]
+    cat_probs = pt.clip(cat_probs, 1e-12, 1.0)
+    log_p = pt.log(cat_probs[pt.arange(n_obs), ratings])
+    return pt.sum(log_p)
+
+
+def pt_indicator_logps(
+    ratings: np.ndarray,
+    expert_idx: np.ndarray,
+    a: pt.TensorVariable,
+    kappa: pt.TensorVariable,
+    b: pt.TensorVariable,
+    kappa_by_expert: Optional[pt.TensorVariable] = None,
+) -> Tuple[pt.TensorVariable, pt.TensorVariable]:
+    """Return log-likelihood terms for z=0 and z=1 under the active obs layer."""
+    if kappa_by_expert is not None:
+        return (
+            pt_ordinal_logp_expert_kappa(
+                ratings, expert_idx, kappa_by_expert, pt.constant(0.0)
+            ),
+            pt_ordinal_logp_expert_kappa(ratings, expert_idx, kappa_by_expert, a),
+        )
+    return (
+        pt_ordinal_logp(ratings, expert_idx, kappa, b, pt.constant(0.0)),
+        pt_ordinal_logp(ratings, expert_idx, kappa, b, a),
+    )
+
+
+def build_ordinal_observation_layer(
+    config: ModelConfig,
+    n_experts: int,
+    K: int,
+) -> Tuple[
+    pt.TensorVariable,
+    pt.TensorVariable,
+    pt.TensorVariable,
+    Optional[pt.TensorVariable],
+]:
+    """Build the shared ordinal observation layer for single- or multi-system fits."""
+    if config.USE_HIERARCHICAL_EXPERT_CUTPOINTS and config.USE_EXPERT_SHIFTS:
+        raise ValueError(
+            "Hierarchical expert cutpoints and expert shifts cannot both be enabled"
+        )
+
+    a = pm.HalfNormal("a", sigma=config.A_PRIOR_SIGMA)
+
+    if config.USE_HIERARCHICAL_EXPERT_CUTPOINTS:
+        n_gaps = K - 2
+        if n_gaps < 1:
+            raise ValueError(
+                "Hierarchical cutpoints require at least 3 ordinal categories"
+            )
+        init_gaps = np.full(n_gaps, 0.6)
+        log_gap_loc = pm.Normal(
+            "kappa_log_gap_loc",
+            mu=config.HIER_KAPPA_GLOBAL_LOG_GAP_MU,
+            sigma=config.HIER_KAPPA_GLOBAL_LOG_GAP_SIGMA,
+            shape=n_gaps,
+            initval=np.log(init_gaps),
+        )
+        gap_scale = pm.HalfNormal(
+            "kappa_expert_gap_scale",
+            sigma=config.HIER_KAPPA_EXPERT_SCALE_SIGMA,
+            initval=max(config.HIER_KAPPA_EXPERT_SCALE_SIGMA / 2, 1e-3),
+        )
+        gap_offset = pm.Normal(
+            "kappa_expert_gap_offset",
+            mu=0.0,
+            sigma=1.0,
+            shape=(n_experts, n_gaps),
+            initval=np.zeros((n_experts, n_gaps)),
+        )
+        pop_gaps = pt.exp(log_gap_loc)
+        expert_gaps = pt.exp(log_gap_loc[None, :] + gap_scale * gap_offset)
+        kappa = pm.Deterministic(
+            "kappa",
+            pt_centered_cutpoints_from_positive_gaps(pop_gaps),
+        )
+        kappa_by_expert = pm.Deterministic(
+            "kappa_by_expert",
+            pt_centered_cutpoints_from_positive_gaps(expert_gaps),
+        )
+        b = pt.zeros(n_experts)
+        return a, b, kappa, kappa_by_expert
+
+    if config.USE_EXPERT_SHIFTS and n_experts > 1:
+        b_free = pm.Normal(
+            "b_free",
+            mu=0.0,
+            sigma=config.EXPERT_SHIFT_SIGMA,
+            shape=n_experts - 1,
+        )
+        b = pt.concatenate([pt.zeros(1), b_free])
+    else:
+        b = pt.zeros(n_experts)
+
+    kappa = pm.Normal(
+        "kappa",
+        mu=0.0,
+        sigma=config.KAPPA_PRIOR_SIGMA,
+        shape=K - 1,
+        transform=pm.distributions.transforms.ordered,
+        initval=np.linspace(-1.5, 1.5, K - 1),
+    )
+    return a, b, kappa, None
 
 
 # ---------------------------------------------------------------------------
 # Data processing
 # ---------------------------------------------------------------------------
+
 
 class OrdinalDataProcessor:
     """Preprocesses DCM tree data into ordinal observations.
@@ -200,9 +367,7 @@ class OrdinalDataProcessor:
         self.expert_to_idx: Dict[str, int] = {}
         self.anchor_expert: Optional[str] = None
 
-    def process(
-        self, stance_data: Dict, system: str
-    ) -> "OrdinalDataProcessor":
+    def process(self, stance_data: Dict, system: str) -> "OrdinalDataProcessor":
         """Process a stance tree for a given system.  Returns self."""
         self.logger.info(f"Processing observations for system: {system}")
         self.observations.clear()
@@ -225,13 +390,9 @@ class OrdinalDataProcessor:
         )
 
         # Build canonical expert index: anchor at 0, rest alphabetical
-        other_experts = sorted(
-            e for e in expert_counts if e != self.anchor_expert
-        )
+        other_experts = sorted(e for e in expert_counts if e != self.anchor_expert)
         self.expert_names = [self.anchor_expert] + other_experts
-        self.expert_to_idx = {
-            name: i for i, name in enumerate(self.expert_names)
-        }
+        self.expert_to_idx = {name: i for i, name in enumerate(self.expert_names)}
         self.logger.info(f"Expert mapping: {self.expert_to_idx}")
 
         # --- Second pass: collect ordinal observations keyed by node path ---
@@ -239,9 +400,7 @@ class OrdinalDataProcessor:
 
         n_obs = sum(len(v) for v in self.observations.values())
         n_ind = len(self.observations)
-        self.logger.info(
-            f"Collected {n_obs} observations across {n_ind} indicators"
-        )
+        self.logger.info(f"Collected {n_obs} observations across {n_ind} indicators")
         return self
 
     # -- internal helpers --------------------------------------------------
@@ -284,9 +443,7 @@ class OrdinalDataProcessor:
                     ordinal = legacy_probability_to_ordinal(
                         float(val), self.config.ORDINAL_BINS
                     )
-                    self.observations[key].append(
-                        (self.expert_to_idx[expert], ordinal)
-                    )
+                    self.observations[key].append((self.expert_to_idx[expert], ordinal))
 
         for child in node.get("evidencers", []):
             self._collect_observations(child, system, ancestor_path=current_path)
@@ -295,6 +452,7 @@ class OrdinalDataProcessor:
 # ---------------------------------------------------------------------------
 # Evidence processor (support / demandingness -> Beta parameters)
 # ---------------------------------------------------------------------------
+
 
 class EvidenceProcessor:
     """Maps support/demandingness labels to Beta distribution parameters.
@@ -315,9 +473,7 @@ class EvidenceProcessor:
         -------
         (alpha_present, beta_present, alpha_absent, beta_absent)
         """
-        absence_alpha, absence_beta = self._get_demandingness_parameters(
-            demandingness
-        )
+        absence_alpha, absence_beta = self._get_demandingness_parameters(demandingness)
         support_factor = self._get_support_factor(support, demandingness)
 
         presence_alpha = int(absence_alpha * support_factor[0])
@@ -331,9 +487,7 @@ class EvidenceProcessor:
             absence_beta * c / (absence_alpha + absence_beta),
         )
 
-    def _get_demandingness_parameters(
-        self, demandingness: str
-    ) -> Tuple[int, int]:
+    def _get_demandingness_parameters(self, demandingness: str) -> Tuple[int, int]:
         base = self.config.BASE
         demandingness_map = {
             "overwhelmingly demanding": (base, int(base * self.config.OVERWHELMING)),
@@ -365,16 +519,20 @@ class EvidenceProcessor:
 
         support_map = {
             "overwhelming support": (
-                self.config.OVERWHELMING * demandingness_factor, 1,
+                self.config.OVERWHELMING * demandingness_factor,
+                1,
             ),
             "strong support": (
-                self.config.STRONG * demandingness_factor, 1,
+                self.config.STRONG * demandingness_factor,
+                1,
             ),
             "moderate support": (
-                self.config.MODERATE * demandingness_factor, 1,
+                self.config.MODERATE * demandingness_factor,
+                1,
             ),
             "weak support": (
-                self.config.WEAK * demandingness_factor, 1,
+                self.config.WEAK * demandingness_factor,
+                1,
             ),
             "no bearing": (1, 1),
             "overwhelming undermining": (1, self.config.OVERWHELMING),
@@ -390,6 +548,7 @@ class EvidenceProcessor:
 # ---------------------------------------------------------------------------
 # Model builder
 # ---------------------------------------------------------------------------
+
 
 class BayesianModelBuilder:
     """Builds a PyMC model with ordinal observation layer.
@@ -417,6 +576,7 @@ class BayesianModelBuilder:
         self.a: Optional[pt.TensorVariable] = None
         self.b: Optional[pt.TensorVariable] = None
         self.kappa: Optional[pt.TensorVariable] = None
+        self.kappa_by_expert: Optional[pt.TensorVariable] = None
         # Maps node_key -> sanitised PyMC variable prefix
         self.node_to_varname: Dict[str, str] = {}
 
@@ -426,9 +586,7 @@ class BayesianModelBuilder:
         if sanitized not in self.variable_names:
             self.variable_names.append(sanitized)
             return sanitized
-        counter = len(
-            [x for x in self.variable_names if x.startswith(sanitized)]
-        )
+        counter = len([x for x in self.variable_names if x.startswith(sanitized)])
         unique_name = f"{sanitized}_{counter}"
         self.variable_names.append(unique_name)
         return unique_name
@@ -465,21 +623,15 @@ class BayesianModelBuilder:
             )
         )
 
-        beta_present = pm.Beta(
-            f"{name}_beta_pres", alpha=alpha_pres, beta=beta_pres
-        )
-        beta_absent = pm.Beta(
-            f"{name}_beta_abs", alpha=alpha_abs, beta=beta_abs
-        )
+        beta_present = pm.Beta(f"{name}_beta_pres", alpha=alpha_pres, beta=beta_pres)
+        beta_absent = pm.Beta(f"{name}_beta_abs", alpha=alpha_abs, beta=beta_abs)
         q_j = pm.Deterministic(
             f"{name}_p",
             parent_prob * beta_present + (1 - parent_prob) * beta_absent,
         )
 
         if evidencer["type"].lower() == "indicator":
-            self._add_indicator_ordinal_likelihood(
-                evidencer, name, q_j, ancestor_path
-            )
+            self._add_indicator_ordinal_likelihood(evidencer, name, q_j, ancestor_path)
             return None
         else:
             pm.Deterministic(f"{name}_bern", q_j)
@@ -507,12 +659,13 @@ class BayesianModelBuilder:
         ratings = np.array([r for _, r in obs_data], dtype=np.int64)
         expert_indices = np.array([e for e, _ in obs_data], dtype=np.int64)
 
-        # Log-likelihood under z=0 (indicator absent) and z=1 (present)
-        ll_z0 = pt_ordinal_logp(
-            ratings, expert_indices, self.kappa, self.b, pt.constant(0.0)
-        )
-        ll_z1 = pt_ordinal_logp(
-            ratings, expert_indices, self.kappa, self.b, self.a
+        ll_z0, ll_z1 = pt_indicator_logps(
+            ratings,
+            expert_indices,
+            self.a,
+            self.kappa,
+            self.b,
+            self.kappa_by_expert,
         )
 
         # Marginalised likelihood: log[(1-q)*L0 + q*L1]
@@ -538,20 +691,13 @@ class BayesianModelBuilder:
         current_path = ancestor_path + (evidencer["name"],)
 
         try:
-            var = self._create_node_variable(
-                evidencer, parent_prob, ancestor_path
-            )
+            var = self._create_node_variable(evidencer, parent_prob, ancestor_path)
         except Exception as e:
-            self.logger.warning(
-                f"Failed to add evidencer {evidencer['name']}: {e}"
-            )
+            self.logger.warning(f"Failed to add evidencer {evidencer['name']}: {e}")
             return
 
         # Recurse into children for features / subfeatures
-        if (
-            evidencer["type"].lower() in {"feature", "subfeature"}
-            and var is not None
-        ):
+        if evidencer["type"].lower() in {"feature", "subfeature"} and var is not None:
             for child in evidencer.get("evidencers", []):
                 self._add_evidencer(var, child, ancestor_path=current_path)
 
@@ -595,24 +741,12 @@ class BayesianModelBuilder:
             pm.Deterministic(f"{stance_name}_bern", stance_p)
 
             # --- Ordinal observation parameters (shared, defined once) ---
-            self.a = pm.HalfNormal("a", sigma=2.0)
-
-            if self.config.USE_EXPERT_SHIFTS and n_experts > 1:
-                b_free = pm.Normal(
-                    "b_free", mu=0.0, sigma=2.0, shape=n_experts - 1
-                )
-                self.b = pt.concatenate([pt.zeros(1), b_free])
-            else:
-                self.b = pt.zeros(n_experts)
-
-            self.kappa = pm.Normal(
-                "kappa",
-                mu=0.0,
-                sigma=2.0,
-                shape=K - 1,
-                transform=pm.distributions.transforms.ordered,
-                initval=np.linspace(-1.5, 1.5, K - 1),
-            )
+            (
+                self.a,
+                self.b,
+                self.kappa,
+                self.kappa_by_expert,
+            ) = build_ordinal_observation_layer(self.config, n_experts, K)
 
             # --- Hierarchy ---
             evidencers = stance_data.get("evidencers", [])
@@ -646,12 +780,11 @@ class BayesianModelBuilder:
 # Results
 # ---------------------------------------------------------------------------
 
+
 class ResultsManager:
     """Extracts and displays posterior results from the ordinal DCM."""
 
-    def __init__(
-        self, config: ModelConfig, node_to_varname: Dict[str, str]
-    ):
+    def __init__(self, config: ModelConfig, node_to_varname: Dict[str, str]):
         self.config = config
         self.node_to_varname = node_to_varname
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -707,6 +840,7 @@ class ResultsManager:
 # Data loading
 # ---------------------------------------------------------------------------
 
+
 def load_data(config: ModelConfig) -> List[Dict]:
     """Load DCM data from local cache (no network dependency)."""
     path = Path(config.DATA_CACHE_PATH)
@@ -722,6 +856,7 @@ def load_data(config: ModelConfig) -> List[Dict]:
 # ---------------------------------------------------------------------------
 # Fit a single stance (reusable entry point)
 # ---------------------------------------------------------------------------
+
 
 def fit_stance(
     stance_data: Dict,
@@ -762,6 +897,7 @@ def fit_stance(
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main() -> None:
     logger = setup_logging("INFO")
     logger.info("Starting DCM ordinal model analysis")
@@ -791,7 +927,7 @@ def main() -> None:
     print(f"{'=' * 60}")
     print(f"  a (discrimination): {float(idata.posterior['a'].mean()):.3f}")
     n_experts = len(processor.expert_names)
-    if n_experts > 1:
+    if "b_free" in idata.posterior.data_vars:
         b_free = idata.posterior["b_free"].mean(dim=("chain", "draw")).values
         print(
             f"  b (expert shifts):  "
@@ -800,10 +936,7 @@ def main() -> None:
             + "]"
         )
     kappa_vals = idata.posterior["kappa"].mean(dim=("chain", "draw")).values
-    print(
-        f"  kappa (cutpoints):  "
-        f"[{', '.join(f'{v:.3f}' for v in kappa_vals)}]"
-    )
+    print(f"  kappa (cutpoints):  [{', '.join(f'{v:.3f}' for v in kappa_vals)}]")
 
     logger.info("Analysis complete")
 
@@ -812,12 +945,13 @@ def main() -> None:
 # Multi-system joint fit (reference systems)
 # ---------------------------------------------------------------------------
 
+
 class MultiSystemDataProcessor:
     """Processes ordinal observations for multiple systems simultaneously.
 
     Builds a merged expert pool across all systems so that experts who
-    rate multiple systems (e.g. Derek Shiller rates Human, LLMs, ELIZA)
-    share a single index and hence a single location-shift parameter.
+    rate multiple systems share a single index and hence a single
+    location-shift parameter.
     """
 
     def __init__(self, config: ModelConfig):
@@ -828,9 +962,7 @@ class MultiSystemDataProcessor:
         self.anchor_expert: Optional[str] = None
         self.systems: List[str] = []
         # {system: {node_key: [(global_expert_idx, ordinal_rating), ...]}}
-        self.system_observations: Dict[
-            str, Dict[str, List[Tuple[int, int]]]
-        ] = {}
+        self.system_observations: Dict[str, Dict[str, List[Tuple[int, int]]]] = {}
 
     def process(
         self, stance_data: Dict, systems: List[str]
@@ -858,9 +990,7 @@ class MultiSystemDataProcessor:
             e for e in expert_system_counts if e != self.anchor_expert
         )
         self.expert_names = [self.anchor_expert] + other_experts
-        self.expert_to_idx = {
-            name: i for i, name in enumerate(self.expert_names)
-        }
+        self.expert_to_idx = {name: i for i, name in enumerate(self.expert_names)}
         self.logger.info(
             f"Merged expert pool ({len(self.expert_names)}): "
             f"{self.expert_names}  anchor={self.anchor_expert}"
@@ -916,9 +1046,7 @@ class MultiSystemDataProcessor:
                     ordinal = legacy_probability_to_ordinal(
                         float(val), self.config.ORDINAL_BINS
                     )
-                    obs_dict[key].append(
-                        (self.expert_to_idx[expert], ordinal)
-                    )
+                    obs_dict[key].append((self.expert_to_idx[expert], ordinal))
         for child in node.get("evidencers", []):
             self._collect_obs(child, system, obs_dict, ancestor_path=current_path)
 
@@ -949,15 +1077,14 @@ class MultiSystemModelBuilder:
         self.a: Optional[pt.TensorVariable] = None
         self.b: Optional[pt.TensorVariable] = None
         self.kappa: Optional[pt.TensorVariable] = None
+        self.kappa_by_expert: Optional[pt.TensorVariable] = None
 
     def sanitize_name(self, name: str) -> str:
         sanitized = name.replace(" ", "_").replace("/", "_").lower()
         if sanitized not in self.variable_names:
             self.variable_names.append(sanitized)
             return sanitized
-        counter = len(
-            [x for x in self.variable_names if x.startswith(sanitized)]
-        )
+        counter = len([x for x in self.variable_names if x.startswith(sanitized)])
         unique_name = f"{sanitized}_{counter}"
         self.variable_names.append(unique_name)
         return unique_name
@@ -1021,25 +1148,24 @@ class MultiSystemModelBuilder:
         key = node_key(ancestor_path, evidencer["name"])
         for sys_name, q_j in q_by_sys.items():
             sp = self._sys_prefix(sys_name)
-            obs_data = self.multi_data.system_observations.get(
-                sys_name, {}
-            ).get(key, [])
+            obs_data = self.multi_data.system_observations.get(sys_name, {}).get(
+                key, []
+            )
 
             if not obs_data:
                 pm.Deterministic(f"{sp}__{name}_pz1", q_j)
                 continue
 
             ratings = np.array([r for _, r in obs_data], dtype=np.int64)
-            expert_indices = np.array(
-                [e for e, _ in obs_data], dtype=np.int64
-            )
+            expert_indices = np.array([e for e, _ in obs_data], dtype=np.int64)
 
-            ll_z0 = pt_ordinal_logp(
-                ratings, expert_indices, self.kappa, self.b,
-                pt.constant(0.0),
-            )
-            ll_z1 = pt_ordinal_logp(
-                ratings, expert_indices, self.kappa, self.b, self.a,
+            ll_z0, ll_z1 = pt_indicator_logps(
+                ratings,
+                expert_indices,
+                self.a,
+                self.kappa,
+                self.b,
+                self.kappa_by_expert,
             )
 
             log_mix = pt.logaddexp(
@@ -1060,22 +1186,16 @@ class MultiSystemModelBuilder:
     ) -> None:
         current_path = ancestor_path + (evidencer["name"],)
         try:
-            child_qs = self._create_shared_node(
-                evidencer, parent_qs, ancestor_path
-            )
+            child_qs = self._create_shared_node(evidencer, parent_qs, ancestor_path)
         except Exception as e:
-            self.logger.warning(
-                f"Failed to add evidencer {evidencer['name']}: {e}"
-            )
+            self.logger.warning(f"Failed to add evidencer {evidencer['name']}: {e}")
             return
         if (
             evidencer["type"].lower() in {"feature", "subfeature"}
             and child_qs is not None
         ):
             for child in evidencer.get("evidencers", []):
-                self._add_shared_evidencer(
-                    child_qs, child, ancestor_path=current_path
-                )
+                self._add_shared_evidencer(child_qs, child, ancestor_path=current_path)
 
     # -- public API --------------------------------------------------------
 
@@ -1110,32 +1230,18 @@ class MultiSystemModelBuilder:
                     stance_qs[sys_name] = c_var
 
             # --- Shared observation layer ---
-            self.a = pm.HalfNormal("a", sigma=2.0)
-
-            if self.config.USE_EXPERT_SHIFTS and n_experts > 1:
-                b_free = pm.Normal(
-                    "b_free", mu=0.0, sigma=2.0, shape=n_experts - 1
-                )
-                self.b = pt.concatenate([pt.zeros(1), b_free])
-            else:
-                self.b = pt.zeros(n_experts)
-
-            self.kappa = pm.Normal(
-                "kappa",
-                mu=0.0,
-                sigma=2.0,
-                shape=K - 1,
-                transform=pm.distributions.transforms.ordered,
-                initval=np.linspace(-1.5, 1.5, K - 1),
-            )
+            (
+                self.a,
+                self.b,
+                self.kappa,
+                self.kappa_by_expert,
+            ) = build_ordinal_observation_layer(self.config, n_experts, K)
 
             # --- Shared hierarchy with per-system q propagation ---
             evidencers = stance_data.get("evidencers", [])
             ancestor_path = (stance_name_raw,)
             for ev in evidencers:
-                self._add_shared_evidencer(
-                    stance_qs, ev, ancestor_path=ancestor_path
-                )
+                self._add_shared_evidencer(stance_qs, ev, ancestor_path=ancestor_path)
 
         return model
 
@@ -1182,18 +1288,13 @@ def fit_stance_multisystem(
     """
     logger = logging.getLogger(__name__)
     systems = [s for s, _ in system_configs]
-    logger.info(
-        f"Multi-system fit: stance={stance_data['name']} | "
-        f"systems={systems}"
-    )
+    logger.info(f"Multi-system fit: stance={stance_data['name']} | systems={systems}")
 
     processor = MultiSystemDataProcessor(config)
     processor.process(stance_data, systems)
 
     evidence_proc = EvidenceProcessor(config)
-    builder = MultiSystemModelBuilder(
-        config, evidence_proc, processor, system_configs
-    )
+    builder = MultiSystemModelBuilder(config, evidence_proc, processor, system_configs)
     model = builder.build_model(stance_data)
     idata = builder.sample(model)
 
