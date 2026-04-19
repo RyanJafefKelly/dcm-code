@@ -139,3 +139,12 @@ dmypy.json
 # Cached model results (netCDF)
 results/
 *~
+
+# Local-only working artefacts
+data_cache.json
+notebooks/weekly_reports/
+report_figures/
+resources/
+*.html
+dcm_project_brief.md
+learning_principles.md
