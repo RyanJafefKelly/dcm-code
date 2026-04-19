@@ -792,7 +792,7 @@ def plot_per_expert_system_histograms(
     return fig, axes
 
 
-def inspect_pz1_for_cell(
+def inspect_indicator_state_for_cell(
     idata: Any,
     builder: MultiSystemModelBuilder,
     processor: MultiSystemDataProcessor,
@@ -801,16 +801,16 @@ def inspect_pz1_for_cell(
 ) -> List[Dict[str, Any]]:
     """Per-indicator posterior expected-presence summary for one (expert, system) cell.
 
-    Under binary state model, reads ``{sys}__{var}_pz1`` directly.
-    Under three_state, reads ``{sys}__{var}_expected_z`` (the posterior
-    expected indicator strength in [0, 1], analogous to pz1 for regime
-    classification purposes).
+    Under the binary state model, reads ``{sys}__{var}_pz1`` directly.
+    Under the three-state model, reads ``{sys}__{var}_expected_z`` (the
+    posterior expected indicator strength in [0, 1], which plays the same
+    regime-classification role as ``pz1`` but is not itself ``pz1``).
 
     Returns one dict per indicator rated by ``expert_name`` in
     ``system_name`` with keys ``indicator``, ``n_obs_by_expert``,
-    ``median``, ``p03``, ``p97``. Use together with ``classify_pz1_regime``
-    to decide whether a cell is in a single-component regime (near 0 or 1)
-    or genuinely mixed (moderate).
+    ``median``, ``p03``, ``p97``. Pair with ``classify_pz1_regime`` to
+    bucket cells into single-component (near 0 / near 1) vs moderate
+    regimes.
     """
     post = idata.posterior
     if expert_name not in processor.expert_to_idx:
@@ -842,6 +842,12 @@ def inspect_pz1_for_cell(
             }
         )
     return rows
+
+
+# Backwards-compatible alias. The original name implied a binary-only
+# quantity (pz1), but under three-state the reported value is expected_z.
+# New callers should prefer ``inspect_indicator_state_for_cell``.
+inspect_pz1_for_cell = inspect_indicator_state_for_cell
 
 
 def classify_pz1_regime(

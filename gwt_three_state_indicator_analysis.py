@@ -54,7 +54,7 @@ from dcm_ppc import (
     _extract_obs_layer_draws,
     _sample_draw_indices,
     classify_pz1_regime,
-    inspect_pz1_for_cell,
+    inspect_indicator_state_for_cell,
 )
 
 # ---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ def regime_rows_for_focus_cells(
     low: float = 0.1,
     high: float = 0.9,
 ) -> List[Dict[str, Any]]:
-    """Flatten ``inspect_pz1_for_cell`` + ``classify_pz1_regime`` across focus cells.
+    """Flatten ``inspect_indicator_state_for_cell`` + ``classify_pz1_regime`` across focus cells.
 
     Returns one row per (focus cell, indicator) with cell metadata, the
     expert × system observation count, the posterior median / 94% CI
@@ -120,7 +120,7 @@ def regime_rows_for_focus_cells(
     """
     rows: List[Dict[str, Any]] = []
     for expert_name, system_name in focus_cells:
-        cell_rows = inspect_pz1_for_cell(
+        cell_rows = inspect_indicator_state_for_cell(
             idata, builder, processor, expert_name, system_name
         )
         if not cell_rows:
