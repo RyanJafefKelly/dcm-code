@@ -54,13 +54,20 @@ def _ordered_probit_probs(
 
 
 def _resolve_indicator_prob_suffix(indicator_prob_source: str) -> str:
+    """Legacy helper: resolve source name to a binary-only variable suffix.
+
+    Kept for backwards compatibility with external callers. New code should
+    prefer ``_extract_component_weights_for_indicator``, which understands
+    both binary and three-state state models.
+    """
     source = indicator_prob_source.lower()
-    if source in {"pz1", "posterior_z"}:
+    if source in {"pz1", "leaf_updated", "posterior_z"}:
         return "pz1"
     if source in {"q", "q_j", "p", "tree", "tree_implied", "tree-implied"}:
         return "p"
     raise ValueError(
-        "indicator_prob_source must be one of {'pz1', 'q', 'tree_implied'}"
+        "indicator_prob_source must be one of "
+        "{'pz1', 'leaf_updated', 'tree_implied', 'q'}"
     )
 
 
@@ -119,6 +126,201 @@ def _expert_predictive_components(
     return pk_z0, pk_z1
 
 
+# ---------------------------------------------------------------------------
+# State-model-aware helpers (support both "binary" and "three_state")
+# ---------------------------------------------------------------------------
+
+
+def _config_state_model(builder: Any) -> str:
+    """Read INDICATOR_STATE_MODEL off the builder config with a safe default."""
+    return getattr(builder.config, "INDICATOR_STATE_MODEL", "binary")
+
+
+def _is_leaf_updated(indicator_prob_source: str) -> bool:
+    source = indicator_prob_source.lower()
+    if source in {"pz1", "leaf_updated", "posterior_z"}:
+        return True
+    if source in {"q", "q_j", "p", "tree", "tree_implied", "tree-implied"}:
+        return False
+    raise ValueError(
+        "indicator_prob_source must be one of {'pz1', 'leaf_updated', "
+        "'tree_implied', 'q'}; got "
+        f"{indicator_prob_source!r}"
+    )
+
+
+def _extract_component_weights_for_indicator(
+    post: Any,
+    idx: np.ndarray,
+    sys_prefix: str,
+    varname: str,
+    state_model: str,
+    indicator_prob_source: str,
+) -> Optional[np.ndarray]:
+    """Per-draw latent-component weight matrix for one indicator.
+
+    Returns shape (n_components, S) array with draws at the sampled indices.
+    Returns ``None`` if the required deterministics are missing from the
+    posterior (caller skips the indicator).
+
+    Mapping
+    -------
+    binary + leaf_updated   : (1 - pz1, pz1)
+    binary + tree_implied   : (1 - q, q)
+    three_state + leaf_updated : (p_m0, p_m1, p_m2)
+    three_state + tree_implied : ((1-q)^2, 2q(1-q), q^2)
+    """
+    leaf_updated = _is_leaf_updated(indicator_prob_source)
+
+    if state_model == "binary":
+        suffix = "pz1" if leaf_updated else "p"
+        vname = f"{sys_prefix}__{varname}_{suffix}"
+        if vname not in post.data_vars:
+            return None
+        p = np.asarray(post[vname].values).reshape(-1)[idx]
+        return np.stack([1.0 - p, p], axis=0)
+
+    if state_model == "three_state":
+        if leaf_updated:
+            names = [f"{sys_prefix}__{varname}_p_m{i}" for i in range(3)]
+            if not all(n in post.data_vars for n in names):
+                return None
+            ws = [np.asarray(post[n].values).reshape(-1)[idx] for n in names]
+            return np.stack(ws, axis=0)
+        vname = f"{sys_prefix}__{varname}_p"
+        if vname not in post.data_vars:
+            return None
+        q = np.asarray(post[vname].values).reshape(-1)[idx]
+        return np.stack(
+            [(1.0 - q) ** 2, 2.0 * q * (1.0 - q), q ** 2], axis=0
+        )
+
+    raise ValueError(f"Unknown state_model: {state_model!r}")
+
+
+def _expert_component_predictives(
+    a_draws: np.ndarray,
+    b_draws: np.ndarray,
+    kappa_draws: np.ndarray,
+    kappa_by_expert_draws: Optional[np.ndarray],
+    expert_idx: int,
+    K: int,
+    state_model: str,
+) -> np.ndarray:
+    """Component emission category probabilities for one expert.
+
+    Shape (n_components, S, K).  binary: eta in {0, a}; three_state:
+    eta in {0, a/2, a}.
+    """
+    eta_base = b_draws[:, expert_idx]
+    if kappa_by_expert_draws is None:
+        kappa_e = kappa_draws
+    else:
+        kappa_e = kappa_by_expert_draws[:, expert_idx, :]
+    if state_model == "binary":
+        eta_values = [eta_base, eta_base + a_draws]
+    elif state_model == "three_state":
+        eta_values = [eta_base, eta_base + 0.5 * a_draws, eta_base + a_draws]
+    else:
+        raise ValueError(f"Unknown state_model: {state_model!r}")
+    return np.stack(
+        [_ordered_probit_probs(kappa_e, eta_c, K) for eta_c in eta_values], axis=0
+    )
+
+
+def _draw_cell_predictive_stats(
+    weights_mat: np.ndarray,
+    pk_components: np.ndarray,
+    obs: np.ndarray,
+    rng: np.random.Generator,
+    K: int,
+) -> Dict[str, Any]:
+    """Sample from per-draw mixture; aggregate shape + signed-tail diagnostics.
+
+    Parameters
+    ----------
+    weights_mat : (C, N_obs, S) array of latent-component weights.
+    pk_components : (C, S, K) array of component emission probabilities.
+    obs : (N_obs,) observed ratings (0-indexed categories).
+    """
+    n_components, N_obs, S = weights_mat.shape
+    mid_lo = K // 2 - 1
+    mid_hi = K // 2 + 1  # middle band = {K//2-1, K//2, K//2+1}; for K=7 -> {2,3,4}
+
+    pred_hist = np.zeros((S, K))
+    pred_mean = np.zeros(S)
+    pred_left = np.zeros(S)
+    pred_right = np.zeros(S)
+    pred_extreme = np.zeros(S)
+    pred_mid = np.zeros(S)
+
+    for s in range(S):
+        mix = np.zeros((N_obs, K))
+        for c in range(n_components):
+            mix += weights_mat[c, :, s, None] * pk_components[c, s, None, :]
+        row_sums = mix.sum(axis=1, keepdims=True)
+        mix = mix / np.clip(row_sums, 1e-12, None)
+        cum = np.cumsum(mix, axis=1)
+        u = rng.random(N_obs)[:, None]
+        sampled = (u < cum).argmax(axis=1)
+        pred_hist[s] = np.bincount(sampled, minlength=K) / N_obs
+        pred_mean[s] = float(sampled.mean())
+        pred_left[s] = float(np.mean(sampled == 0))
+        pred_right[s] = float(np.mean(sampled == K - 1))
+        pred_extreme[s] = pred_left[s] + pred_right[s]
+        pred_mid[s] = float(np.mean((sampled >= mid_lo) & (sampled <= mid_hi)))
+
+    obs_hist = np.bincount(obs, minlength=K) / N_obs
+    obs_left = float(np.mean(obs == 0))
+    obs_right = float(np.mean(obs == K - 1))
+    obs_extreme = obs_left + obs_right
+    obs_mid = float(np.mean((obs >= mid_lo) & (obs <= mid_hi)))
+
+    def _p3_p97(arr: np.ndarray) -> Tuple[float, float]:
+        return float(np.percentile(arr, 3)), float(np.percentile(arr, 97))
+
+    pm_lo, pm_hi = _p3_p97(pred_mean)
+    pl_lo, pl_hi = _p3_p97(pred_left)
+    pr_lo, pr_hi = _p3_p97(pred_right)
+    pe_lo, pe_hi = _p3_p97(pred_extreme)
+    pmid_lo, pmid_hi = _p3_p97(pred_mid)
+    pred_left_m = float(pred_left.mean())
+    pred_right_m = float(pred_right.mean())
+    pred_mid_m = float(pred_mid.mean())
+
+    return {
+        "n_obs": int(N_obs),
+        "obs_hist": obs_hist,
+        "pred_hist_mean": pred_hist.mean(axis=0),
+        "pred_hist_lo": np.percentile(pred_hist, 3, axis=0),
+        "pred_hist_hi": np.percentile(pred_hist, 97, axis=0),
+        "obs_mean": float(obs.mean()),
+        "pred_mean_mean": float(pred_mean.mean()),
+        "pred_mean_lo": pm_lo,
+        "pred_mean_hi": pm_hi,
+        "obs_extreme": obs_extreme,
+        "pred_extreme_mean": float(pred_extreme.mean()),
+        "pred_extreme_lo": pe_lo,
+        "pred_extreme_hi": pe_hi,
+        # Signed tail and middle-mass diagnostics (new)
+        "obs_left": obs_left,
+        "pred_left_mean": pred_left_m,
+        "pred_left_lo": pl_lo,
+        "pred_left_hi": pl_hi,
+        "delta_left_mean": pred_left_m - obs_left,
+        "obs_right": obs_right,
+        "pred_right_mean": pred_right_m,
+        "pred_right_lo": pr_lo,
+        "pred_right_hi": pr_hi,
+        "delta_right_mean": pred_right_m - obs_right,
+        "obs_mid": obs_mid,
+        "pred_mid_mean": pred_mid_m,
+        "pred_mid_lo": pmid_lo,
+        "pred_mid_hi": pmid_hi,
+        "delta_mid_mean": pred_mid_m - obs_mid,
+    }
+
+
 def per_expert_ppc_multisystem(
     idata: Any,
     builder: MultiSystemModelBuilder,
@@ -143,23 +345,20 @@ def per_expert_ppc_multisystem(
     tree-implied indicator probabilities ``q_j`` exposed as ``..._p``.
     """
     K = builder.config.N_CATEGORIES
+    state_model = _config_state_model(builder)
     post = idata.posterior
     n_experts = len(processor.expert_names)
     S_total = np.asarray(post["a"].values).reshape(-1).shape[0]
     idx = _sample_draw_indices(S_total, n_draws, seed)
-    S = idx.shape[0]
     rng = np.random.default_rng(seed)
-    (
-        a_draws,
-        b_draws,
-        kappa_draws,
-        kappa_by_expert_draws,
-    ) = _extract_obs_layer_draws(post, idx, n_experts, K)
-    prob_suffix = _resolve_indicator_prob_suffix(indicator_prob_source)
+    a_draws, b_draws, kappa_draws, kappa_by_expert_draws = _extract_obs_layer_draws(
+        post, idx, n_experts, K
+    )
 
-    # --- Collect (expert_idx, rating, indicator_prob_draws) across systems ---
+    # --- Collect (expert_idx, rating, component_weights) across systems ---
+    # component_weights has shape (C, S) with C=2 (binary) or C=3 (three_state)
     per_expert_obs: List[List[int]] = [[] for _ in range(n_experts)]
-    per_expert_indicator_probs: List[List[np.ndarray]] = [[] for _ in range(n_experts)]
+    per_expert_weights: List[List[np.ndarray]] = [[] for _ in range(n_experts)]
 
     for sys_name, sys_obs in processor.system_observations.items():
         sp = builder._sys_prefix(sys_name)
@@ -167,72 +366,28 @@ def per_expert_ppc_multisystem(
             varname = builder.node_to_varname.get(nkey)
             if varname is None:
                 continue
-            indicator_prob_name = f"{sp}__{varname}_{prob_suffix}"
-            if indicator_prob_name not in post.data_vars:
+            weights = _extract_component_weights_for_indicator(
+                post, idx, sp, varname, state_model, indicator_prob_source
+            )
+            if weights is None:
                 continue
-            indicator_prob_all = np.asarray(post[indicator_prob_name].values).reshape(-1)
-            indicator_prob_draws = indicator_prob_all[idx]
             for expert_idx, rating in obs_list:
                 per_expert_obs[expert_idx].append(int(rating))
-                per_expert_indicator_probs[expert_idx].append(indicator_prob_draws)
+                per_expert_weights[expert_idx].append(weights)
 
     results: Dict[str, Dict[str, Any]] = {}
     for e in range(n_experts):
         if not per_expert_obs[e]:
             continue
-        obs = np.asarray(per_expert_obs[e], dtype=int)  # (N_e,)
-        indicator_prob_mat = np.stack(per_expert_indicator_probs[e], axis=0)
-        N_e = obs.shape[0]
-        pk_z0, pk_z1 = _expert_predictive_components(
-            a_draws,
-            b_draws,
-            kappa_draws,
-            kappa_by_expert_draws,
-            e,
-            K,
+        obs = np.asarray(per_expert_obs[e], dtype=int)
+        # weights_stack: (C, N_e, S)
+        weights_stack = np.stack(per_expert_weights[e], axis=1)
+        pk_components = _expert_component_predictives(
+            a_draws, b_draws, kappa_draws, kappa_by_expert_draws, e, K, state_model
         )
-
-        pred_hist = np.zeros((S, K))
-        pred_mean_rating = np.zeros(S)
-        pred_extreme_prop = np.zeros(S)
-
-        for s in range(S):
-            mix = (
-                indicator_prob_mat[:, s, None] * pk_z1[s, None, :]
-                + (1.0 - indicator_prob_mat[:, s, None]) * pk_z0[s, None, :]
-            )
-            row_sums = mix.sum(axis=1, keepdims=True)
-            mix = mix / row_sums
-
-            cum = np.cumsum(mix, axis=1)
-            u = rng.random(N_e)[:, None]
-            sampled = (u < cum).argmax(axis=1)  # (N_e,)
-
-            pred_hist[s] = np.bincount(sampled, minlength=K) / N_e
-            pred_mean_rating[s] = float(sampled.mean())
-            pred_extreme_prop[s] = float(
-                np.mean((sampled == 0) | (sampled == K - 1))
-            )
-
-        obs_hist = np.bincount(obs, minlength=K) / N_e
-        obs_mean = float(obs.mean())
-        obs_extreme = float(np.mean((obs == 0) | (obs == K - 1)))
-
-        results[processor.expert_names[e]] = {
-            "n_obs": int(N_e),
-            "obs_hist": obs_hist,
-            "pred_hist_mean": pred_hist.mean(axis=0),
-            "pred_hist_lo": np.percentile(pred_hist, 3, axis=0),
-            "pred_hist_hi": np.percentile(pred_hist, 97, axis=0),
-            "obs_mean": obs_mean,
-            "pred_mean_mean": float(pred_mean_rating.mean()),
-            "pred_mean_lo": float(np.percentile(pred_mean_rating, 3)),
-            "pred_mean_hi": float(np.percentile(pred_mean_rating, 97)),
-            "obs_extreme": obs_extreme,
-            "pred_extreme_mean": float(pred_extreme_prop.mean()),
-            "pred_extreme_lo": float(np.percentile(pred_extreme_prop, 3)),
-            "pred_extreme_hi": float(np.percentile(pred_extreme_prop, 97)),
-        }
+        results[processor.expert_names[e]] = _draw_cell_predictive_stats(
+            weights_stack, pk_components, obs, rng, K
+        )
 
     return results
 
@@ -459,21 +614,18 @@ def per_expert_system_ppc_multisystem(
     entry for any (expert, system) combination that has no observations.
     """
     K = builder.config.N_CATEGORIES
+    state_model = _config_state_model(builder)
     post = idata.posterior
     n_experts = len(processor.expert_names)
     S_total = np.asarray(post["a"].values).reshape(-1).shape[0]
     idx = _sample_draw_indices(S_total, n_draws, seed)
-    S = idx.shape[0]
     rng = np.random.default_rng(seed)
-    (
-        a_draws,
-        b_draws,
-        kappa_draws,
-        kappa_by_expert_draws,
-    ) = _extract_obs_layer_draws(post, idx, n_experts, K)
-    prob_suffix = _resolve_indicator_prob_suffix(indicator_prob_source)
+    a_draws, b_draws, kappa_draws, kappa_by_expert_draws = _extract_obs_layer_draws(
+        post, idx, n_experts, K
+    )
 
-    # Bucket observations by (expert_idx, system_name) -> list of (rating, prob_draws)
+    # Bucket observations by (expert_idx, system_name) -> list of (rating, component_weights).
+    # component_weights has shape (C, S), with C=2 (binary) or C=3 (three_state).
     buckets: Dict[Tuple[int, str], List[Tuple[int, np.ndarray]]] = defaultdict(list)
     for sys_name, sys_obs in processor.system_observations.items():
         sp = builder._sys_prefix(sys_name)
@@ -481,67 +633,27 @@ def per_expert_system_ppc_multisystem(
             varname = builder.node_to_varname.get(nkey)
             if varname is None:
                 continue
-            indicator_prob_name = f"{sp}__{varname}_{prob_suffix}"
-            if indicator_prob_name not in post.data_vars:
+            weights = _extract_component_weights_for_indicator(
+                post, idx, sp, varname, state_model, indicator_prob_source
+            )
+            if weights is None:
                 continue
-            indicator_prob_all = np.asarray(post[indicator_prob_name].values).reshape(-1)
-            indicator_prob_draws = indicator_prob_all[idx]
             for expert_idx, rating in obs_list:
-                buckets[(expert_idx, sys_name)].append(
-                    (int(rating), indicator_prob_draws)
-                )
+                buckets[(expert_idx, sys_name)].append((int(rating), weights))
 
     results: Dict[Tuple[str, str], Dict[str, Any]] = {}
     for (e, sys_name), entries in buckets.items():
         if not entries:
             continue
         obs = np.asarray([r for r, _ in entries], dtype=int)
-        indicator_prob_mat = np.stack([p for _, p in entries], axis=0)
-        N = obs.shape[0]
-        pk_z0, pk_z1 = _expert_predictive_components(
-            a_draws,
-            b_draws,
-            kappa_draws,
-            kappa_by_expert_draws,
-            e,
-            K,
+        # weights_stack: (C, N_e, S)
+        weights_stack = np.stack([w for _, w in entries], axis=1)
+        pk_components = _expert_component_predictives(
+            a_draws, b_draws, kappa_draws, kappa_by_expert_draws, e, K, state_model
         )
-
-        pred_hist = np.zeros((S, K))
-        pred_mean_rating = np.zeros(S)
-        pred_extreme_prop = np.zeros(S)
-
-        for s in range(S):
-            mix = (
-                indicator_prob_mat[:, s, None] * pk_z1[s, None, :]
-                + (1.0 - indicator_prob_mat[:, s, None]) * pk_z0[s, None, :]
-            )
-            mix = mix / mix.sum(axis=1, keepdims=True)
-            cum = np.cumsum(mix, axis=1)
-            u = rng.random(N)[:, None]
-            sampled = (u < cum).argmax(axis=1)
-            pred_hist[s] = np.bincount(sampled, minlength=K) / N
-            pred_mean_rating[s] = float(sampled.mean())
-            pred_extreme_prop[s] = float(
-                np.mean((sampled == 0) | (sampled == K - 1))
-            )
-
-        obs_hist = np.bincount(obs, minlength=K) / N
-        results[(processor.expert_names[e], sys_name)] = {
-            "n_obs": int(N),
-            "obs_hist": obs_hist,
-            "pred_hist_mean": pred_hist.mean(axis=0),
-            "pred_hist_lo": np.percentile(pred_hist, 3, axis=0),
-            "pred_hist_hi": np.percentile(pred_hist, 97, axis=0),
-            "obs_mean": float(obs.mean()),
-            "pred_mean_mean": float(pred_mean_rating.mean()),
-            "pred_mean_lo": float(np.percentile(pred_mean_rating, 3)),
-            "pred_mean_hi": float(np.percentile(pred_mean_rating, 97)),
-            "obs_extreme": float(np.mean((obs == 0) | (obs == K - 1))),
-            "pred_extreme_mean": float(pred_extreme_prop.mean()),
-            "pred_extreme_lo": float(np.percentile(pred_extreme_prop, 3)),
-            "pred_extreme_hi": float(np.percentile(pred_extreme_prop, 97)),
-        }
+        results[(processor.expert_names[e], sys_name)] = _draw_cell_predictive_stats(
+            weights_stack, pk_components, obs, rng, K
+        )
 
     return results
 
@@ -687,16 +799,18 @@ def inspect_pz1_for_cell(
     expert_name: str,
     system_name: str,
 ) -> List[Dict[str, Any]]:
-    """Per-indicator pz1 posterior summary for one (expert, system) cell.
+    """Per-indicator posterior expected-presence summary for one (expert, system) cell.
 
-    Returns one dict per indicator rated by ``expert_name`` in ``system_name``,
-    with keys ``indicator``, ``n_obs_by_expert``, ``median``, ``p03``, ``p97``.
+    Under binary state model, reads ``{sys}__{var}_pz1`` directly.
+    Under three_state, reads ``{sys}__{var}_expected_z`` (the posterior
+    expected indicator strength in [0, 1], analogous to pz1 for regime
+    classification purposes).
 
-    Use together with ``classify_pz1_regime`` to decide whether a cell is in
-    a single-component regime (pz1 near 0 or 1) or genuinely mixed (pz1
-    moderate). This prerequisite check is needed before considering a
-    per-expert noise scale sigma_e: sigma_e is most plausibly useful in the
-    single-component regime, not in the moderate regime.
+    Returns one dict per indicator rated by ``expert_name`` in
+    ``system_name`` with keys ``indicator``, ``n_obs_by_expert``,
+    ``median``, ``p03``, ``p97``. Use together with ``classify_pz1_regime``
+    to decide whether a cell is in a single-component regime (near 0 or 1)
+    or genuinely mixed (moderate).
     """
     post = idata.posterior
     if expert_name not in processor.expert_to_idx:
@@ -704,6 +818,8 @@ def inspect_pz1_for_cell(
     expert_idx = processor.expert_to_idx[expert_name]
     sp = builder._sys_prefix(system_name)
     sys_obs = processor.system_observations.get(system_name, {})
+    state_model = _config_state_model(builder)
+    suffix = "pz1" if state_model == "binary" else "expected_z"
     rows: List[Dict[str, Any]] = []
     for nkey, obs_list in sys_obs.items():
         expert_count = sum(1 for e, _ in obs_list if e == expert_idx)
@@ -712,10 +828,10 @@ def inspect_pz1_for_cell(
         varname = builder.node_to_varname.get(nkey)
         if varname is None:
             continue
-        pz1_name = f"{sp}__{varname}_pz1"
-        if pz1_name not in post.data_vars:
+        var_name = f"{sp}__{varname}_{suffix}"
+        if var_name not in post.data_vars:
             continue
-        pz1 = np.asarray(post[pz1_name].values).reshape(-1)
+        pz1 = np.asarray(post[var_name].values).reshape(-1)
         rows.append(
             {
                 "indicator": nkey.split(" > ")[-1],

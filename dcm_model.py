@@ -37,7 +37,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Literal, Optional, Tuple
 
 import numpy as np
 import pymc as pm
@@ -73,6 +73,16 @@ class ModelConfig:
     # alpha + beta is rescaled to this value; the ratio alpha:beta is
     # set by the (support, demandingness) mapping. Original DCM uses 10.
     NODE_CONCENTRATION: float = 10.0
+
+    # Indicator latent-state model. Selects the leaf family without touching the rest
+    # of the validated baseline. Members of the growing model library:
+    #   "binary"      — z_j ∈ {0,1},   z_j ~ Bernoulli(q_j)        (original baseline)
+    #   "three_state" — m_j ∈ {0,1,2}, m_j ~ Binomial(2, q_j);
+    #                   emission centres at η ∈ {0, a/2, a};
+    #                   z_j = m_j/2 gives expected_z = q_j
+    # Marginalisation is per-indicator in both cases (m_j or z_j is shared across the
+    # indicator's ratings), analytic in both cases, so NUTS sees a fully continuous model.
+    INDICATOR_STATE_MODEL: Literal["binary", "three_state"] = "binary"
 
     # Ordinal observation model
     USE_EXPERT_SHIFTS: bool = True  # If False, all experts share b=0
@@ -263,6 +273,152 @@ def pt_indicator_logps(
     return (
         pt_ordinal_logp(ratings, expert_idx, kappa, b, pt.constant(0.0)),
         pt_ordinal_logp(ratings, expert_idx, kappa, b, a),
+    )
+
+
+# ---------------------------------------------------------------------------
+# Three-state latent indicator helpers
+# ---------------------------------------------------------------------------
+#
+# Under the three-state leaf model we take m_j ~ Binomial(2, q_j) with
+# z_j = m_j/2 in {0, 0.5, 1} and ordered-probit emission centres at
+# eta in {0, a/2, a}. The latent m_j is shared across all ratings for a
+# single indicator, so marginalisation is per-indicator:
+#
+#     log P(r_{1j}, ..., r_{n_j j} | q_j, theta) =
+#         logsumexp_{m in {0,1,2}} [ log w_m(q_j) + sum_i log P_OP(r_ij | eta_m, theta) ]
+#
+# with log w_0 = 2 log(1-q), log w_1 = log 2 + log q + log(1-q), log w_2 = 2 log q.
+# A product of per-rating mixtures would incorrectly let each rating within the
+# same indicator have its own latent m; hence the per-indicator aggregation.
+
+
+def three_state_log_weights(
+    q_j: pt.TensorVariable,
+) -> Tuple[pt.TensorVariable, pt.TensorVariable, pt.TensorVariable]:
+    """Log prior weights for (m=0, m=1, m=2) under m_j ~ Binomial(2, q_j)."""
+    log_1mq = pt.log(1.0 - q_j + 1e-12)
+    log_q = pt.log(q_j + 1e-12)
+    return 2.0 * log_1mq, pt.log(2.0) + log_q + log_1mq, 2.0 * log_q
+
+
+def pt_three_state_ll_terms(
+    ratings: np.ndarray,
+    expert_idx: np.ndarray,
+    a: pt.TensorVariable,
+    kappa: pt.TensorVariable,
+    b: pt.TensorVariable,
+    kappa_by_expert: Optional[pt.TensorVariable] = None,
+) -> Tuple[pt.TensorVariable, pt.TensorVariable, pt.TensorVariable]:
+    """Aggregated per-indicator log-likelihoods for m in {0, 1, 2}.
+
+    Each returned component is ``sum_i log P_OP(r_ij | eta=eta_m, theta)``
+    for emission centres ``eta_0 = 0``, ``eta_1 = a/2``, ``eta_2 = a``.
+    The marginalisation over m_j is then performed by the caller using
+    ``three_state_log_weights(q_j)`` and pairwise ``pt.logaddexp``.
+    """
+    if kappa_by_expert is not None:
+        return (
+            pt_ordinal_logp_expert_kappa(
+                ratings, expert_idx, kappa_by_expert, pt.constant(0.0)
+            ),
+            pt_ordinal_logp_expert_kappa(
+                ratings, expert_idx, kappa_by_expert, a * 0.5
+            ),
+            pt_ordinal_logp_expert_kappa(ratings, expert_idx, kappa_by_expert, a),
+        )
+    return (
+        pt_ordinal_logp(ratings, expert_idx, kappa, b, pt.constant(0.0)),
+        pt_ordinal_logp(ratings, expert_idx, kappa, b, a * 0.5),
+        pt_ordinal_logp(ratings, expert_idx, kappa, b, a),
+    )
+
+
+def add_indicator_marginal_likelihood(
+    name: str,
+    potential_name: str,
+    q_j: pt.TensorVariable,
+    ratings: np.ndarray,
+    expert_indices: np.ndarray,
+    a: pt.TensorVariable,
+    kappa: pt.TensorVariable,
+    b: pt.TensorVariable,
+    kappa_by_expert: Optional[pt.TensorVariable],
+    state_model: str,
+) -> None:
+    """Add the marginalised ordinal likelihood + deterministics for one indicator.
+
+    Dispatches on ``state_model``:
+      - "binary":      z_j ~ Bernoulli(q_j). Exposes ``{name}_pz1``.
+      - "three_state": m_j ~ Binomial(2, q_j). Exposes ``{name}_p_m0``,
+        ``{name}_p_m1``, ``{name}_p_m2``, and ``{name}_expected_z``.
+
+    ``ratings`` / ``expert_indices`` must contain every rating for the
+    single indicator being added (per-indicator marginalisation).
+    """
+    if state_model == "binary":
+        ll_z0, ll_z1 = pt_indicator_logps(
+            ratings, expert_indices, a, kappa, b, kappa_by_expert
+        )
+        log_mix = pt.logaddexp(
+            pt.log(1.0 - q_j + 1e-12) + ll_z0,
+            pt.log(q_j + 1e-12) + ll_z1,
+        )
+        pm.Potential(potential_name, log_mix)
+        logit_q = pt.log(q_j + 1e-12) - pt.log(1.0 - q_j + 1e-12)
+        pz1 = pt.sigmoid(logit_q + ll_z1 - ll_z0)
+        pm.Deterministic(f"{name}_pz1", pz1)
+        return
+    if state_model == "three_state":
+        ll_0, ll_half, ll_1 = pt_three_state_ll_terms(
+            ratings, expert_indices, a, kappa, b, kappa_by_expert
+        )
+        log_w0, log_wmid, log_w1 = three_state_log_weights(q_j)
+        log_mix = pt.logaddexp(
+            pt.logaddexp(log_w0 + ll_0, log_wmid + ll_half),
+            log_w1 + ll_1,
+        )
+        pm.Potential(potential_name, log_mix)
+        p_m0 = pt.exp(log_w0 + ll_0 - log_mix)
+        p_m1 = pt.exp(log_wmid + ll_half - log_mix)
+        p_m2 = pt.exp(log_w1 + ll_1 - log_mix)
+        pm.Deterministic(f"{name}_p_m0", p_m0)
+        pm.Deterministic(f"{name}_p_m1", p_m1)
+        pm.Deterministic(f"{name}_p_m2", p_m2)
+        pm.Deterministic(f"{name}_expected_z", 0.5 * p_m1 + p_m2)
+        return
+    raise ValueError(
+        f"Unknown INDICATOR_STATE_MODEL: {state_model!r}. "
+        f"Expected 'binary' or 'three_state'."
+    )
+
+
+def add_no_data_prior_deterministics(
+    name: str,
+    q_j: pt.TensorVariable,
+    state_model: str,
+) -> None:
+    """Expose prior-only indicator deterministics when there are no ratings.
+
+    Keeps downstream consumers (PPC helpers, summaries) free of
+    data-availability branching: they can always read ``{name}_pz1`` (binary)
+    or ``{name}_p_m*`` / ``{name}_expected_z`` (three-state).
+    """
+    if state_model == "binary":
+        pm.Deterministic(f"{name}_pz1", q_j)
+        return
+    if state_model == "three_state":
+        p_m0_prior = (1.0 - q_j) ** 2
+        p_m1_prior = 2.0 * q_j * (1.0 - q_j)
+        p_m2_prior = q_j ** 2
+        pm.Deterministic(f"{name}_p_m0", p_m0_prior)
+        pm.Deterministic(f"{name}_p_m1", p_m1_prior)
+        pm.Deterministic(f"{name}_p_m2", p_m2_prior)
+        pm.Deterministic(f"{name}_expected_z", 0.5 * p_m1_prior + p_m2_prior)
+        return
+    raise ValueError(
+        f"Unknown INDICATOR_STATE_MODEL: {state_model!r}. "
+        f"Expected 'binary' or 'three_state'."
     )
 
 
@@ -644,42 +800,35 @@ class BayesianModelBuilder:
         q_j: pt.TensorVariable,
         ancestor_path: Tuple[str, ...],
     ) -> None:
-        """Add marginalised ordinal likelihood and posterior P(z_j=1) for one indicator.
+        """Add marginalised ordinal likelihood + per-indicator deterministics.
 
-        If no valid observations exist, exposes pz1 = q_j (prior only).
+        Dispatches on ``config.INDICATOR_STATE_MODEL`` -- binary or three-state.
+        If no valid observations exist, exposes prior-only deterministics.
         """
         key = node_key(ancestor_path, evidencer["name"])
         obs_data = self.ordinal_data.observations.get(key, [])
+        state_model = self.config.INDICATOR_STATE_MODEL
 
         if not obs_data:
-            self.logger.debug(f"No observations for {key} -- pz1 = q_j")
-            pm.Deterministic(f"{name}_pz1", q_j)
+            self.logger.debug(f"No observations for {key} -- prior deterministics only")
+            add_no_data_prior_deterministics(name, q_j, state_model)
             return
 
         ratings = np.array([r for _, r in obs_data], dtype=np.int64)
         expert_indices = np.array([e for e, _ in obs_data], dtype=np.int64)
 
-        ll_z0, ll_z1 = pt_indicator_logps(
-            ratings,
-            expert_indices,
-            self.a,
-            self.kappa,
-            self.b,
-            self.kappa_by_expert,
+        add_indicator_marginal_likelihood(
+            name=name,
+            potential_name=f"{name}_ordinal_lik",
+            q_j=q_j,
+            ratings=ratings,
+            expert_indices=expert_indices,
+            a=self.a,
+            kappa=self.kappa,
+            b=self.b,
+            kappa_by_expert=self.kappa_by_expert,
+            state_model=state_model,
         )
-
-        # Marginalised likelihood: log[(1-q)*L0 + q*L1]
-        log_mix = pt.logaddexp(
-            pt.log(1 - q_j + 1e-12) + ll_z0,
-            pt.log(q_j + 1e-12) + ll_z1,
-        )
-        pm.Potential(f"{name}_ordinal_lik", log_mix)
-
-        # Posterior P(z_j=1 | ratings, q_j, theta) via sigmoid form:
-        #   sigmoid(logit(q_j) + ll_z1 - ll_z0)
-        logit_q = pt.log(q_j + 1e-12) - pt.log(1 - q_j + 1e-12)
-        pz1 = pt.sigmoid(logit_q + ll_z1 - ll_z0)
-        pm.Deterministic(f"{name}_pz1", pz1)
 
     def _add_evidencer(
         self,
@@ -1144,8 +1293,13 @@ class MultiSystemModelBuilder:
         q_by_sys: Dict[str, pt.TensorVariable],
         ancestor_path: Tuple[str, ...],
     ) -> None:
-        """Add marginalised ordinal likelihood for each system that has data."""
+        """Add marginalised ordinal likelihood for each system that has data.
+
+        Dispatches on ``config.INDICATOR_STATE_MODEL`` so binary and
+        three-state branches share the same tree-propagation logic.
+        """
         key = node_key(ancestor_path, evidencer["name"])
+        state_model = self.config.INDICATOR_STATE_MODEL
         for sys_name, q_j in q_by_sys.items():
             sp = self._sys_prefix(sys_name)
             obs_data = self.multi_data.system_observations.get(sys_name, {}).get(
@@ -1153,30 +1307,24 @@ class MultiSystemModelBuilder:
             )
 
             if not obs_data:
-                pm.Deterministic(f"{sp}__{name}_pz1", q_j)
+                add_no_data_prior_deterministics(f"{sp}__{name}", q_j, state_model)
                 continue
 
             ratings = np.array([r for _, r in obs_data], dtype=np.int64)
             expert_indices = np.array([e for e, _ in obs_data], dtype=np.int64)
 
-            ll_z0, ll_z1 = pt_indicator_logps(
-                ratings,
-                expert_indices,
-                self.a,
-                self.kappa,
-                self.b,
-                self.kappa_by_expert,
+            add_indicator_marginal_likelihood(
+                name=f"{sp}__{name}",
+                potential_name=f"{sp}__{name}_lik",
+                q_j=q_j,
+                ratings=ratings,
+                expert_indices=expert_indices,
+                a=self.a,
+                kappa=self.kappa,
+                b=self.b,
+                kappa_by_expert=self.kappa_by_expert,
+                state_model=state_model,
             )
-
-            log_mix = pt.logaddexp(
-                pt.log(1 - q_j + 1e-12) + ll_z0,
-                pt.log(q_j + 1e-12) + ll_z1,
-            )
-            pm.Potential(f"{sp}__{name}_lik", log_mix)
-
-            logit_q = pt.log(q_j + 1e-12) - pt.log(1 - q_j + 1e-12)
-            pz1 = pt.sigmoid(logit_q + ll_z1 - ll_z0)
-            pm.Deterministic(f"{sp}__{name}_pz1", pz1)
 
     def _add_shared_evidencer(
         self,
