@@ -109,6 +109,20 @@ class ModelConfig:
     HIER_KAPPA_GLOBAL_LOG_GAP_MU: float = -0.5
     HIER_KAPPA_GLOBAL_LOG_GAP_SIGMA: float = 0.35
     HIER_KAPPA_EXPERT_SCALE_SIGMA: float = 0.15
+    # Hierarchical per-expert noise scale sigma_e. Partial-pooling pattern
+    # analogous to USE_HIERARCHICAL_EXPERT_CUTPOINTS but for the scale of the
+    # latent noise component. Under the sum-to-zero / geometric-mean-one
+    # parameterisation:
+    #   log sigma_e = tau_sigma * (u_e - mean(u)),
+    #   u_e ~ Normal(0, 1),  tau_sigma ~ HalfNormal(EXPERT_SCALE_TAU_SIGMA)
+    # This lets experts differ in sharpness while keeping the global probit
+    # scale anchored (prevents sigma_e from trading off with a and kappa).
+    # Single-system experts' sigma_e remains near 1 under partial pooling;
+    # experts with cross-system coverage (e.g. Derek) shift away from 1
+    # when their rating behaviour supports it.
+    # Cannot be combined with USE_HIERARCHICAL_EXPERT_CUTPOINTS.
+    USE_EXPERT_SCALES: bool = False
+    EXPERT_SCALE_TAU_SIGMA: float = 0.3
     N_CATEGORIES: int = 7
     # Bin edges for legacy probability -> ordinal conversion.
     # Category k is assigned when bins[k-1] <= p < bins[k].
@@ -202,12 +216,14 @@ def pt_ordinal_logp(
     kappa: pt.TensorVariable,
     b: pt.TensorVariable,
     eta_shift: pt.TensorVariable,
+    sigma_by_expert: Optional[pt.TensorVariable] = None,
 ) -> pt.TensorVariable:
     """Vectorised log P(ratings | params, eta_shift) under ordered probit.
 
     Implements the cumulative-normal parameterisation:
-        P(r = k) = Phi(kappa_k - eta) - Phi(kappa_{k-1} - eta)
-    with eta = b[expert] + eta_shift  (eta_shift = 0 for z=0, a for z=1).
+        P(r = k) = Phi((kappa_k - eta) / sigma_e) - Phi((kappa_{k-1} - eta) / sigma_e)
+    with eta = b[expert] + eta_shift  (eta_shift = 0 for z=0, a for z=1),
+    and sigma_e = sigma_by_expert[expert] if provided, else 1 (shared scale).
 
     Parameters
     ----------
@@ -216,6 +232,7 @@ def pt_ordinal_logp(
     kappa : (K-1,) pytensor -- ordered cutpoints.
     b : (E,) pytensor -- expert location shifts.
     eta_shift : scalar pytensor -- additional shift (0 or a).
+    sigma_by_expert : (E,) pytensor, optional -- per-expert noise scale.
 
     Returns
     -------
@@ -224,7 +241,10 @@ def pt_ordinal_logp(
     n_obs = ratings.shape[0]
     eta = b[expert_idx] + eta_shift  # (N,)
     c_minus_eta = kappa[None, :] - eta[:, None]  # (N, K-1)
-    cum_probs = pt.erfc(-c_minus_eta / pt.sqrt(2.0)) / 2.0  # Phi(c - eta)
+    if sigma_by_expert is not None:
+        sigma_obs = sigma_by_expert[expert_idx][:, None]  # (N, 1)
+        c_minus_eta = c_minus_eta / sigma_obs
+    cum_probs = pt.erfc(-c_minus_eta / pt.sqrt(2.0)) / 2.0  # Phi((c - eta)/sigma)
     zeros = pt.zeros((cum_probs.shape[0], 1))
     ones = pt.ones((cum_probs.shape[0], 1))
     cum_full = pt.concatenate([zeros, cum_probs, ones], axis=1)  # (N, K+1)
@@ -239,11 +259,21 @@ def pt_ordinal_logp_expert_kappa(
     expert_idx: np.ndarray,
     kappa_by_expert: pt.TensorVariable,
     eta_shift: pt.TensorVariable,
+    sigma_by_expert: Optional[pt.TensorVariable] = None,
 ) -> pt.TensorVariable:
-    """Ordered-probit logp with expert-specific cutpoints and no free location."""
+    """Ordered-probit logp with expert-specific cutpoints and no free location.
+
+    Optionally accepts per-expert sigma_by_expert; note that the hierarchical
+    expert-cutpoint branch and expert-scales branch are mutually exclusive at
+    the config level (see build_ordinal_observation_layer), so sigma_by_expert
+    is expected to be None here in practice.
+    """
     n_obs = ratings.shape[0]
     kappa_obs = kappa_by_expert[expert_idx]  # (N, K-1)
     c_minus_eta = kappa_obs - eta_shift
+    if sigma_by_expert is not None:
+        sigma_obs = sigma_by_expert[expert_idx][:, None]  # (N, 1)
+        c_minus_eta = c_minus_eta / sigma_obs
     cum_probs = pt.erfc(-c_minus_eta / pt.sqrt(2.0)) / 2.0
     zeros = pt.zeros((cum_probs.shape[0], 1), dtype=cum_probs.dtype)
     ones = pt.ones((cum_probs.shape[0], 1), dtype=cum_probs.dtype)
@@ -261,18 +291,29 @@ def pt_indicator_logps(
     kappa: pt.TensorVariable,
     b: pt.TensorVariable,
     kappa_by_expert: Optional[pt.TensorVariable] = None,
+    sigma_by_expert: Optional[pt.TensorVariable] = None,
 ) -> Tuple[pt.TensorVariable, pt.TensorVariable]:
     """Return log-likelihood terms for z=0 and z=1 under the active obs layer."""
     if kappa_by_expert is not None:
         return (
             pt_ordinal_logp_expert_kappa(
-                ratings, expert_idx, kappa_by_expert, pt.constant(0.0)
+                ratings, expert_idx, kappa_by_expert, pt.constant(0.0),
+                sigma_by_expert=sigma_by_expert,
             ),
-            pt_ordinal_logp_expert_kappa(ratings, expert_idx, kappa_by_expert, a),
+            pt_ordinal_logp_expert_kappa(
+                ratings, expert_idx, kappa_by_expert, a,
+                sigma_by_expert=sigma_by_expert,
+            ),
         )
     return (
-        pt_ordinal_logp(ratings, expert_idx, kappa, b, pt.constant(0.0)),
-        pt_ordinal_logp(ratings, expert_idx, kappa, b, a),
+        pt_ordinal_logp(
+            ratings, expert_idx, kappa, b, pt.constant(0.0),
+            sigma_by_expert=sigma_by_expert,
+        ),
+        pt_ordinal_logp(
+            ratings, expert_idx, kappa, b, a,
+            sigma_by_expert=sigma_by_expert,
+        ),
     )
 
 
@@ -309,6 +350,7 @@ def pt_three_state_ll_terms(
     kappa: pt.TensorVariable,
     b: pt.TensorVariable,
     kappa_by_expert: Optional[pt.TensorVariable] = None,
+    sigma_by_expert: Optional[pt.TensorVariable] = None,
 ) -> Tuple[pt.TensorVariable, pt.TensorVariable, pt.TensorVariable]:
     """Aggregated per-indicator log-likelihoods for m in {0, 1, 2}.
 
@@ -316,21 +358,41 @@ def pt_three_state_ll_terms(
     for emission centres ``eta_0 = 0``, ``eta_1 = a/2``, ``eta_2 = a``.
     The marginalisation over m_j is then performed by the caller using
     ``three_state_log_weights(q_j)`` and pairwise ``pt.logaddexp``.
+
+    Each per-rating emission uses the rater's own sigma via
+    ``sigma_by_expert`` (when provided), so the per-indicator
+    aggregation ``sum_i log P_OP`` correctly accounts for
+    expert-heterogeneous sharpness without breaking the shared-latent-m
+    invariant.
     """
     if kappa_by_expert is not None:
         return (
             pt_ordinal_logp_expert_kappa(
-                ratings, expert_idx, kappa_by_expert, pt.constant(0.0)
+                ratings, expert_idx, kappa_by_expert, pt.constant(0.0),
+                sigma_by_expert=sigma_by_expert,
             ),
             pt_ordinal_logp_expert_kappa(
-                ratings, expert_idx, kappa_by_expert, a * 0.5
+                ratings, expert_idx, kappa_by_expert, a * 0.5,
+                sigma_by_expert=sigma_by_expert,
             ),
-            pt_ordinal_logp_expert_kappa(ratings, expert_idx, kappa_by_expert, a),
+            pt_ordinal_logp_expert_kappa(
+                ratings, expert_idx, kappa_by_expert, a,
+                sigma_by_expert=sigma_by_expert,
+            ),
         )
     return (
-        pt_ordinal_logp(ratings, expert_idx, kappa, b, pt.constant(0.0)),
-        pt_ordinal_logp(ratings, expert_idx, kappa, b, a * 0.5),
-        pt_ordinal_logp(ratings, expert_idx, kappa, b, a),
+        pt_ordinal_logp(
+            ratings, expert_idx, kappa, b, pt.constant(0.0),
+            sigma_by_expert=sigma_by_expert,
+        ),
+        pt_ordinal_logp(
+            ratings, expert_idx, kappa, b, a * 0.5,
+            sigma_by_expert=sigma_by_expert,
+        ),
+        pt_ordinal_logp(
+            ratings, expert_idx, kappa, b, a,
+            sigma_by_expert=sigma_by_expert,
+        ),
     )
 
 
@@ -345,6 +407,7 @@ def add_indicator_marginal_likelihood(
     b: pt.TensorVariable,
     kappa_by_expert: Optional[pt.TensorVariable],
     state_model: str,
+    sigma_by_expert: Optional[pt.TensorVariable] = None,
 ) -> None:
     """Add the marginalised ordinal likelihood + deterministics for one indicator.
 
@@ -355,10 +418,16 @@ def add_indicator_marginal_likelihood(
 
     ``ratings`` / ``expert_indices`` must contain every rating for the
     single indicator being added (per-indicator marginalisation).
+
+    ``sigma_by_expert`` routes through to the ordered-probit helpers so
+    each rating is evaluated under its rater's noise scale; per-indicator
+    marginalisation (sharing m_j across all ratings of the indicator) is
+    preserved.
     """
     if state_model == "binary":
         ll_z0, ll_z1 = pt_indicator_logps(
-            ratings, expert_indices, a, kappa, b, kappa_by_expert
+            ratings, expert_indices, a, kappa, b, kappa_by_expert,
+            sigma_by_expert=sigma_by_expert,
         )
         log_mix = pt.logaddexp(
             pt.log(1.0 - q_j + 1e-12) + ll_z0,
@@ -371,7 +440,8 @@ def add_indicator_marginal_likelihood(
         return
     if state_model == "three_state":
         ll_0, ll_half, ll_1 = pt_three_state_ll_terms(
-            ratings, expert_indices, a, kappa, b, kappa_by_expert
+            ratings, expert_indices, a, kappa, b, kappa_by_expert,
+            sigma_by_expert=sigma_by_expert,
         )
         log_w0, log_wmid, log_w1 = three_state_log_weights(q_j)
         log_mix = pt.logaddexp(
@@ -431,14 +501,62 @@ def build_ordinal_observation_layer(
     pt.TensorVariable,
     pt.TensorVariable,
     Optional[pt.TensorVariable],
+    Optional[pt.TensorVariable],
 ]:
-    """Build the shared ordinal observation layer for single- or multi-system fits."""
+    """Build the shared ordinal observation layer for single- or multi-system fits.
+
+    Returns (a, b, kappa, kappa_by_expert, sigma_by_expert) where
+    ``kappa_by_expert`` is non-None under ``USE_HIERARCHICAL_EXPERT_CUTPOINTS``
+    and ``sigma_by_expert`` is non-None under ``USE_EXPERT_SCALES``. These two
+    flags are mutually exclusive. ``USE_EXPERT_SCALES`` is also mutually
+    exclusive with ``USE_EXPERT_SHIFTS`` (combining shift + scale under the
+    current non-overlapping expert pools would worsen attribution and was
+    explicitly scoped out of this branch).
+    """
     if config.USE_HIERARCHICAL_EXPERT_CUTPOINTS and config.USE_EXPERT_SHIFTS:
         raise ValueError(
             "Hierarchical expert cutpoints and expert shifts cannot both be enabled"
         )
+    if config.USE_EXPERT_SCALES and config.USE_HIERARCHICAL_EXPERT_CUTPOINTS:
+        raise ValueError(
+            "USE_EXPERT_SCALES and USE_HIERARCHICAL_EXPERT_CUTPOINTS cannot both "
+            "be enabled: an expert-specific noise scale plus expert-specific "
+            "cutpoint spacings is over-parameterised for the current data."
+        )
+    if config.USE_EXPERT_SCALES and config.USE_EXPERT_SHIFTS:
+        raise ValueError(
+            "USE_EXPERT_SCALES and USE_EXPERT_SHIFTS cannot both be enabled in "
+            "this branch: expert shift + scale combined under non-overlapping "
+            "expert pools worsens attribution. See plan 'Out of scope'."
+        )
 
     a = pm.HalfNormal("a", sigma=config.A_PRIOR_SIGMA)
+
+    # --- Optional hierarchical per-expert sigma_e ---
+    sigma_by_expert: Optional[pt.TensorVariable] = None
+    if config.USE_EXPERT_SCALES:
+        if n_experts < 2:
+            raise ValueError(
+                "USE_EXPERT_SCALES requires at least 2 experts to be meaningful"
+            )
+        tau_sigma = pm.HalfNormal(
+            "tau_sigma",
+            sigma=config.EXPERT_SCALE_TAU_SIGMA,
+            initval=config.EXPERT_SCALE_TAU_SIGMA / 2,
+        )
+        u_raw = pm.Normal(
+            "sigma_u",
+            mu=0.0,
+            sigma=1.0,
+            shape=n_experts,
+            initval=np.zeros(n_experts),
+        )
+        # Sum-to-zero / geometric-mean-one via centring
+        u_centered = u_raw - pt.mean(u_raw)
+        sigma_by_expert = pm.Deterministic(
+            "sigma_by_expert",
+            pt.exp(tau_sigma * u_centered),
+        )
 
     if config.USE_HIERARCHICAL_EXPERT_CUTPOINTS:
         n_gaps = K - 2
@@ -477,7 +595,7 @@ def build_ordinal_observation_layer(
             pt_centered_cutpoints_from_positive_gaps(expert_gaps),
         )
         b = pt.zeros(n_experts)
-        return a, b, kappa, kappa_by_expert
+        return a, b, kappa, kappa_by_expert, sigma_by_expert
 
     if config.USE_EXPERT_SHIFTS and n_experts > 1:
         b_free = pm.Normal(
@@ -498,7 +616,7 @@ def build_ordinal_observation_layer(
         transform=pm.distributions.transforms.ordered,
         initval=np.linspace(-1.5, 1.5, K - 1),
     )
-    return a, b, kappa, None
+    return a, b, kappa, None, sigma_by_expert
 
 
 # ---------------------------------------------------------------------------
@@ -733,6 +851,7 @@ class BayesianModelBuilder:
         self.b: Optional[pt.TensorVariable] = None
         self.kappa: Optional[pt.TensorVariable] = None
         self.kappa_by_expert: Optional[pt.TensorVariable] = None
+        self.sigma_by_expert: Optional[pt.TensorVariable] = None
         # Maps node_key -> sanitised PyMC variable prefix
         self.node_to_varname: Dict[str, str] = {}
 
@@ -828,6 +947,7 @@ class BayesianModelBuilder:
             b=self.b,
             kappa_by_expert=self.kappa_by_expert,
             state_model=state_model,
+            sigma_by_expert=self.sigma_by_expert,
         )
 
     def _add_evidencer(
@@ -895,6 +1015,7 @@ class BayesianModelBuilder:
                 self.b,
                 self.kappa,
                 self.kappa_by_expert,
+                self.sigma_by_expert,
             ) = build_ordinal_observation_layer(self.config, n_experts, K)
 
             # --- Hierarchy ---
@@ -1227,6 +1348,7 @@ class MultiSystemModelBuilder:
         self.b: Optional[pt.TensorVariable] = None
         self.kappa: Optional[pt.TensorVariable] = None
         self.kappa_by_expert: Optional[pt.TensorVariable] = None
+        self.sigma_by_expert: Optional[pt.TensorVariable] = None
 
     def sanitize_name(self, name: str) -> str:
         sanitized = name.replace(" ", "_").replace("/", "_").lower()
@@ -1324,6 +1446,7 @@ class MultiSystemModelBuilder:
                 b=self.b,
                 kappa_by_expert=self.kappa_by_expert,
                 state_model=state_model,
+                sigma_by_expert=self.sigma_by_expert,
             )
 
     def _add_shared_evidencer(
@@ -1383,6 +1506,7 @@ class MultiSystemModelBuilder:
                 self.b,
                 self.kappa,
                 self.kappa_by_expert,
+                self.sigma_by_expert,
             ) = build_ordinal_observation_layer(self.config, n_experts, K)
 
             # --- Shared hierarchy with per-system q propagation ---

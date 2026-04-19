@@ -249,6 +249,7 @@ def _draw_cell_predictive_stats(
 
     pred_hist = np.zeros((S, K))
     pred_mean = np.zeros(S)
+    pred_var = np.zeros(S)
     pred_left = np.zeros(S)
     pred_right = np.zeros(S)
     pred_extreme = np.zeros(S)
@@ -265,6 +266,9 @@ def _draw_cell_predictive_stats(
         sampled = (u < cum).argmax(axis=1)
         pred_hist[s] = np.bincount(sampled, minlength=K) / N_obs
         pred_mean[s] = float(sampled.mean())
+        # Betancourt-style per-cell rating variance; N_obs denominator (not
+        # N_obs - 1) so the statistic is well-defined when N_obs = 1.
+        pred_var[s] = float(sampled.var())
         pred_left[s] = float(np.mean(sampled == 0))
         pred_right[s] = float(np.mean(sampled == K - 1))
         pred_extreme[s] = pred_left[s] + pred_right[s]
@@ -275,6 +279,7 @@ def _draw_cell_predictive_stats(
     obs_right = float(np.mean(obs == K - 1))
     obs_extreme = obs_left + obs_right
     obs_mid = float(np.mean((obs >= mid_lo) & (obs <= mid_hi)))
+    obs_var = float(obs.var())
 
     def _p3_p97(arr: np.ndarray) -> Tuple[float, float]:
         return float(np.percentile(arr, 3)), float(np.percentile(arr, 97))
@@ -284,9 +289,11 @@ def _draw_cell_predictive_stats(
     pr_lo, pr_hi = _p3_p97(pred_right)
     pe_lo, pe_hi = _p3_p97(pred_extreme)
     pmid_lo, pmid_hi = _p3_p97(pred_mid)
+    pvar_lo, pvar_hi = _p3_p97(pred_var)
     pred_left_m = float(pred_left.mean())
     pred_right_m = float(pred_right.mean())
     pred_mid_m = float(pred_mid.mean())
+    pred_var_m = float(pred_var.mean())
 
     return {
         "n_obs": int(N_obs),
@@ -318,6 +325,12 @@ def _draw_cell_predictive_stats(
         "pred_mid_lo": pmid_lo,
         "pred_mid_hi": pmid_hi,
         "delta_mid_mean": pred_mid_m - obs_mid,
+        # Betancourt-style per-cell rating variance (Bae's Theorem §2)
+        "obs_var": obs_var,
+        "pred_var_mean": pred_var_m,
+        "pred_var_lo": pvar_lo,
+        "pred_var_hi": pvar_hi,
+        "delta_var_mean": pred_var_m - obs_var,
     }
 
 
