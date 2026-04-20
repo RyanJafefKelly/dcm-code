@@ -170,6 +170,17 @@ class ModelConfig:
     # Data source
     DATA_CACHE_PATH: str = "data_cache.json"
 
+    def __post_init__(self) -> None:
+        """Mutual-exclusion guards for tree-prior intervention flags."""
+        if self.POOL_BETAS_BY_LABEL and self.TRANSMISSION_GAIN != 1.0:
+            raise ValueError(
+                "POOL_BETAS_BY_LABEL and TRANSMISSION_GAIN != 1.0 cannot both "
+                "be enabled.  They are orthogonal tree-prior interventions — "
+                "hierarchical pooling lets data calibrate label transmission; "
+                "transmission-gain hand-sets a global sharper semantic prior. "
+                "Run them as separate fits and compare in the library."
+            )
+
 
 # ---------------------------------------------------------------------------
 # Helpers
