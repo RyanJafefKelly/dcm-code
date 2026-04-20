@@ -7,6 +7,10 @@ anchor gap (mean Delta q_j approx 0.13 vs root gap 0.998) is structural
 reference coverage), and to screen a candidate transmission-gain fix
 before committing a refit.
 
+Expert anonymisation: expert identities are replaced with role-based codes
+(``E_cross``, ``E_llmA/B/C``, ``E_chickenA/B``) in all output artefacts.
+The mapping is module-private and is used only for data-frame lookups.
+
 Artefacts
 ---------
 1. Prior-predictive label calibration table.
@@ -18,20 +22,21 @@ Artefacts
 
 2. Per-indicator posterior propagation table.
    Uses ``propagate_affine_indicator_coefficients_from_draws`` against
-   ``binary_anchored.nc``.  For each of the ~75 GWT indicators: posterior
-   median and 94% interval of alpha_j, delta_j, q_j(0.999), q_j(0.001),
-   Delta q_j; plus depth, ordered path (support, demandingness) labels,
-   Derek's observed Human/ELIZA ratings where available, and leaf-updated
-   E[z_j].  Sorted by delta_j ascending.
+   ``binary_anchored.nc``.  For each GWT indicator: posterior median and
+   94% interval of alpha_j, delta_j, q_j(0.999), q_j(0.001), Delta q_j;
+   plus depth, ordered path (support, demandingness) labels, the
+   cross-system rater's observed Human/ELIZA ratings where available, and
+   leaf-updated E[z_j].  Sorted by delta_j ascending.
 
 3. Robust structural-vs-data-induced statistic.
    log r_j = log(|delta_j^post| + eps) - log(|delta_j^prior| + eps)
    plus a sign-flip indicator.  Indicators on no-bearing paths
    (|delta_j^prior| < eps) are bucketed separately as structural-zero.
 
-4. Derek-vs-others propagation scatter data.
-   q_j(0.999), q_j(0.001), plus a flag for indicators present in Derek's
-   Human/ELIZA cells.  Saved as CSV for notebook rendering.
+4. Cross-expert-vs-others propagation scatter data.
+   q_j(0.999), q_j(0.001), plus a flag for indicators present in the
+   cross-system rater's Human/ELIZA cells.  Saved as CSV for notebook
+   rendering.
 
 5. Counterfactual gain screen (Stage 2).
    For candidate g values, computes a fixed-emission transformed-tree
@@ -88,7 +93,31 @@ OUTPUT_DIR = Path("results/gwt_tree_propagation/analysis")
 
 HUMAN_SYSTEM = "Human"
 ELIZA_SYSTEM = "ELIZA"
-DEREK_NAME = "Derek Shiller"
+
+# --- Expert anonymisation ---
+# Real names appear in data_cache.json; they are meant to be anonymous.  We
+# keep a module-private mapping to role-based codes; real names never leave
+# this module in any tabular or markdown output.  ``_CROSS_SYSTEM_EXPERT``
+# is the only data-lookup constant that retains the raw string (used inside
+# ``processor.expert_to_idx``).  All downstream display uses
+# ``anonymise_expert``.
+_EXPERT_ANON_MAP: Dict[str, str] = {
+    "Derek Shiller": "E_cross",
+    "Andreas Mogensen": "E_llmA",
+    "Felix Binder": "E_llmB",
+    "Luhan Mikaelson": "E_llmC",
+    "Hayley chickens": "E_chickenA",
+    "Rachael Miller": "E_chickenB",
+}
+_CROSS_SYSTEM_EXPERT = "Derek Shiller"  # data_cache.json lookup key
+
+
+def anonymise_expert(name: str) -> str:
+    """Return the role-based anonymised identifier for an expert name."""
+    return _EXPERT_ANON_MAP.get(name, name)
+
+
+CROSS_SYSTEM_CODE = anonymise_expert(_CROSS_SYSTEM_EXPERT)  # "E_cross"
 
 ANCHOR_HIGH = 0.999
 ANCHOR_LOW = 0.001
@@ -296,18 +325,18 @@ def propagate_prior_mean_coefficients(
     return alphas, deltas
 
 
-def derek_ratings_for_indicator(
+def cross_expert_ratings_for_indicator(
     processor: MultiSystemDataProcessor,
     node_key_str: str,
     system: str,
 ) -> List[int]:
-    """Return Derek's 0-indexed ordinal ratings for one (system, indicator) cell."""
-    derek_idx = processor.expert_to_idx.get(DEREK_NAME)
-    if derek_idx is None:
+    """Return the cross-system rater's 0-indexed ordinal ratings for one cell."""
+    expert_idx = processor.expert_to_idx.get(_CROSS_SYSTEM_EXPERT)
+    if expert_idx is None:
         return []
     system_obs = processor.system_observations.get(system, {})
     obs_list = system_obs.get(node_key_str, [])
-    return [rating for expert, rating in obs_list if expert == derek_idx]
+    return [rating for expert, rating in obs_list if expert == expert_idx]
 
 
 def _leaf_updated_expected_z(
@@ -376,8 +405,12 @@ def per_indicator_posterior_table(
     rows: List[Dict[str, Any]] = []
     for i, spec in enumerate(indicator_order):
         meta = path_meta[spec.node_key]
-        derek_h = derek_ratings_for_indicator(processor, spec.node_key, HUMAN_SYSTEM)
-        derek_e = derek_ratings_for_indicator(processor, spec.node_key, ELIZA_SYSTEM)
+        cross_h = cross_expert_ratings_for_indicator(
+            processor, spec.node_key, HUMAN_SYSTEM
+        )
+        cross_e = cross_expert_ratings_for_indicator(
+            processor, spec.node_key, ELIZA_SYSTEM
+        )
         rows.append(
             {
                 "node_key": spec.node_key,
@@ -403,8 +436,8 @@ def per_indicator_posterior_table(
                 "delta_q_prior": float(delta_prior[i] * (ANCHOR_HIGH - ANCHOR_LOW)),
                 "leaf_updated_ez_human": float(ez_human[i]),
                 "leaf_updated_ez_eliza": float(ez_eliza[i]),
-                "derek_human_ratings": derek_h,
-                "derek_eliza_ratings": derek_e,
+                f"{CROSS_SYSTEM_CODE}_human_ratings": cross_h,
+                f"{CROSS_SYSTEM_CODE}_eliza_ratings": cross_e,
             }
         )
     return pd.DataFrame(rows).sort_values("delta_post_med").reset_index(drop=True)
@@ -431,15 +464,225 @@ def robust_log_ratio_and_flag(
 
 
 # ---------------------------------------------------------------------------
-# Derek-vs-others propagation scatter (Stage 1d)
+# Stage 3.5a: prior-predictive Monte Carlo over the tree
 # ---------------------------------------------------------------------------
 
 
-def derek_scatter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """Compact frame for Derek-vs-others scatter plot."""
+def sample_tree_prior_predictive(
+    stance_data: Dict[str, Any],
+    evidence: EvidenceProcessor,
+    indicators: Sequence[IndicatorSpec],
+    n_samples: int = 10_000,
+    C_values: Tuple[float, ...] = (ANCHOR_LOW, 0.5, ANCHOR_HIGH),
+    gain: float = 1.0,
+    rng_seed: int = 42,
+) -> Dict[float, np.ndarray]:
+    """Sample q_j from the tree prior (no observations) at fixed C values.
+
+    For each node the prior is ``Beta(c*mu, c*(1-mu))`` with c =
+    NODE_CONCENTRATION and mu set by the label mapping (optionally under
+    the symmetric log-odds-gap gain).  Beta draws propagate additively
+    through the tree per the recursion
+        q_child = q_parent * beta_pres + (1 - q_parent) * beta_abs.
+
+    Returns {C: ndarray of shape (n_samples, n_indicators)}.
+    """
+    c_conc = 10.0  # NODE_CONCENTRATION; imported constant is inside ModelConfig
+    rng = np.random.default_rng(rng_seed)
+    indicator_keys = [spec.node_key for spec in indicators]
+    out: Dict[float, np.ndarray] = {C: np.zeros((n_samples, len(indicators))) for C in C_values}
+
+    root_path = (stance_data["name"],)
+
+    for s in range(n_samples):
+        q_at: Dict[float, Dict[str, float]] = {C: {} for C in C_values}
+
+        def walk(
+            node: Dict[str, Any],
+            ancestor_path: Tuple[str, ...],
+            q_parent: Dict[float, float],
+        ) -> None:
+            current_path = ancestor_path + (node["name"],)
+            alpha_p, beta_p, alpha_a, beta_a = evidence.get_beta_parameters(
+                node.get("support", "no bearing"),
+                node.get("demandingness", "neutral"),
+            )
+            mu_pres = alpha_p / (alpha_p + beta_p)
+            mu_abs = alpha_a / (alpha_a + beta_a)
+            mu_pres_g, mu_abs_g = apply_symmetric_gain(mu_pres, mu_abs, gain)
+            # Draw beta from Beta(c*mu, c*(1-mu)) per node
+            a_p = float(c_conc * mu_pres_g)
+            b_p = float(c_conc * (1 - mu_pres_g))
+            a_a = float(c_conc * mu_abs_g)
+            b_a = float(c_conc * (1 - mu_abs_g))
+            b_pres_draw = rng.beta(max(a_p, 1e-6), max(b_p, 1e-6))
+            b_abs_draw = rng.beta(max(a_a, 1e-6), max(b_a, 1e-6))
+            q_child: Dict[float, float] = {}
+            for C in C_values:
+                q_child[C] = q_parent[C] * b_pres_draw + (1 - q_parent[C]) * b_abs_draw
+
+            if node.get("type", "").lower() == "indicator":
+                key = node_key(ancestor_path, node["name"])
+                for C in C_values:
+                    q_at[C][key] = q_child[C]
+                return
+            for child in node.get("evidencers", []):
+                walk(child, current_path, q_child)
+
+        # Stance-level C is fixed per column in C_values; tree walk uses it
+        # as the root q (stance is binary at C, so q_parent of its children
+        # is just C).
+        for child in stance_data.get("evidencers", []):
+            walk(child, root_path, {C: C for C in C_values})
+
+        for C in C_values:
+            for j, key in enumerate(indicator_keys):
+                out[C][s, j] = q_at[C].get(key, np.nan)
+
+    return out
+
+
+def summarise_prior_predictive(
+    samples_by_C: Dict[float, np.ndarray],
+    indicators: Sequence[IndicatorSpec],
+) -> pd.DataFrame:
+    """Per-indicator prior-predictive medians + 94% CIs at each C."""
+    rows: List[Dict[str, Any]] = []
+    for C, samples in samples_by_C.items():
+        medians = np.median(samples, axis=0)
+        lo = np.percentile(samples, 3, axis=0)
+        hi = np.percentile(samples, 97, axis=0)
+        for j, spec in enumerate(indicators):
+            rows.append(
+                {
+                    "C": C,
+                    "indicator": spec.display_name,
+                    "node_key": spec.node_key,
+                    "q_median": float(medians[j]),
+                    "q_lo": float(lo[j]),
+                    "q_hi": float(hi[j]),
+                }
+            )
+    return pd.DataFrame(rows)
+
+
+# ---------------------------------------------------------------------------
+# Stage 3.5b: label-group count table
+# ---------------------------------------------------------------------------
+
+
+def label_group_counts(
+    stance_data: Dict[str, Any],
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Count (support, demandingness) combinations appearing in the tree.
+
+    Returns two DataFrames:
+    - pres_groups: rows keyed by (support, demandingness), count of nodes
+      with that pairing. Relevant for pooling ``beta_pres``.
+    - abs_groups: rows keyed by demandingness alone, count of nodes with
+      that demandingness. Relevant for pooling ``beta_abs``.
+    """
+    pres_counts: Dict[Tuple[str, str], int] = {}
+    abs_counts: Dict[str, int] = {}
+
+    def walk(node: Dict[str, Any]) -> None:
+        s = node.get("support", "no bearing")
+        d = node.get("demandingness", "neutral")
+        # Stance root has no support/demandingness; skip it.
+        if "type" in node and node["type"].lower() in {"feature", "subfeature", "indicator"}:
+            pres_counts[(s, d)] = pres_counts.get((s, d), 0) + 1
+            abs_counts[d] = abs_counts.get(d, 0) + 1
+        for child in node.get("evidencers", []):
+            walk(child)
+
+    for child in stance_data.get("evidencers", []):
+        walk(child)
+
+    pres_df = pd.DataFrame(
+        [{"support": s, "demandingness": d, "count": c} for (s, d), c in pres_counts.items()]
+    ).sort_values(["count", "support", "demandingness"], ascending=[False, True, True]).reset_index(drop=True)
+    abs_df = pd.DataFrame(
+        [{"demandingness": d, "count": c} for d, c in abs_counts.items()]
+    ).sort_values("count", ascending=False).reset_index(drop=True)
+    return pres_df, abs_df
+
+
+def write_prior_predictive_markdown(
+    summary_df: pd.DataFrame,
+    pres_groups: pd.DataFrame,
+    abs_groups: pd.DataFrame,
+    path: Path,
+) -> None:
+    """Markdown report summarising Stage 3.5a + 3.5b."""
+    lines: List[str] = [
+        "# Tree prior-predictive Monte Carlo + label-group counts (Stage 3.5)",
+        "",
+        "## 3.5a — Prior-predictive distribution of q_j at reference anchors",
+        "",
+        "Summary statistics (median of per-indicator medians, across indicators):",
+        "",
+        "| C | n_ind | mean q_median | median q_median | min | max | mean CI-width |",
+        "|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+    for C in sorted(summary_df["C"].unique()):
+        sub = summary_df[summary_df["C"] == C]
+        widths = sub["q_hi"] - sub["q_lo"]
+        lines.append(
+            f"| {C} | {len(sub)} | {sub['q_median'].mean():.3f} | "
+            f"{sub['q_median'].median():.3f} | {sub['q_median'].min():.3f} | "
+            f"{sub['q_median'].max():.3f} | {widths.mean():.3f} |"
+        )
+    lines.append("")
+    lines.append(
+        "**Reading.** At $C = 0.999$ (Human anchor), if $q_j$ medians "
+        "cluster near $0.6$ with little mass near $1.0$, the paper's "
+        "prior structurally cannot support strong anchor transmission — "
+        "the observed ~$0.13$ average $\\Delta q_j$ in the posterior is "
+        "not posterior shrinkage, it is the prior's own ceiling."
+    )
+    lines.append("")
+    lines.append("## 3.5b — (support × demandingness) group counts for β_pres pooling")
+    lines.append("")
+    lines.append("| support | demandingness | count |")
+    lines.append("|---|---|---:|")
+    for _, r in pres_groups.iterrows():
+        lines.append(f"| {r['support']} | {r['demandingness']} | {r['count']} |")
+    lines.append("")
+    lines.append("## 3.5b — demandingness group counts for β_abs pooling")
+    lines.append("")
+    lines.append("| demandingness | count |")
+    lines.append("|---|---:|")
+    for _, r in abs_groups.iterrows():
+        lines.append(f"| {r['demandingness']} | {r['count']} |")
+    lines.append("")
+    lines.append(
+        "**Reading.** Groups with count $\\geq 3$ are usefully poolable: "
+        "pooling lets same-label nodes share evidence about their common "
+        "transmission. Groups with count $\\leq 2$ are effectively "
+        "re-parameterised but not much learned. Of particular interest: "
+        "the count for `weak undermining + neutral` (the subfeature behind "
+        "the 5 sign-flip indicators)."
+    )
+    lines.append("")
+    path.write_text("\n".join(lines))
+
+
+# ---------------------------------------------------------------------------
+# Cross-expert-vs-others propagation scatter (Stage 1d)
+# ---------------------------------------------------------------------------
+
+
+def cross_expert_scatter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """Compact frame for cross-expert-vs-others scatter plot."""
+    h_col = f"{CROSS_SYSTEM_CODE}_human_ratings"
+    e_col = f"{CROSS_SYSTEM_CODE}_eliza_ratings"
+    has_h = f"has_{CROSS_SYSTEM_CODE}_human"
+    has_e = f"has_{CROSS_SYSTEM_CODE}_eliza"
     return df.assign(
-        has_derek_human=df["derek_human_ratings"].apply(bool),
-        has_derek_eliza=df["derek_eliza_ratings"].apply(bool),
+        **{
+            has_h: df[h_col].apply(bool),
+            has_e: df[e_col].apply(bool),
+        }
     )[
         [
             "indicator",
@@ -448,8 +691,8 @@ def derek_scatter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
             "q_low_post",
             "delta_q_post",
             "delta_q_prior",
-            "has_derek_human",
-            "has_derek_eliza",
+            has_h,
+            has_e,
         ]
     ]
 
@@ -574,7 +817,7 @@ def _three_state_cell_prediction(
     }
 
 
-def _cell_q_draws_for_derek_cell(
+def _cell_q_draws_for_cross_expert_cell(
     idata: Any,
     builder: MultiSystemModelBuilder,
     processor: MultiSystemDataProcessor,
@@ -583,11 +826,11 @@ def _cell_q_draws_for_derek_cell(
     beta_abs_by_key: Dict[str, np.ndarray],
     system: str,
 ) -> Tuple[np.ndarray, List[int]]:
-    """Return (q_draws, rating_list) restricted to Derek's indicators for system.
+    """Return (q_draws, rating_list) restricted to cross-expert indicators for system.
 
-    q_draws has shape (S, J) where J is the number of indicators Derek
-    observed in this system.  rating_list is the flat list of Derek's
-    ratings across those indicators.
+    q_draws has shape (S, J) where J is the number of indicators the
+    cross-system rater observed in this system.  rating_list is the flat
+    list of that rater's ratings across those indicators.
     """
     indicators = build_indicator_index(stance_data, builder)
     intercepts, slopes, indicator_order = (
@@ -602,20 +845,20 @@ def _cell_q_draws_for_derek_cell(
     anchor = ANCHOR_HIGH if system == HUMAN_SYSTEM else ANCHOR_LOW
     q_all = intercepts + anchor * slopes  # (S, J_all)
 
-    derek_idx = processor.expert_to_idx[DEREK_NAME]
+    expert_idx = processor.expert_to_idx[_CROSS_SYSTEM_EXPERT]
     sys_obs = processor.system_observations.get(system, {})
-    derek_indicator_idx: List[int] = []
+    cross_indicator_idx: List[int] = []
     rating_list: List[int] = []
     for j, spec in enumerate(indicator_order):
         obs_list = sys_obs.get(spec.node_key, [])
-        derek_here = [rating for expert, rating in obs_list if expert == derek_idx]
-        if derek_here:
-            derek_indicator_idx.append(j)
-            rating_list.extend(derek_here)
+        cross_here = [rating for expert, rating in obs_list if expert == expert_idx]
+        if cross_here:
+            cross_indicator_idx.append(j)
+            rating_list.extend(cross_here)
 
-    if not derek_indicator_idx:
+    if not cross_indicator_idx:
         return q_all[:, :0], []
-    return q_all[:, derek_indicator_idx], rating_list
+    return q_all[:, cross_indicator_idx], rating_list
 
 
 def counterfactual_screen_rows(
@@ -635,7 +878,8 @@ def counterfactual_screen_rows(
     leaf ceiling); the screen therefore reports what would happen if the
     tree-side prior mapping were revised but the three-state emission were
     refit unchanged.  Clearly a heuristic: no interaction between the two
-    sides is modelled.
+    sides is modelled.  Focus cells are ``(E_cross, Human)`` and
+    ``(E_cross, ELIZA)`` — the cross-system rater at the reference anchors.
     """
     beta_pres_by_key, beta_abs_by_key = extract_beta_draws_by_node(
         binary_idata, builder, stance_data
@@ -664,7 +908,7 @@ def counterfactual_screen_rows(
         bp_g = {k: v[:n_common] for k, v in bp_g.items()}
         ba_g = {k: v[:n_common] for k, v in ba_g.items()}
         for system in (HUMAN_SYSTEM, ELIZA_SYSTEM):
-            q_draws, ratings = _cell_q_draws_for_derek_cell(
+            q_draws, ratings = _cell_q_draws_for_cross_expert_cell(
                 binary_idata, builder, processor, stance_data,
                 bp_g, ba_g, system,
             )
@@ -755,8 +999,10 @@ def write_per_indicator_markdown(df: pd.DataFrame, path: Path) -> None:
         "",
         "Sorted by posterior-median $\\delta_j$ ascending.  Prior-mean "
         "counterfactual (paper mapping at $g=1$) shown alongside for the "
-        "structural-vs-data-induced diagnostic.  Derek ratings are "
-        "0-indexed ordinal (0 = strongly absent, 6 = strongly present).",
+        "structural-vs-data-induced diagnostic.  Ratings are 0-indexed "
+        "ordinal (0 = strongly absent, 6 = strongly present).  "
+        f"`{CROSS_SYSTEM_CODE}_H` and `{CROSS_SYSTEM_CODE}_E` are the "
+        "cross-system rater's Human and ELIZA observations respectively.",
         "",
     ]
     # Robust log r_j
@@ -765,11 +1011,13 @@ def write_per_indicator_markdown(df: pd.DataFrame, path: Path) -> None:
     )
     df = df.assign(log_r=log_r, sign_flip=flip, structural_zero=mask_zero)
 
+    h_col = f"{CROSS_SYSTEM_CODE}_human_ratings"
+    e_col = f"{CROSS_SYSTEM_CODE}_eliza_ratings"
     cols_header = (
         "| indicator | depth | leading_support | leading_demand | "
         "delta_prior | delta_post_med | log r_j | sign_flip | struct_0 | "
         "q_high_post | q_low_post | delta_q_post | "
-        "ez_human | ez_eliza | derek_H | derek_E |"
+        f"ez_human | ez_eliza | {CROSS_SYSTEM_CODE}_H | {CROSS_SYSTEM_CODE}_E |"
     )
     align = "|---|---:|---|---|---:|---:|---:|:---:|:---:|---:|---:|---:|---:|---:|---|---|"
     lines.append(cols_header)
@@ -785,7 +1033,7 @@ def write_per_indicator_markdown(df: pd.DataFrame, path: Path) -> None:
             f"{_fmt_f(r['delta_q_post'])} | "
             f"{_fmt_f(r['leaf_updated_ez_human'])} | "
             f"{_fmt_f(r['leaf_updated_ez_eliza'])} | "
-            f"{r['derek_human_ratings']} | {r['derek_eliza_ratings']} |"
+            f"{r[h_col]} | {r[e_col]} |"
         )
     lines.append("")
 
@@ -846,8 +1094,8 @@ def write_counterfactual_markdown(df: pd.DataFrame, path: Path) -> None:
         "residual-preservingly translated in logit space under the "
         "symmetric log-odds-gap gain at each candidate $g$.  Emission "
         "parameters $(a, \\kappa)$ come from `three_state_anchored.nc` "
-        "unchanged.  Predictions averaged over Derek's observed "
-        "indicators per reference cell.",
+        "unchanged.  Predictions averaged over the cross-system rater's "
+        "observed indicators per reference cell.",
         "",
         "| gain | system | n_rat | pred_left | obs_left | delta_left | "
         "pred_right | obs_right | delta_right | pred_mid | delta_mid | "
@@ -898,11 +1146,34 @@ def main() -> None:
     )
     print(f"  wrote {OUTPUT_DIR / 'per_indicator_propagation.md'}")
 
-    # --- Stage 1d: Derek scatter data ---
-    print("Stage 1d: Derek-vs-others scatter dataframe...")
-    scatter_df = derek_scatter_dataframe(per_ind_df)
-    scatter_df.to_csv(OUTPUT_DIR / "derek_scatter.csv", index=False)
-    print(f"  wrote {OUTPUT_DIR / 'derek_scatter.csv'}")
+    # --- Stage 1d: cross-expert scatter data ---
+    print("Stage 1d: cross-expert-vs-others scatter dataframe...")
+    scatter_df = cross_expert_scatter_dataframe(per_ind_df)
+    scatter_df.to_csv(OUTPUT_DIR / "cross_expert_scatter.csv", index=False)
+    print(f"  wrote {OUTPUT_DIR / 'cross_expert_scatter.csv'}")
+
+    # --- Stage 3.5a: prior-predictive Monte Carlo ---
+    print("Stage 3.5a: prior-predictive Monte Carlo over the tree...")
+    indicators = build_indicator_index(stance_data, builder)
+    samples_by_C = sample_tree_prior_predictive(
+        stance_data, evidence, indicators, n_samples=10_000, gain=1.0
+    )
+    pp_summary = summarise_prior_predictive(samples_by_C, indicators)
+    pp_summary.to_csv(OUTPUT_DIR / "prior_predictive_qj.csv", index=False)
+    np.save(OUTPUT_DIR / "prior_predictive_samples_Chigh.npy", samples_by_C[ANCHOR_HIGH])
+    np.save(OUTPUT_DIR / "prior_predictive_samples_Cmid.npy", samples_by_C[0.5])
+    np.save(OUTPUT_DIR / "prior_predictive_samples_Clow.npy", samples_by_C[ANCHOR_LOW])
+
+    # --- Stage 3.5b: label-group counts ---
+    print("Stage 3.5b: label-group count tables...")
+    pres_groups, abs_groups = label_group_counts(stance_data)
+    pres_groups.to_csv(OUTPUT_DIR / "label_pres_group_counts.csv", index=False)
+    abs_groups.to_csv(OUTPUT_DIR / "label_abs_group_counts.csv", index=False)
+    write_prior_predictive_markdown(
+        pp_summary, pres_groups, abs_groups,
+        OUTPUT_DIR / "prior_predictive_and_group_counts.md",
+    )
+    print(f"  wrote {OUTPUT_DIR / 'prior_predictive_and_group_counts.md'}")
 
     # --- Stage 2c: counterfactual gain screen ---
     print("Stage 2c: counterfactual gain screen...")

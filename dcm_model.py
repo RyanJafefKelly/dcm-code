@@ -118,7 +118,7 @@ class ModelConfig:
     # This lets experts differ in sharpness while keeping the global probit
     # scale anchored (prevents sigma_e from trading off with a and kappa).
     # Single-system experts' sigma_e remains near 1 under partial pooling;
-    # experts with cross-system coverage (e.g. Derek) shift away from 1
+    # experts with cross-system coverage shift away from 1
     # when their rating behaviour supports it.
     # Cannot be combined with USE_HIERARCHICAL_EXPERT_CUTPOINTS.
     USE_EXPERT_SCALES: bool = False
