@@ -74,6 +74,16 @@ class ModelConfig:
     # set by the (support, demandingness) mapping. Original DCM uses 10.
     NODE_CONCENTRATION: float = 10.0
 
+    # Transmission-gain sensitivity. Symmetric log-odds-gap rescaling of
+    # the paper's per-label Beta prior means: for each node with paper
+    # means (mu_pres, mu_abs), let m = (logit mu_pres + logit mu_abs) / 2
+    # and h = (logit mu_pres - logit mu_abs) / 2; under gain g the means
+    # become mu_pres^(g) = sigmoid(m + g*h), mu_abs^(g) = sigmoid(m - g*h).
+    # At g=1.0 this is bit-identical to the paper mapping. For g>1 the
+    # edge's discriminativeness sharpens on both sides. Applied deterministically
+    # inside EvidenceProcessor.get_beta_parameters; no PyMC RVs added.
+    TRANSMISSION_GAIN: float = 1.0
+
     # Indicator latent-state model. Selects the leaf family without touching the rest
     # of the validated baseline. Members of the growing model library:
     #   "binary"      — z_j ∈ {0,1},   z_j ~ Bernoulli(q_j)        (original baseline)
@@ -728,6 +738,45 @@ class OrdinalDataProcessor:
 # ---------------------------------------------------------------------------
 
 
+def _apply_transmission_gain(
+    alpha_p: float,
+    beta_p: float,
+    alpha_a: float,
+    beta_a: float,
+    gain: float,
+    concentration: float,
+) -> Tuple[float, float, float, float]:
+    """Symmetric log-odds-gap rescaling of Beta prior means.
+
+    Given paper Beta parameters (alpha_s, beta_s) for s in {pres, abs}
+    (with alpha_s + beta_s == concentration), compute means mu_s, recentre
+    each mu_s in logit space around the midpoint of (logit mu_pres,
+    logit mu_abs), and rescale the signed offset by ``gain``.  Returns
+    new (alpha_p, beta_p, alpha_a, beta_a) with the same concentration.
+    At gain == 1.0 the output is numerically identical to the input.
+    """
+    eps = 1e-9
+    mu_p = alpha_p / (alpha_p + beta_p)
+    mu_a = alpha_a / (alpha_a + beta_a)
+    mu_p = min(max(mu_p, eps), 1.0 - eps)
+    mu_a = min(max(mu_a, eps), 1.0 - eps)
+    logit_p = np.log(mu_p / (1.0 - mu_p))
+    logit_a = np.log(mu_a / (1.0 - mu_a))
+    m = 0.5 * (logit_p + logit_a)
+    h = 0.5 * (logit_p - logit_a)
+    new_logit_p = m + gain * h
+    new_logit_a = m - gain * h
+    new_mu_p = 1.0 / (1.0 + np.exp(-new_logit_p))
+    new_mu_a = 1.0 / (1.0 + np.exp(-new_logit_a))
+    c = concentration
+    return (
+        float(c * new_mu_p),
+        float(c * (1.0 - new_mu_p)),
+        float(c * new_mu_a),
+        float(c * (1.0 - new_mu_a)),
+    )
+
+
 class EvidenceProcessor:
     """Maps support/demandingness labels to Beta distribution parameters.
 
@@ -743,6 +792,12 @@ class EvidenceProcessor:
     ) -> Tuple[float, float, float, float]:
         """Beta parameters for parent-present and parent-absent states.
 
+        At the default ``TRANSMISSION_GAIN = 1.0`` the output is
+        bit-identical to the paper mapping.  For gain != 1 the prior means
+        are rescaled in logit space via the symmetric log-odds-gap rule
+        (see ``_apply_transmission_gain``).  Concentration ``alpha + beta``
+        is preserved at ``NODE_CONCENTRATION``.
+
         Returns
         -------
         (alpha_present, beta_present, alpha_absent, beta_absent)
@@ -754,12 +809,17 @@ class EvidenceProcessor:
         presence_beta = int(absence_beta * support_factor[1])
 
         c = self.config.NODE_CONCENTRATION
-        return (
-            presence_alpha * c / (presence_alpha + presence_beta),
-            presence_beta * c / (presence_alpha + presence_beta),
-            absence_alpha * c / (absence_alpha + absence_beta),
-            absence_beta * c / (absence_alpha + absence_beta),
-        )
+        alpha_p = presence_alpha * c / (presence_alpha + presence_beta)
+        beta_p = presence_beta * c / (presence_alpha + presence_beta)
+        alpha_a = absence_alpha * c / (absence_alpha + absence_beta)
+        beta_a = absence_beta * c / (absence_alpha + absence_beta)
+
+        gain = self.config.TRANSMISSION_GAIN
+        if gain != 1.0:
+            alpha_p, beta_p, alpha_a, beta_a = _apply_transmission_gain(
+                alpha_p, beta_p, alpha_a, beta_a, gain, c
+            )
+        return alpha_p, beta_p, alpha_a, beta_a
 
     def _get_demandingness_parameters(self, demandingness: str) -> Tuple[int, int]:
         base = self.config.BASE
