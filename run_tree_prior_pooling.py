@@ -47,8 +47,13 @@ SYSTEM_CONFIGS = [
 
 OUT_DIR = Path("results/gwt_tree_pooling")
 ANALYSIS_DIR = OUT_DIR / "analysis"
-IDATA_PATH = OUT_DIR / "binary_pooled_anchored.nc"
-META_PATH = OUT_DIR / "binary_pooled_anchored.meta.json"
+
+def _paths(state_model: str):
+    tag = "binary" if state_model == "binary" else "three_state"
+    return (
+        OUT_DIR / f"{tag}_pooled_anchored.nc",
+        OUT_DIR / f"{tag}_pooled_anchored.meta.json",
+    )
 
 
 def git_head() -> Dict[str, str]:
@@ -65,6 +70,7 @@ def git_head() -> Dict[str, str]:
 
 
 def build_config(
+    state_model: str = "binary",
     num_samples: int = 2000,
     num_tune: int = 1000,
     num_chains: int = 4,
@@ -72,7 +78,7 @@ def build_config(
     label_pool_sigma: float = 0.5,
 ) -> ModelConfig:
     return ModelConfig(
-        INDICATOR_STATE_MODEL="binary",
+        INDICATOR_STATE_MODEL=state_model,  # type: ignore[arg-type]
         USE_EXPERT_SHIFTS=False,
         USE_HIERARCHICAL_EXPERT_CUTPOINTS=False,
         POOL_BETAS_BY_LABEL=True,
@@ -162,21 +168,23 @@ def write_tier1_markdown(
     path.write_text("\n".join(lines))
 
 
-def main(smoke: bool = False) -> None:
+def main(smoke: bool = False, state_model: str = "binary") -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     ANALYSIS_DIR.mkdir(parents=True, exist_ok=True)
 
+    idata_path, meta_path = _paths(state_model)
+
     if smoke:
-        config = build_config(num_samples=50, num_tune=100, num_chains=2,
-                              target_accept=0.9)
-        print("[SMOKE] reduced sampling for build-check only")
+        config = build_config(state_model=state_model, num_samples=50,
+                              num_tune=100, num_chains=2, target_accept=0.9)
+        print(f"[SMOKE] reduced sampling for build-check only; state_model={state_model}")
     else:
-        config = build_config()
+        config = build_config(state_model=state_model)
 
     meta_git = git_head()
     print(f"Branch: {meta_git['branch']}")
     print(f"Commit: {meta_git['commit']}")
-    print(f"Config: POOL_BETAS_BY_LABEL={config.POOL_BETAS_BY_LABEL}, "
+    print(f"Config: INDICATOR_STATE_MODEL={state_model}, POOL_BETAS_BY_LABEL={config.POOL_BETAS_BY_LABEL}, "
           f"sigma={config.LABEL_POOL_SIGMA}, target_accept={config.TARGET_ACCEPT}, "
           f"tune={config.NUM_TUNE}, samples={config.NUM_SAMPLES}")
 
@@ -188,28 +196,28 @@ def main(smoke: bool = False) -> None:
     elapsed = time.time() - t0
 
     if not smoke:
-        az.to_netcdf(idata, str(IDATA_PATH))
-        print(f"wrote {IDATA_PATH}")
+        az.to_netcdf(idata, str(idata_path))
+        print(f"wrote {idata_path}")
 
     diag = tier1_diagnostics(idata)
     label_summary = label_posterior_summary(idata)
 
     if not smoke:
-        write_tier1_markdown(diag, label_summary, elapsed, config,
-                             ANALYSIS_DIR / "tier1_diagnostics.md")
+        tier1_md = ANALYSIS_DIR / f"tier1_diagnostics_{state_model}.md"
+        write_tier1_markdown(diag, label_summary, elapsed, config, tier1_md)
         meta = {
-            "fit": "binary_pooled_anchored",
+            "fit": f"{state_model}_pooled_anchored",
             "branch": meta_git["branch"],
             "commit": meta_git["commit"],
             "system_configs": [(s, c) for s, c in SYSTEM_CONFIGS],
             "config": asdict(config),
             "elapsed_s": elapsed,
             "tier1": diag,
-            "idata_path": str(IDATA_PATH),
-            "tier1_markdown": str(ANALYSIS_DIR / "tier1_diagnostics.md"),
+            "idata_path": str(idata_path),
+            "tier1_markdown": str(tier1_md),
         }
-        META_PATH.write_text(json.dumps(meta, indent=2))
-        print(f"wrote {META_PATH}")
+        meta_path.write_text(json.dumps(meta, indent=2))
+        print(f"wrote {meta_path}")
 
     print()
     print(f"elapsed: {elapsed:.0f}s")
@@ -221,4 +229,5 @@ def main(smoke: bool = False) -> None:
 
 if __name__ == "__main__":
     import sys
-    main(smoke="--smoke" in sys.argv)
+    state_model = "three_state" if "--three-state" in sys.argv else "binary"
+    main(smoke="--smoke" in sys.argv, state_model=state_model)
