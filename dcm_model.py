@@ -123,6 +123,31 @@ class ModelConfig:
     # Cannot be combined with USE_HIERARCHICAL_EXPERT_CUTPOINTS.
     USE_EXPERT_SCALES: bool = False
     EXPERT_SCALE_TAU_SIGMA: float = 0.3
+    # Label-level pooling on tree node transmission (complete-pooling-
+    # within-label).  When True, each (support, demandingness) group gets
+    # a single logit-Normal beta_pres parameter; each demandingness group
+    # gets a single logit-Normal beta_abs parameter.  All tree nodes with
+    # the same label share that group-level beta value.  Centred on the
+    # paper's fixed prior means in logit space with scale
+    # LABEL_POOL_SIGMA.  Non-centred parameterisation (a standard-Normal
+    # tilde RV per group).  At paper-mean + tilde=0, recovers the paper
+    # baseline exactly at that point; LABEL_POOL_SIGMA -> 0 collapses to
+    # the paper baseline everywhere.
+    #
+    # The "pooling" here is complete pooling within each label: same-
+    # label nodes are not allowed to have independent beta values.  This
+    # matches the paper baseline semantics (same-label nodes have
+    # identical Beta priors), but upgrades the fixed prior to a random
+    # variable that data can move.  For groups with many nodes this is
+    # genuine cross-node information sharing (all same-label node data
+    # contributes to one label-level posterior).  For singleton groups it
+    # is prior-softening on that single node.
+    #
+    # Partial-pooling (label mean + independent node-level deviations) was
+    # implemented in an earlier draft but produced a pytensor graph too
+    # large for the C++ backend to compile in reasonable time.
+    POOL_BETAS_BY_LABEL: bool = False
+    LABEL_POOL_SIGMA: float = 0.5
     N_CATEGORIES: int = 7
     # Bin edges for legacy probability -> ordinal conversion.
     # Category k is assigned when bins[k-1] <= p < bins[k].
@@ -820,6 +845,116 @@ class EvidenceProcessor:
 
 
 # ---------------------------------------------------------------------------
+# Label-level pooling helpers
+# ---------------------------------------------------------------------------
+
+
+def _logit_np(p: float, eps: float = 1e-9) -> float:
+    p = max(min(p, 1.0 - eps), eps)
+    return float(np.log(p / (1.0 - p)))
+
+
+def _sanitize_label(s: str) -> str:
+    return s.replace(" ", "_").replace("/", "_").lower()
+
+
+def collect_tree_label_groups(
+    stance_data: Dict,
+) -> Tuple[List[Tuple[str, str]], List[str]]:
+    """Walk the stance tree and collect unique (support, demandingness) and
+    demandingness-only label groups that appear on feature/subfeature/indicator
+    nodes. Used to decide which hyperparameters to instantiate under
+    POOL_BETAS_BY_LABEL.
+
+    Returns (pres_groups, abs_groups) with pres_groups a list of (support,
+    demandingness) tuples and abs_groups a list of demandingness strings.
+    Both sorted deterministically.
+    """
+    pres_set: set = set()
+    abs_set: set = set()
+
+    def walk(node: Dict) -> None:
+        s = node.get("support")
+        d = node.get("demandingness")
+        ntype = (node.get("type") or "").lower()
+        if ntype in {"feature", "subfeature", "indicator"} and s is not None and d is not None:
+            pres_set.add((s, d))
+            abs_set.add(d)
+        for child in node.get("evidencers", []):
+            walk(child)
+
+    for child in stance_data.get("evidencers", []):
+        walk(child)
+    return sorted(pres_set), sorted(abs_set)
+
+
+def build_label_pool_hyperparameters(
+    config: ModelConfig,
+    evidence_processor: "EvidenceProcessor",
+    stance_data: Dict,
+) -> Tuple[
+    Dict[Tuple[str, str], pt.TensorVariable],
+    Dict[str, pt.TensorVariable],
+]:
+    """Instantiate complete-pooling label-level betas (non-centred logit-Normal).
+
+    For each (support, demandingness) group in the tree, creates a single
+    ``beta_pres`` random variable.  For each demandingness group, creates
+    a single ``beta_abs`` random variable.  All tree nodes with the same
+    label share that group-level beta value.
+
+    Returns ``(beta_pres_by_group, beta_abs_by_group)`` each mapping a group
+    key to the natural-scale beta tensor (Deterministic sigmoid of the
+    logit-Normal).  Also exposes
+    ``label_delta__{support}__{demand}`` = beta_pres - beta_abs per pres
+    group.
+    """
+    pres_groups, abs_groups = collect_tree_label_groups(stance_data)
+    sigma = config.LABEL_POOL_SIGMA
+
+    beta_pres_by_group: Dict[Tuple[str, str], pt.TensorVariable] = {}
+    for (s, d) in pres_groups:
+        alpha_p, beta_p, _, _ = evidence_processor.get_beta_parameters(s, d)
+        paper_mu = alpha_p / (alpha_p + beta_p)
+        raw = pm.Normal(
+            f"beta_pres_tilde__{_sanitize_label(s)}__{_sanitize_label(d)}",
+            mu=0.0,
+            sigma=1.0,
+        )
+        logit_beta = pt.constant(_logit_np(paper_mu)) + sigma * raw
+        beta = pm.Deterministic(
+            f"beta_pres__{_sanitize_label(s)}__{_sanitize_label(d)}",
+            pt.sigmoid(logit_beta),
+        )
+        beta_pres_by_group[(s, d)] = beta
+
+    beta_abs_by_group: Dict[str, pt.TensorVariable] = {}
+    for d in abs_groups:
+        _, _, alpha_a, beta_a = evidence_processor.get_beta_parameters("no bearing", d)
+        paper_mu = alpha_a / (alpha_a + beta_a)
+        raw = pm.Normal(
+            f"beta_abs_tilde__{_sanitize_label(d)}",
+            mu=0.0,
+            sigma=1.0,
+        )
+        logit_beta = pt.constant(_logit_np(paper_mu)) + sigma * raw
+        beta = pm.Deterministic(
+            f"beta_abs__{_sanitize_label(d)}",
+            pt.sigmoid(logit_beta),
+        )
+        beta_abs_by_group[d] = beta
+
+    for (s, d), beta_p in beta_pres_by_group.items():
+        beta_a = beta_abs_by_group[d]
+        pm.Deterministic(
+            f"label_delta__{_sanitize_label(s)}__{_sanitize_label(d)}",
+            beta_p - beta_a,
+        )
+
+    return beta_pres_by_group, beta_abs_by_group
+
+
+# ---------------------------------------------------------------------------
 # Model builder
 # ---------------------------------------------------------------------------
 
@@ -854,6 +989,9 @@ class BayesianModelBuilder:
         self.sigma_by_expert: Optional[pt.TensorVariable] = None
         # Maps node_key -> sanitised PyMC variable prefix
         self.node_to_varname: Dict[str, str] = {}
+        # Label-pooling betas (populated only if POOL_BETAS_BY_LABEL)
+        self.beta_pres_by_group: Dict[Tuple[str, str], pt.TensorVariable] = {}
+        self.beta_abs_by_group: Dict[str, pt.TensorVariable] = {}
 
     def sanitize_name(self, name: str) -> str:
         """Create a valid PyMC variable name, handling duplicates."""
@@ -891,15 +1029,22 @@ class BayesianModelBuilder:
         key = node_key(ancestor_path, evidencer["name"])
         self.node_to_varname[key] = name
 
-        alpha_pres, beta_pres, alpha_abs, beta_abs = (
-            self.evidence_processor.get_beta_parameters(
-                evidencer.get("support", "no bearing"),
-                evidencer.get("demandingness", "neutral"),
-            )
-        )
+        support = evidencer.get("support", "no bearing")
+        demand = evidencer.get("demandingness", "neutral")
 
-        beta_present = pm.Beta(f"{name}_beta_pres", alpha=alpha_pres, beta=beta_pres)
-        beta_absent = pm.Beta(f"{name}_beta_abs", alpha=alpha_abs, beta=beta_abs)
+        if self.config.POOL_BETAS_BY_LABEL:
+            # Complete-pooling-within-label: reuse the single group-level
+            # beta for this (support, demandingness) / demandingness.  No
+            # new node-level RVs.
+            beta_present = self.beta_pres_by_group[(support, demand)]
+            beta_absent = self.beta_abs_by_group[demand]
+        else:
+            alpha_pres, beta_pres, alpha_abs, beta_abs = (
+                self.evidence_processor.get_beta_parameters(support, demand)
+            )
+            beta_present = pm.Beta(f"{name}_beta_pres", alpha=alpha_pres, beta=beta_pres)
+            beta_absent = pm.Beta(f"{name}_beta_abs", alpha=alpha_abs, beta=beta_abs)
+
         q_j = pm.Deterministic(
             f"{name}_p",
             parent_prob * beta_present + (1 - parent_prob) * beta_absent,
@@ -1017,6 +1162,15 @@ class BayesianModelBuilder:
                 self.kappa_by_expert,
                 self.sigma_by_expert,
             ) = build_ordinal_observation_layer(self.config, n_experts, K)
+
+            # --- Optional label-level beta pooling (POOL_BETAS_BY_LABEL) ---
+            if self.config.POOL_BETAS_BY_LABEL:
+                (
+                    self.beta_pres_by_group,
+                    self.beta_abs_by_group,
+                ) = build_label_pool_hyperparameters(
+                    self.config, self.evidence_processor, stance_data
+                )
 
             # --- Hierarchy ---
             evidencers = stance_data.get("evidencers", [])
@@ -1349,6 +1503,8 @@ class MultiSystemModelBuilder:
         self.kappa: Optional[pt.TensorVariable] = None
         self.kappa_by_expert: Optional[pt.TensorVariable] = None
         self.sigma_by_expert: Optional[pt.TensorVariable] = None
+        self.beta_pres_by_group: Dict[Tuple[str, str], pt.TensorVariable] = {}
+        self.beta_abs_by_group: Dict[str, pt.TensorVariable] = {}
 
     def sanitize_name(self, name: str) -> str:
         sanitized = name.replace(" ", "_").replace("/", "_").lower()
@@ -1377,16 +1533,21 @@ class MultiSystemModelBuilder:
         key = node_key(ancestor_path, evidencer["name"])
         self.node_to_varname[key] = name
 
-        alpha_pres, beta_pres, alpha_abs, beta_abs = (
-            self.evidence_processor.get_beta_parameters(
-                evidencer.get("support", "no bearing"),
-                evidencer.get("demandingness", "neutral"),
-            )
-        )
+        support = evidencer.get("support", "no bearing")
+        demand = evidencer.get("demandingness", "neutral")
 
-        # Shared across systems
-        bp = pm.Beta(f"{name}_beta_pres", alpha=alpha_pres, beta=beta_pres)
-        ba = pm.Beta(f"{name}_beta_abs", alpha=alpha_abs, beta=beta_abs)
+        if self.config.POOL_BETAS_BY_LABEL:
+            # Complete-pooling-within-label: reuse the single group-level
+            # beta.  No new node-level RVs.
+            bp = self.beta_pres_by_group[(support, demand)]
+            ba = self.beta_abs_by_group[demand]
+        else:
+            alpha_pres, beta_pres, alpha_abs, beta_abs = (
+                self.evidence_processor.get_beta_parameters(support, demand)
+            )
+            # Shared across systems
+            bp = pm.Beta(f"{name}_beta_pres", alpha=alpha_pres, beta=beta_pres)
+            ba = pm.Beta(f"{name}_beta_abs", alpha=alpha_abs, beta=beta_abs)
 
         # Per-system q
         child_qs: Dict[str, pt.TensorVariable] = {}
@@ -1508,6 +1669,15 @@ class MultiSystemModelBuilder:
                 self.kappa_by_expert,
                 self.sigma_by_expert,
             ) = build_ordinal_observation_layer(self.config, n_experts, K)
+
+            # --- Optional label-level beta pooling (POOL_BETAS_BY_LABEL) ---
+            if self.config.POOL_BETAS_BY_LABEL:
+                (
+                    self.beta_pres_by_group,
+                    self.beta_abs_by_group,
+                ) = build_label_pool_hyperparameters(
+                    self.config, self.evidence_processor, stance_data
+                )
 
             # --- Shared hierarchy with per-system q propagation ---
             evidencers = stance_data.get("evidencers", [])
