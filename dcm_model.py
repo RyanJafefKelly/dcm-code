@@ -158,6 +158,17 @@ class ModelConfig:
     # large for the C++ backend to compile in reasonable time.
     POOL_BETAS_BY_LABEL: bool = False
     LABEL_POOL_SIGMA: float = 0.5
+    # "Safe gain": logit-Normal tree betas centred at the gained means.
+    # When TRANSMISSION_GAIN != 1.0 AND GAIN_LOGIT_NORMAL=True, replace
+    # the per-node Beta(alpha, beta) priors with
+    #   eta_n_pres ~ N(logit(mu_pres_gain), sigma^2),  beta_n_pres = sigmoid(eta_n_pres)
+    # and similarly for beta_abs.  This avoids the Beta-boundary
+    # singularities that cause NUTS divergences when the gained means
+    # approach 0 or 1.  Node-level (independent per node; no label
+    # pooling).  Not combinable with POOL_BETAS_BY_LABEL (semantics of
+    # combined pool+gain not settled — see plan's out-of-scope notes).
+    GAIN_LOGIT_NORMAL: bool = False
+    GAIN_LOGIT_NORMAL_SIGMA: float = 0.5
     N_CATEGORIES: int = 7
     # Bin edges for legacy probability -> ordinal conversion.
     # Category k is assigned when bins[k-1] <= p < bins[k].
@@ -179,6 +190,15 @@ class ModelConfig:
                 "hierarchical pooling lets data calibrate label transmission; "
                 "transmission-gain hand-sets a global sharper semantic prior. "
                 "Run them as separate fits and compare in the library."
+            )
+        if self.POOL_BETAS_BY_LABEL and self.GAIN_LOGIT_NORMAL:
+            raise ValueError(
+                "POOL_BETAS_BY_LABEL and GAIN_LOGIT_NORMAL cannot both be "
+                "enabled.  The symmetric gain transform makes mu_abs depend "
+                "on support as well as demandingness, which conflicts with "
+                "the pooling branch's demandingness-only abs grouping.  "
+                "A combined pool+gain model needs a semantic choice that "
+                "has not been made yet (see plan)."
             )
 
 
@@ -857,6 +877,20 @@ class EvidenceProcessor:
             )
         return alpha_p, beta_p, alpha_a, beta_a
 
+    def get_gained_means(
+        self, support: str, demandingness: str
+    ) -> Tuple[float, float]:
+        """Return (mu_pres, mu_abs) after TRANSMISSION_GAIN is applied.
+
+        At gain=1.0 these are the paper's prior means.  At gain != 1 they
+        are the symmetric log-odds-gap-rescaled means.  Useful for the
+        safe-gain (logit-Normal tree betas) path, which centres a
+        logit-Normal prior on logit(mu_gain) rather than drawing a Beta
+        with potentially near-boundary shape parameters.
+        """
+        alpha_p, beta_p, alpha_a, beta_a = self.get_beta_parameters(support, demandingness)
+        return alpha_p / (alpha_p + beta_p), alpha_a / (alpha_a + beta_a)
+
     def _get_demandingness_parameters(self, demandingness: str) -> Tuple[int, int]:
         base = self.config.BASE
         demandingness_map = {
@@ -957,6 +991,23 @@ def collect_tree_label_groups(
     for child in stance_data.get("evidencers", []):
         walk(child)
     return sorted(pres_set), sorted(abs_set)
+
+
+def build_safe_gain_node_beta(
+    name: str,
+    kind: str,  # "pres" or "abs"
+    mu_gain: float,
+    sigma: float,
+) -> pt.TensorVariable:
+    """Build a safe-gain node-level beta as logit-Normal centred at logit(mu_gain).
+
+    Non-centred parameterisation.  Sidesteps Beta boundary singularities
+    when the gained mean approaches 0 or 1.
+    """
+    suffix = {"pres": "_beta_pres", "abs": "_beta_abs"}[kind]
+    tilde = pm.Normal(f"{name}{suffix}_lnbeta_tilde", mu=0.0, sigma=1.0)
+    logit_beta = pt.constant(_logit_np(mu_gain)) + sigma * tilde
+    return pm.Deterministic(f"{name}{suffix}", pt.sigmoid(logit_beta))
 
 
 def build_label_pool_hyperparameters(
@@ -1109,6 +1160,12 @@ class BayesianModelBuilder:
             # new node-level RVs.
             beta_present = self.beta_pres_by_group[(support, demand)]
             beta_absent = self.beta_abs_by_group[demand]
+        elif self.config.GAIN_LOGIT_NORMAL and self.config.TRANSMISSION_GAIN != 1.0:
+            # Safe gain: node-level logit-Normal centred at gained means
+            mu_p, mu_a = self.evidence_processor.get_gained_means(support, demand)
+            sigma = self.config.GAIN_LOGIT_NORMAL_SIGMA
+            beta_present = build_safe_gain_node_beta(name, "pres", mu_p, sigma)
+            beta_absent = build_safe_gain_node_beta(name, "abs", mu_a, sigma)
         else:
             alpha_pres, beta_pres, alpha_abs, beta_abs = (
                 self.evidence_processor.get_beta_parameters(support, demand)
@@ -1612,6 +1669,13 @@ class MultiSystemModelBuilder:
             # beta.  No new node-level RVs.
             bp = self.beta_pres_by_group[(support, demand)]
             ba = self.beta_abs_by_group[demand]
+        elif self.config.GAIN_LOGIT_NORMAL and self.config.TRANSMISSION_GAIN != 1.0:
+            # Safe gain: node-level logit-Normal centred at gained means,
+            # shared across systems (same as the paper Beta case).
+            mu_p, mu_a = self.evidence_processor.get_gained_means(support, demand)
+            sigma = self.config.GAIN_LOGIT_NORMAL_SIGMA
+            bp = build_safe_gain_node_beta(name, "pres", mu_p, sigma)
+            ba = build_safe_gain_node_beta(name, "abs", mu_a, sigma)
         else:
             alpha_pres, beta_pres, alpha_abs, beta_abs = (
                 self.evidence_processor.get_beta_parameters(support, demand)
