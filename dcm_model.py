@@ -158,6 +158,13 @@ class ModelConfig:
     # large for the C++ backend to compile in reasonable time.
     POOL_BETAS_BY_LABEL: bool = False
     LABEL_POOL_SIGMA: float = 0.5
+    # Soft reference-system anchors.  Per-system (alpha, beta) parameters for
+    # a Beta prior on root C; overrides the hard anchor (c_fixed) from
+    # system_configs for any system listed.  Used for anchor-defensibility
+    # diagnostics: how far does Human / ELIZA posterior drift under
+    # Beta(50, 1) / Beta(1, 50) relative to the hard 0.999 / 0.001?  None
+    # (default) preserves the existing hard-anchor behaviour.
+    SOFT_REFERENCE_ANCHORS: Optional[Dict[str, Tuple[float, float]]] = None
     # "Safe gain": logit-Normal tree betas centred at the gained means.
     # When TRANSMISSION_GAIN != 1.0 AND GAIN_LOGIT_NORMAL=True, replace
     # the per-node Beta(alpha, beta) priors with
@@ -1781,10 +1788,19 @@ class MultiSystemModelBuilder:
         model = pm.Model()
         with model:
             # --- Per-system stance C ---
+            soft = self.config.SOFT_REFERENCE_ANCHORS or {}
             stance_qs: Dict[str, pt.TensorVariable] = {}
             for sys_name, c_fixed in self.system_configs:
                 sp = self._sys_prefix(sys_name)
-                if c_fixed is not None:
+                if sys_name in soft:
+                    alpha_s, beta_s = soft[sys_name]
+                    c_var = pm.Beta(
+                        f"{sp}__{stance_name}_C",
+                        alpha=alpha_s,
+                        beta=beta_s,
+                    )
+                    stance_qs[sys_name] = c_var
+                elif c_fixed is not None:
                     c_val = pt.constant(c_fixed, dtype="floatX")
                     pm.Deterministic(f"{sp}__{stance_name}_C", c_val)
                     stance_qs[sys_name] = c_val

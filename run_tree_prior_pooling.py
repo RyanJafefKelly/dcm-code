@@ -48,11 +48,15 @@ SYSTEM_CONFIGS = [
 OUT_DIR = Path("results/gwt_tree_pooling")
 ANALYSIS_DIR = OUT_DIR / "analysis"
 
-def _paths(state_model: str):
+SOFT_ANCHORS_DEFAULT = {"Human": (50.0, 1.0), "ELIZA": (1.0, 50.0)}
+
+
+def _paths(state_model: str, soft: bool = False):
     tag = "binary" if state_model == "binary" else "three_state"
+    suffix = "pooled_soft_anchored" if soft else "pooled_anchored"
     return (
-        OUT_DIR / f"{tag}_pooled_anchored.nc",
-        OUT_DIR / f"{tag}_pooled_anchored.meta.json",
+        OUT_DIR / f"{tag}_{suffix}.nc",
+        OUT_DIR / f"{tag}_{suffix}.meta.json",
     )
 
 
@@ -76,6 +80,7 @@ def build_config(
     num_chains: int = 4,
     target_accept: float = 0.95,
     label_pool_sigma: float = 0.5,
+    soft_anchors: Dict[str, tuple] | None = None,
 ) -> ModelConfig:
     return ModelConfig(
         INDICATOR_STATE_MODEL=state_model,  # type: ignore[arg-type]
@@ -83,6 +88,7 @@ def build_config(
         USE_HIERARCHICAL_EXPERT_CUTPOINTS=False,
         POOL_BETAS_BY_LABEL=True,
         LABEL_POOL_SIGMA=label_pool_sigma,
+        SOFT_REFERENCE_ANCHORS=soft_anchors,
         NUM_SAMPLES=num_samples,
         NUM_TUNE=num_tune,
         NUM_CHAINS=num_chains,
@@ -168,18 +174,22 @@ def write_tier1_markdown(
     path.write_text("\n".join(lines))
 
 
-def main(smoke: bool = False, state_model: str = "binary") -> None:
+def main(smoke: bool = False, state_model: str = "binary",
+         soft_anchors: Dict[str, tuple] | None = None) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     ANALYSIS_DIR.mkdir(parents=True, exist_ok=True)
 
-    idata_path, meta_path = _paths(state_model)
+    soft = bool(soft_anchors)
+    idata_path, meta_path = _paths(state_model, soft=soft)
 
     if smoke:
         config = build_config(state_model=state_model, num_samples=50,
-                              num_tune=100, num_chains=2, target_accept=0.9)
-        print(f"[SMOKE] reduced sampling for build-check only; state_model={state_model}")
+                              num_tune=100, num_chains=2, target_accept=0.9,
+                              soft_anchors=soft_anchors)
+        print(f"[SMOKE] reduced sampling for build-check only; state_model={state_model}, "
+              f"soft_anchors={soft_anchors}")
     else:
-        config = build_config(state_model=state_model)
+        config = build_config(state_model=state_model, soft_anchors=soft_anchors)
 
     meta_git = git_head()
     print(f"Branch: {meta_git['branch']}")
@@ -203,13 +213,15 @@ def main(smoke: bool = False, state_model: str = "binary") -> None:
     label_summary = label_posterior_summary(idata)
 
     if not smoke:
-        tier1_md = ANALYSIS_DIR / f"tier1_diagnostics_{state_model}.md"
+        suffix = "soft_anchored" if soft else "anchored"
+        tier1_md = ANALYSIS_DIR / f"tier1_diagnostics_{state_model}_{suffix}.md"
         write_tier1_markdown(diag, label_summary, elapsed, config, tier1_md)
         meta = {
-            "fit": f"{state_model}_pooled_anchored",
+            "fit": f"{state_model}_pooled_{suffix}",
             "branch": meta_git["branch"],
             "commit": meta_git["commit"],
             "system_configs": [(s, c) for s, c in SYSTEM_CONFIGS],
+            "soft_reference_anchors": soft_anchors,
             "config": asdict(config),
             "elapsed_s": elapsed,
             "tier1": diag,
@@ -230,4 +242,6 @@ def main(smoke: bool = False, state_model: str = "binary") -> None:
 if __name__ == "__main__":
     import sys
     state_model = "three_state" if "--three-state" in sys.argv else "binary"
-    main(smoke="--smoke" in sys.argv, state_model=state_model)
+    soft_anchors = SOFT_ANCHORS_DEFAULT if "--soft-anchors" in sys.argv else None
+    main(smoke="--smoke" in sys.argv, state_model=state_model,
+         soft_anchors=soft_anchors)
