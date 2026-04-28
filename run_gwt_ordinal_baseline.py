@@ -71,7 +71,7 @@ def build_config(args: argparse.Namespace) -> Tuple[ModelConfig, List[Tuple[str,
         TARGET_STANCE=TARGET_STANCE,
         DATA_CACHE_PATH=args.data_cache,
         INDICATOR_STATE_MODEL="three_state",
-        USE_EXPERT_SHIFTS=True,
+        USE_EXPERT_SHIFTS=False,
     )
     if args.config == "hard_anchor_3s_paper_tree":
         system_configs = [

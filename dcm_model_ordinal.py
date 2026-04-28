@@ -85,7 +85,7 @@ class ModelConfig:
     INDICATOR_STATE_MODEL: Literal["binary", "three_state"] = "binary"
 
     # Ordinal observation model
-    USE_EXPERT_SHIFTS: bool = True  # If False, all experts share b=0
+    USE_EXPERT_SHIFTS: bool = False  # Expert-shift sensitivity; non-default.
     # Prior scale on free expert location shifts b_free ~ Normal(0, sigma).
     # 2.0 is the original diffuse default; a tight value (e.g. 0.3) lets the
     # model express small expert calibration differences without absorbing
