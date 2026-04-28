@@ -1,0 +1,42 @@
+{
+  "n_draws": 8000,
+  "delta_ll_median": 9.949288502639035,
+  "delta_ll_mean": 9.56102053805783,
+  "delta_ll_p05": -0.6985885769088949,
+  "delta_ll_p95": 18.59549541434727,
+  "delta_ll_min": -16.155618425916828,
+  "delta_ll_max": 28.139563823410413,
+  "ess_w": 6.137288957286873,
+  "ess_w_ratio": 0.0007671611196608591,
+  "pareto_k": 1.3809302665896954,
+  "headline_shifts": [
+    {
+      "quantity": "C_Chicken_med",
+      "original": 0.3622367727069495,
+      "reweighted": 0.18098400546070242,
+      "shift": -0.18125276724624706
+    },
+    {
+      "quantity": "C_LLMs_med",
+      "original": 0.16954255217661135,
+      "reweighted": 0.09875994159194211,
+      "shift": -0.07078261058466924
+    },
+    {
+      "quantity": "mean_delta_j",
+      "original": 0.1585972446896543,
+      "reweighted": 0.15175315429434133,
+      "shift": -0.006844090395312974
+    },
+    {
+      "quantity": "beta_abs_neutral_med",
+      "original": 0.30428348080282286,
+      "reweighted": 0.3291565931018423,
+      "shift": 0.02487311229901945
+    }
+  ],
+  "interpretation_threshold": {
+    "ess_ratio_above_0.7_no_load_bearing": false,
+    "ess_ratio_below_0.3_failure": true
+  }
+}

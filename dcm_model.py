@@ -158,6 +158,20 @@ class ModelConfig:
     # large for the C++ backend to compile in reasonable time.
     POOL_BETAS_BY_LABEL: bool = False
     LABEL_POOL_SIGMA: float = 0.5
+    # When POOL_BETAS_BY_LABEL is True, key beta_abs by (support,
+    # demandingness) instead of demandingness only.  Used as a structural
+    # diagnostic against the shared-beta_abs__neutral inheritance noted
+    # in B.3a/b (the apparent "weak undermining + neutral" sign-flip
+    # resolution being driven by the shared neutral-demandingness
+    # absence baseline rather than group-specific evidence).
+    #
+    # Under this flag, each (support, demandingness) group gets its
+    # OWN beta_abs RV (centred on the paper's d-only β_abs prior mean).
+    # Singleton (s, d) groups will likely be weakly identified — that's
+    # the diagnostic point: if β_abs__(weak_und, neutral) stays near
+    # the prior 0.5 under the new fit, the singleton has no direct
+    # evidence and the inheritance interpretation is confirmed.
+    BETA_ABS_BY_SUPPORT_DEMAND: bool = False
     # Soft reference-system anchors.  Per-system (alpha, beta) parameters for
     # a Beta prior on root C; overrides the hard anchor (c_fixed) from
     # system_configs for any system listed.  Used for anchor-defensibility
@@ -206,6 +220,12 @@ class ModelConfig:
                 "the pooling branch's demandingness-only abs grouping.  "
                 "A combined pool+gain model needs a semantic choice that "
                 "has not been made yet (see plan)."
+            )
+        if self.BETA_ABS_BY_SUPPORT_DEMAND and not self.POOL_BETAS_BY_LABEL:
+            raise ValueError(
+                "BETA_ABS_BY_SUPPORT_DEMAND requires POOL_BETAS_BY_LABEL=True. "
+                "It is a refinement of the pooling branch's abs grouping, not "
+                "a standalone parameterisation."
             )
 
 
@@ -1023,20 +1043,28 @@ def build_label_pool_hyperparameters(
     stance_data: Dict,
 ) -> Tuple[
     Dict[Tuple[str, str], pt.TensorVariable],
-    Dict[str, pt.TensorVariable],
+    Dict[Any, pt.TensorVariable],
 ]:
     """Instantiate complete-pooling label-level betas (non-centred logit-Normal).
 
     For each (support, demandingness) group in the tree, creates a single
-    ``beta_pres`` random variable.  For each demandingness group, creates
-    a single ``beta_abs`` random variable.  All tree nodes with the same
-    label share that group-level beta value.
+    ``beta_pres`` random variable.
 
-    Returns ``(beta_pres_by_group, beta_abs_by_group)`` each mapping a group
-    key to the natural-scale beta tensor (Deterministic sigmoid of the
-    logit-Normal).  Also exposes
+    For ``beta_abs``, the grouping depends on
+    ``config.BETA_ABS_BY_SUPPORT_DEMAND``:
+      - False (default): one ``beta_abs`` RV per demandingness group; all
+        same-demandingness nodes share it.  ``beta_abs_by_group`` keys are
+        demandingness strings.  PyMC variable name: ``beta_abs__{demand}``.
+      - True: one ``beta_abs`` RV per (support, demandingness) group;
+        same paper β_abs prior centre as default (which depends only on
+        demandingness), but the *grouping* is finer.  ``beta_abs_by_group``
+        keys are ``(support, demandingness)`` tuples.  PyMC variable name:
+        ``beta_abs__{support}__{demand}``.
+
+    Returns ``(beta_pres_by_group, beta_abs_by_group)``.  Also exposes
     ``label_delta__{support}__{demand}`` = beta_pres - beta_abs per pres
-    group.
+    group; under the (s, d) abs grouping the matching abs group has the
+    same key, so label_delta is per-(s, d).
     """
     pres_groups, abs_groups = collect_tree_label_groups(stance_data)
     sigma = config.LABEL_POOL_SIGMA
@@ -1057,24 +1085,48 @@ def build_label_pool_hyperparameters(
         )
         beta_pres_by_group[(s, d)] = beta
 
-    beta_abs_by_group: Dict[str, pt.TensorVariable] = {}
-    for d in abs_groups:
-        _, _, alpha_a, beta_a = evidence_processor.get_beta_parameters("no bearing", d)
-        paper_mu = alpha_a / (alpha_a + beta_a)
-        raw = pm.Normal(
-            f"beta_abs_tilde__{_sanitize_label(d)}",
-            mu=0.0,
-            sigma=1.0,
-        )
-        logit_beta = pt.constant(_logit_np(paper_mu)) + sigma * raw
-        beta = pm.Deterministic(
-            f"beta_abs__{_sanitize_label(d)}",
-            pt.sigmoid(logit_beta),
-        )
-        beta_abs_by_group[d] = beta
+    beta_abs_by_group: Dict[Any, pt.TensorVariable] = {}
+    if config.BETA_ABS_BY_SUPPORT_DEMAND:
+        # One β_abs per (s, d) group present in the tree.  Prior centre is
+        # still the paper's d-only β_abs mean (paper β_abs has no
+        # support-dependence).  Only the grouping changes.
+        for (s, d) in pres_groups:
+            _, _, alpha_a, beta_a = evidence_processor.get_beta_parameters(
+                "no bearing", d
+            )
+            paper_mu = alpha_a / (alpha_a + beta_a)
+            raw = pm.Normal(
+                f"beta_abs_tilde__{_sanitize_label(s)}__{_sanitize_label(d)}",
+                mu=0.0,
+                sigma=1.0,
+            )
+            logit_beta = pt.constant(_logit_np(paper_mu)) + sigma * raw
+            beta = pm.Deterministic(
+                f"beta_abs__{_sanitize_label(s)}__{_sanitize_label(d)}",
+                pt.sigmoid(logit_beta),
+            )
+            beta_abs_by_group[(s, d)] = beta
+    else:
+        for d in abs_groups:
+            _, _, alpha_a, beta_a = evidence_processor.get_beta_parameters(
+                "no bearing", d
+            )
+            paper_mu = alpha_a / (alpha_a + beta_a)
+            raw = pm.Normal(
+                f"beta_abs_tilde__{_sanitize_label(d)}",
+                mu=0.0,
+                sigma=1.0,
+            )
+            logit_beta = pt.constant(_logit_np(paper_mu)) + sigma * raw
+            beta = pm.Deterministic(
+                f"beta_abs__{_sanitize_label(d)}",
+                pt.sigmoid(logit_beta),
+            )
+            beta_abs_by_group[d] = beta
 
     for (s, d), beta_p in beta_pres_by_group.items():
-        beta_a = beta_abs_by_group[d]
+        beta_a_key: Any = (s, d) if config.BETA_ABS_BY_SUPPORT_DEMAND else d
+        beta_a = beta_abs_by_group[beta_a_key]
         pm.Deterministic(
             f"label_delta__{_sanitize_label(s)}__{_sanitize_label(d)}",
             beta_p - beta_a,
@@ -1163,10 +1215,14 @@ class BayesianModelBuilder:
 
         if self.config.POOL_BETAS_BY_LABEL:
             # Complete-pooling-within-label: reuse the single group-level
-            # beta for this (support, demandingness) / demandingness.  No
-            # new node-level RVs.
+            # beta.  beta_abs key depends on BETA_ABS_BY_SUPPORT_DEMAND.
             beta_present = self.beta_pres_by_group[(support, demand)]
-            beta_absent = self.beta_abs_by_group[demand]
+            abs_key: Any = (
+                (support, demand)
+                if self.config.BETA_ABS_BY_SUPPORT_DEMAND
+                else demand
+            )
+            beta_absent = self.beta_abs_by_group[abs_key]
         elif self.config.GAIN_LOGIT_NORMAL and self.config.TRANSMISSION_GAIN != 1.0:
             # Safe gain: node-level logit-Normal centred at gained means
             mu_p, mu_a = self.evidence_processor.get_gained_means(support, demand)
@@ -1673,9 +1729,14 @@ class MultiSystemModelBuilder:
 
         if self.config.POOL_BETAS_BY_LABEL:
             # Complete-pooling-within-label: reuse the single group-level
-            # beta.  No new node-level RVs.
+            # beta.  beta_abs key depends on BETA_ABS_BY_SUPPORT_DEMAND.
             bp = self.beta_pres_by_group[(support, demand)]
-            ba = self.beta_abs_by_group[demand]
+            abs_key: Any = (
+                (support, demand)
+                if self.config.BETA_ABS_BY_SUPPORT_DEMAND
+                else demand
+            )
+            ba = self.beta_abs_by_group[abs_key]
         elif self.config.GAIN_LOGIT_NORMAL and self.config.TRANSMISSION_GAIN != 1.0:
             # Safe gain: node-level logit-Normal centred at gained means,
             # shared across systems (same as the paper Beta case).

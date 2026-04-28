@@ -1,0 +1,6 @@
+indicator,a_posterior,b_reset_abs,c_reset_pres,d_reset_both,shared_abs_effect,own_pres_effect,both_effect
+Conflicting Subparts,0.0631,-0.0027,0.0418,-0.0257,0.0658,0.0213,0.0888
+Functional Subparts,0.0579,-0.0013,0.0393,-0.0141,0.0592,0.0186,0.0719
+Information Transfer,0.0489,-0.0021,0.0325,-0.02,0.0509,0.0163,0.0689
+Information Transfer Architecture,0.0672,-0.0028,0.0448,-0.0272,0.0701,0.0224,0.0944
+Learning Transfer,0.0532,-0.0022,0.0359,-0.0222,0.0555,0.0174,0.0754

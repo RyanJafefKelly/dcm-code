@@ -1,0 +1,22 @@
+node_key,node_name,n_children,q_v_med,max_delta_product,n_obs_subtree,score
+Global Workspace Theory > Selective Attention,Selective Attention,5,0.5395909446697199,0.40936813610902045,91,9.254733929248985
+Global Workspace Theory > Coherence,Coherence,4,0.44501393522851707,0.28187794291021506,99,6.8921064609410605
+Global Workspace Theory > Complexity,Complexity,3,0.6225514697365913,0.45574508168064487,61,6.532581353382301
+Global Workspace Theory > Modularity,Modularity,6,0.3964890742795515,0.39546686810602805,48,4.542215165952871
+Global Workspace Theory > Coherence > Autonomous Subparts,Autonomous Subparts,5,0.38774584393742695,0.31176048219076746,37,2.738430239622483
+Global Workspace Theory > Representationality,Representationality,4,0.8829179891958612,0.45574508168064487,58,2.7325022118043436
+Global Workspace Theory > Complexity > Structural Complexity,Structural Complexity,4,0.5290860101221324,0.33531379495021696,32,2.67343278762784
+Global Workspace Theory > Coherence > Social Coherence,Social Coherence,3,0.5233919038088337,0.35274552185941244,24,2.1118407542322295
+Global Workspace Theory > Coherence > Common Representational Scheme,Common Representational Scheme,3,0.4601061742540881,0.35274552185941244,23,2.01537453661442
+Global Workspace Theory > Selective Attention > Adaptive Focus,Adaptive Focus,3,0.565892692711334,0.3276969839534827,23,1.8515330242548358
+Global Workspace Theory > Integration,Integration,2,0.5395909446697199,0.39546686810602805,16,1.571949524671551
+Global Workspace Theory > Selective Attention > Attention-Constrained Architecture,Attention-Constrained Architecture,2,0.5066766257787467,0.3891382731858481,16,1.5562755448087402
+Global Workspace Theory > Selective Attention > Performance Sensitivity,Performance Sensitivity,3,0.5066766257787467,0.27022257500371094,23,1.5535027528395304
+Global Workspace Theory > Representationality > Conceptual Representations,Conceptual Representations,3,0.7850364338526837,0.37360964923431267,20,1.2609641838279377
+Global Workspace Theory > Selective Attention > Non-Linear Capabilities,Non-Linear Capabilities,2,0.5796238085467923,0.2765034820051202,15,1.0105927800771883
+Global Workspace Theory > Representationality > Isomorphic Representations,Isomorphic Representations,2,0.6757335200353687,0.28100028597483395,16,0.9851543163866631
+Global Workspace Theory > Coherence > Point of View,Point of View,2,0.4621696519828882,0.2512084056450571,15,0.9366388231739734
+Global Workspace Theory > Complexity > Informational Complexity,Informational Complexity,4,0.6210064780961448,0.28185236576879763,14,0.928704687167643
+Global Workspace Theory > Complexity > Functional Diversity,Functional Diversity,2,0.547527030479784,0.20975660394943532,15,0.7794802329507581
+Global Workspace Theory > Selective Attention > Capability Attention Modulation,Capability Attention Modulation,2,0.5734765587776818,0.21094134226110903,14,0.7223510624036439
+Global Workspace Theory > Representationality > World Modelling,World Modelling,2,0.7077011958136505,0.20975660394943532,14,0.6074641415523219

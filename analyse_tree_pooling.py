@@ -36,8 +36,17 @@ def _beta_pres_var_name(support: str, demand: str) -> str:
     return f"beta_pres__{_sanitize_label(support)}__{_sanitize_label(demand)}"
 
 
-def _beta_abs_var_name(demand: str) -> str:
-    return f"beta_abs__{_sanitize_label(demand)}"
+def _beta_abs_var_name(demand: str, support: str = None) -> str:
+    """Posterior variable name for the pooled β_abs RV.
+
+    With ``support=None`` (default), returns the demandingness-only
+    pooling form ``beta_abs__{d}``.  With ``support`` provided, returns
+    the (s, d) pooling form ``beta_abs__{s}__{d}`` matching the model
+    builder when ``BETA_ABS_BY_SUPPORT_DEMAND=True``.
+    """
+    if support is None:
+        return f"beta_abs__{_sanitize_label(demand)}"
+    return f"beta_abs__{_sanitize_label(support)}__{_sanitize_label(demand)}"
 
 
 def _label_delta_var_name(support: str, demand: str) -> str:
@@ -61,9 +70,16 @@ def pooled_beta_draws_by_node(
     beta_pres_by_key: Dict[str, np.ndarray] = {}
     beta_abs_by_key: Dict[str, np.ndarray] = {}
 
+    # Auto-detect whether the fit used (s, d) or d-only β_abs grouping
+    # by inspecting which beta_abs__* variables exist.
+    abs_by_sd = any(
+        str(v).startswith("beta_abs__") and str(v).count("__") >= 2
+        for v in post.data_vars
+    )
+
     # Cache group-level fetches to avoid repeat reshapes.
     pres_cache: Dict[Tuple[str, str], np.ndarray] = {}
-    abs_cache: Dict[str, np.ndarray] = {}
+    abs_cache: Dict[Any, np.ndarray] = {}
 
     def fetch_pres(support: str, demand: str) -> np.ndarray:
         key = (support, demand)
@@ -72,11 +88,12 @@ def pooled_beta_draws_by_node(
             pres_cache[key] = np.asarray(post[var].values).reshape(-1)
         return pres_cache[key]
 
-    def fetch_abs(demand: str) -> np.ndarray:
-        if demand not in abs_cache:
-            var = _beta_abs_var_name(demand)
-            abs_cache[demand] = np.asarray(post[var].values).reshape(-1)
-        return abs_cache[demand]
+    def fetch_abs(demand: str, support: str) -> np.ndarray:
+        cache_key: Any = (support, demand) if abs_by_sd else demand
+        if cache_key not in abs_cache:
+            var = _beta_abs_var_name(demand, support if abs_by_sd else None)
+            abs_cache[cache_key] = np.asarray(post[var].values).reshape(-1)
+        return abs_cache[cache_key]
 
     root_path = (stance_data["name"],)
 
@@ -88,7 +105,7 @@ def pooled_beta_draws_by_node(
             d = node.get("demandingness", "neutral")
             key = node_key(ancestor_path, node["name"])
             beta_pres_by_key[key] = fetch_pres(s, d)
-            beta_abs_by_key[key] = fetch_abs(d)
+            beta_abs_by_key[key] = fetch_abs(d, s)
         for child in node.get("evidencers", []):
             walk(child, current_path)
 
