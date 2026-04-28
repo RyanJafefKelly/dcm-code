@@ -18,7 +18,7 @@ This repository contains the implementation of the Digital Consciousness Model (
 
 ### Requirements
 
-- Python 3.8+
+- Python 3.9+
 - PyMC
 - NumPy
 - Requests
@@ -45,6 +45,17 @@ Run the main model:
 ```bash
 python dcm_model.py
 ```
+
+Run the clean ordinal GWT baselines:
+
+```bash
+python run_gwt_ordinal_baseline.py --config hard_anchor_3s_paper_tree
+python run_gwt_ordinal_baseline.py --config soft_anchor_3s_paper_tree
+```
+
+The ordinal runner requires an explicit `--config`; this branch does not choose
+a default between hard and soft reference anchors. See
+`docs/ordinal_model.md` and `docs/data_cache.md`.
 
 Run sensitivity tests:
 
@@ -100,4 +111,3 @@ This project is licensed under the MIT License.
 ## Citation
 
 [Link to arxiv paper ]
-
