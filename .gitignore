@@ -143,3 +143,19 @@ dmypy.json
 *.swp
 *.swo
 *~
+
+# Claude Code session metadata
+.claude/
+
+# Jupyter checkpoints (top-level and nested)
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Rendered notebook exports (track on a case-by-case basis if needed)
+*.html
+
+# Personal/local notes (keep these out of public branches)
+notebooks/weekly_reports/
+resources/
+dcm_project_brief.md
+learning_principles.md
