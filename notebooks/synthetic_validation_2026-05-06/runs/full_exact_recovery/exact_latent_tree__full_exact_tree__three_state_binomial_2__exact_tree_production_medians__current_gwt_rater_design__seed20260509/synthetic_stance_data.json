@@ -1,0 +1,3505 @@
+{
+  "evidencers": [
+    {
+      "demandingness": "strongly undemanding",
+      "evidencers": [
+        {
+          "demandingness": "weakly demanding",
+          "evidencers": [
+            {
+              "demandingness": "weakly demanding",
+              "name": "Activation Steering Effects",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.7",
+                  "std": 0.2683281572999748
+                },
+                "Chicken": {
+                  "average": null,
+                  "std": 0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "0.6",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.975,
+                    0.875,
+                    0.975,
+                    -1
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    -1,
+                    -1
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "strongly demanding",
+              "name": "Probe-Detectable Themes",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.9",
+                  "std": 0.1
+                },
+                "Chicken": {
+                  "average": "1.0",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.1",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.875,
+                    0.5,
+                    0.975,
+                    0.875
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "strongly demanding",
+              "name": "Concept-Specific Ablation Effects",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.85",
+                  "std": 0.07071067811865475
+                },
+                "Chicken": {
+                  "average": "0.7",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.975,
+                    0.875,
+                    0.875,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    -1
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.5
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Conceptual Representations",
+          "support": "strong support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "moderately demanding",
+          "evidencers": [
+            {
+              "demandingness": "moderately demanding",
+              "name": "Logical Inference",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.5",
+                  "std": 0.5
+                },
+                "Chicken": {
+                  "average": "0.1",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.125
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.3
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Propositional Representations",
+          "support": "strong support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "strongly demanding",
+          "evidencers": [
+            {
+              "demandingness": "weakly demanding",
+              "name": "Model Isomorphism",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.56",
+                  "std": 0.22449944320643647
+                },
+                "Chicken": {
+                  "average": "0.6",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "0.5",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.5,
+                    -1,
+                    0.5,
+                    0.3
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    -1,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.5
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "moderately undemanding",
+              "name": "Broad Predictive Training",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.5",
+                  "std": 0.0
+                },
+                "Chicken": {
+                  "average": "0.5",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.875,
+                    0.975,
+                    0.975,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.875,
+                    0.025
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.5
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                }
+              },
+              "support": "weak support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "World Modelling",
+          "support": "strong support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "weakly demanding",
+          "evidencers": [
+            {
+              "demandingness": "weakly undemanding",
+              "name": "Somatotopic Neural Maps",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Chicken": {
+                  "average": "1.0",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.875,
+                    0.875,
+                    0.975,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.875
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly undemanding",
+              "name": "Has Retinotopic Neural Maps",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.17666666666666666667",
+                  "std": 0.18006171781426006
+                },
+                "Chicken": {
+                  "average": "0.65",
+                  "std": 0.1
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.975,
+                    0.875,
+                    0.975,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.125
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Isomorphic Representations",
+          "support": "moderate support",
+          "type": "Feature"
+        }
+      ],
+      "name": "Representationality",
+      "support": "weak support",
+      "type": "Feature"
+    },
+    {
+      "demandingness": "moderately undemanding",
+      "evidencers": [
+        {
+          "demandingness": "neutral",
+          "name": "Concrete-Abstract Separation",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "0.55",
+              "std": 0.2857738033247041
+            },
+            "Chicken": {
+              "average": "0.3",
+              "std": 0.0
+            },
+            "ELIZA": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "1.0",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.975,
+                0.875,
+                0.975,
+                -1
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.7,
+                -1
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.975
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.5
+              ]
+            }
+          },
+          "support": "strong support",
+          "type": "Indicator"
+        }
+      ],
+      "name": "Hierarchical Organization",
+      "support": "weak support",
+      "type": "Feature"
+    },
+    {
+      "demandingness": "strongly demanding",
+      "evidencers": [
+        {
+          "demandingness": "neutral",
+          "evidencers": [
+            {
+              "demandingness": "neutral",
+              "name": "Functional Subparts",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.49285714285714285714",
+                  "std": 0.2782965676968308
+                },
+                "Chicken": {
+                  "average": "0.5",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "0.95",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.125,
+                    0.7,
+                    0.3,
+                    0.7
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    -1,
+                    0.5
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "strongly demanding",
+              "name": "Conflicting Subparts",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.52857142857142857143",
+                  "std": 0.1979486637221574
+                },
+                "Chicken": {
+                  "average": "0.375",
+                  "std": 0.125
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "0.7",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "moderately undemanding",
+              "name": "Information Transfer",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.53",
+                  "std": 0.19390719429665315
+                },
+                "Chicken": {
+                  "average": "0.675",
+                  "std": 0.025
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "0.8",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.975,
+                    0.7,
+                    0.975,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.875,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.5
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly undemanding",
+              "name": "Learning Transfer",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.69",
+                  "std": 0.16852299546352717
+                },
+                "Chicken": {
+                  "average": "0.65",
+                  "std": 0.05
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    -1,
+                    0.025,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "moderately demanding",
+              "name": "Information Transfer Architecture",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.775",
+                  "std": 0.04330127018922193
+                },
+                "Chicken": {
+                  "average": "0.575",
+                  "std": 0.025
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    -1,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.5,
+                    0.7
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.125
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Autonomous Subparts",
+          "support": "weak undermining",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "moderately demanding",
+          "evidencers": [
+            {
+              "demandingness": "moderately demanding",
+              "name": "Perspective-relative Representations",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.42333333333333333333",
+                  "std": 0.36851051545376556
+                },
+                "Chicken": {
+                  "average": "0.825",
+                  "std": 0.175
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.975,
+                    -1,
+                    0.975,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "moderately demanding",
+              "name": "Stable Personality",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.68571428571428571429",
+                  "std": 0.29846546308251687
+                },
+                "Chicken": {
+                  "average": "0.875",
+                  "std": 0.025
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.7,
+                    0.7,
+                    0.975,
+                    0.5
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.125,
+                    0.025
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                }
+              },
+              "support": "weak support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Point of View",
+          "support": "moderate support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "weakly demanding",
+          "evidencers": [
+            {
+              "demandingness": "moderately demanding",
+              "name": "Authoritative Representational Scheme",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.2",
+                  "std": 0.1224744871391589
+                },
+                "Chicken": {
+                  "average": "0.35",
+                  "std": 0.05
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "0.8",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    -1,
+                    0.025,
+                    0.125
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.125,
+                    0.125
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly demanding",
+              "name": "Unified Egocentric Representations",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.40333333333333333333",
+                  "std": 0.3474510357190236
+                },
+                "Chicken": {
+                  "average": "0.7",
+                  "std": 0.05
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.7,
+                    0.7,
+                    0.7,
+                    0.125
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.5,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "neutral",
+              "name": "Distinguishes Self-Produced from Other-Produced Behavior",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.53571428571428571429",
+                  "std": 0.35728568572570857
+                },
+                "Chicken": {
+                  "average": "0.55",
+                  "std": 0.25
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.7,
+                    0.7,
+                    0.7,
+                    0.3
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.5,
+                    0.125
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.3
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Common Representational Scheme",
+          "support": "moderate support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "neutral",
+          "evidencers": [
+            {
+              "demandingness": "moderately demanding",
+              "name": "Stable Personality",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.68571428571428571429",
+                  "std": 0.29846546308251687
+                },
+                "Chicken": {
+                  "average": "0.875",
+                  "std": 0.025
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.875,
+                    0.3,
+                    0.025,
+                    0.7
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.7,
+                    0.7
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly undemanding",
+              "name": "Persistence Seeking",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.41428571428571428571",
+                  "std": 0.22154374884672604
+                },
+                "Chicken": {
+                  "average": "0.875",
+                  "std": 0.125
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.975,
+                    0.975,
+                    0.7,
+                    0.7
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.7,
+                    0.875
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "weak support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly demanding",
+              "name": "Stable Social Interactions",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.62857142857142857143",
+                  "std": 0.3749829928116196
+                },
+                "Chicken": {
+                  "average": "0.675",
+                  "std": 0.025
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.5,
+                    0.975,
+                    0.5,
+                    0.7
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.5,
+                    0.5
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Social Coherence",
+          "support": "moderate support",
+          "type": "Feature"
+        }
+      ],
+      "name": "Coherence",
+      "support": "strong support",
+      "type": "Feature"
+    },
+    {
+      "demandingness": "moderately demanding",
+      "evidencers": [
+        {
+          "demandingness": "moderately undemanding",
+          "name": "Cross-Modal Learning Deficits",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "0.51428571428571428571",
+              "std": 0.24743582965269675
+            },
+            "Chicken": {
+              "average": "0.675",
+              "std": 0.075
+            },
+            "ELIZA": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "0.8",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.975,
+                0.975,
+                0.975,
+                0.975
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.875,
+                0.3
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.025
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.875
+              ]
+            }
+          },
+          "support": "strong support",
+          "type": "Indicator"
+        },
+        {
+          "demandingness": "moderately demanding",
+          "name": "Selective Competence Disruption",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "0.67",
+              "std": 0.26758176320519306
+            },
+            "Chicken": {
+              "average": "0.85",
+              "std": 0.15
+            },
+            "ELIZA": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "1.0",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.025,
+                0.125,
+                0.025,
+                0.025
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.025,
+                0.125
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.025
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.025
+              ]
+            }
+          },
+          "support": "strong support",
+          "type": "Indicator"
+        },
+        {
+          "demandingness": "moderately demanding",
+          "name": "Poorly Intraconnected Networks",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "0.58571428571428571429",
+              "std": 0.26553757564915864
+            },
+            "Chicken": {
+              "average": "0.825",
+              "std": 0.125
+            },
+            "ELIZA": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "1.0",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.025,
+                0.975,
+                0.025,
+                0.7
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.025,
+                0.025
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.5
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.3
+              ]
+            }
+          },
+          "support": "moderate support",
+          "type": "Indicator"
+        },
+        {
+          "demandingness": "moderately demanding",
+          "name": "Dedicated Speech Systems",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "1.0",
+              "std": 0.0
+            },
+            "Chicken": {
+              "average": "0.5",
+              "std": 0.0
+            },
+            "ELIZA": {
+              "average": "1.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "1.0",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.125,
+                0.025,
+                0.025,
+                0.025
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.7,
+                0.7
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.025
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.125
+              ]
+            }
+          },
+          "support": "moderate support",
+          "type": "Indicator"
+        },
+        {
+          "demandingness": "weakly undemanding",
+          "name": "Dedicated Action Systems",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Chicken": {
+              "average": "1.0",
+              "std": 0.0
+            },
+            "ELIZA": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "1.0",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.875,
+                0.125,
+                0.875,
+                0.025
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.875,
+                0.5
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.5
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.3
+              ]
+            }
+          },
+          "support": "strong support",
+          "type": "Indicator"
+        },
+        {
+          "demandingness": "moderately undemanding",
+          "name": "Dedicated Sensory Systems",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Chicken": {
+              "average": "1.0",
+              "std": 0.0
+            },
+            "ELIZA": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "1.0",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.025,
+                0.025,
+                0.5,
+                0.025
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.5,
+                0.875
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.875
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.125
+              ]
+            }
+          },
+          "support": "strong support",
+          "type": "Indicator"
+        }
+      ],
+      "name": "Modularity",
+      "support": "weak support",
+      "type": "Feature"
+    },
+    {
+      "demandingness": "weakly undemanding",
+      "evidencers": [
+        {
+          "demandingness": "weakly demanding",
+          "evidencers": [
+            {
+              "demandingness": "weakly demanding",
+              "name": "Diversity of Tasks",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.92142857142857142857",
+                  "std": 0.08390957231764808
+                },
+                "Chicken": {
+                  "average": "0.8",
+                  "std": 0.15
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    0.975,
+                    0.025,
+                    0.875
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.125,
+                    0.025
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.125
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "moderately undemanding",
+              "name": "Variability of Responses to Stimuli",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.64571428571428571429",
+                  "std": 0.2807569942065885
+                },
+                "Chicken": {
+                  "average": "0.68333333333333333333",
+                  "std": 0.24608038433722335
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.875,
+                    -1,
+                    0.975,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.7,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "weak support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Functional Diversity",
+          "support": "moderate support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "moderately demanding",
+          "evidencers": [
+            {
+              "demandingness": "moderately demanding",
+              "evidencers": [],
+              "name": "Efficient Problem-Solving",
+              "support": "moderate support",
+              "type": "Feature"
+            },
+            {
+              "demandingness": "neutral",
+              "name": "Optimized Componentry",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Chicken": {
+                  "average": "1.0",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025,
+                    0.3,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.7,
+                    0.125
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.125
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                }
+              },
+              "support": "weak support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "neutral",
+              "name": "Compressibility",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.64166666666666666667",
+                  "std": 0.18352262954621032
+                },
+                "Chicken": {
+                  "average": "0.9",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.3,
+                    -1,
+                    0.875,
+                    0.125
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    -1,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "neutral",
+              "evidencers": [],
+              "name": "Efficient Network Topology",
+              "support": "moderate support",
+              "type": "Feature"
+            }
+          ],
+          "name": "Informational Complexity",
+          "support": "strong support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "strongly demanding",
+          "evidencers": [
+            {
+              "demandingness": "neutral",
+              "name": "Functional Specialization",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.69375",
+                  "std": 0.25302853099996453
+                },
+                "Chicken": {
+                  "average": "0.875",
+                  "std": 0.125
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.975,
+                    0.975,
+                    0.7,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "moderately demanding",
+              "name": "Number of Layers",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "1.0",
+                  "std": 0.0
+                },
+                "Chicken": {
+                  "average": "1.0",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.875,
+                    0.7
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.5
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly demanding",
+              "name": "Number of Nodes",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.56",
+                  "std": 0.0
+                },
+                "Chicken": {
+                  "average": "0.67",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.7,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.125
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly demanding",
+              "name": "Number of Connections",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.48",
+                  "std": 0.0
+                },
+                "Chicken": {
+                  "average": "0.6",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.7,
+                    0.025,
+                    0.5,
+                    0.3
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.5
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Structural Complexity",
+          "support": "strong support",
+          "type": "Feature"
+        }
+      ],
+      "name": "Complexity",
+      "support": "strong support",
+      "type": "Feature"
+    },
+    {
+      "demandingness": "moderately demanding",
+      "evidencers": [
+        {
+          "demandingness": "weakly undemanding",
+          "evidencers": [
+            {
+              "demandingness": "neutral",
+              "name": "Threshold Activation",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.41666666666666666667",
+                  "std": 0.34237730973623565
+                },
+                "Chicken": {
+                  "average": "0.75",
+                  "std": 0.05
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    -1,
+                    0.025,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.875,
+                    0.875
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly undemanding",
+              "name": "Self-Sustained Activity",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.28333333333333333333",
+                  "std": 0.26562295750848713
+                },
+                "Chicken": {
+                  "average": "0.825",
+                  "std": 0.025
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.975,
+                    0.975,
+                    0.975,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.875,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Non-Linear Capabilities",
+          "support": "moderate support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "moderately demanding",
+          "evidencers": [
+            {
+              "demandingness": "moderately demanding",
+              "name": "Task Focus",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.51666666666666666667",
+                  "std": 0.3387066905483596
+                },
+                "Chicken": {
+                  "average": "0.75",
+                  "std": 0.1
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.875,
+                    0.7,
+                    0.125,
+                    0.7
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.3,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.3
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.7
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "moderately demanding",
+              "name": "Goal Focus Shifts",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.49714285714285714286",
+                  "std": 0.26815316975374276
+                },
+                "Chicken": {
+                  "average": "0.75",
+                  "std": 0.15
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.5,
+                    0.7,
+                    0.125,
+                    0.3
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.025,
+                    0.125
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly demanding",
+              "name": "Inattentional Blindness",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.48",
+                  "std": 0.24617067250182342
+                },
+                "Chicken": {
+                  "average": "0.8",
+                  "std": 0.1
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    -1,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.125,
+                    0.875
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Adaptive Focus",
+          "support": "strong support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "weakly demanding",
+          "evidencers": [
+            {
+              "demandingness": "moderately demanding",
+              "name": "Informational Bottleneck",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.37857142857142857143",
+                  "std": 0.3400180067260544
+                },
+                "Chicken": {
+                  "average": "0.75",
+                  "std": 0.15
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.875,
+                    0.7
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.875
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "neutral",
+              "name": "Resource Adaptation",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.60857142857142857143",
+                  "std": 0.2878704357086744
+                },
+                "Chicken": {
+                  "average": "0.9",
+                  "std": 0.1
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.7,
+                    0.3,
+                    0.3,
+                    0.5
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.875,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "strong support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Attention-Constrained Architecture",
+          "support": "moderate support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "weakly demanding",
+          "evidencers": [
+            {
+              "demandingness": "moderately demanding",
+              "name": "Performance Degradation",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.47",
+                  "std": 0.34871191548325386
+                },
+                "Chicken": {
+                  "average": "0.85",
+                  "std": 0.0
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.3,
+                    -1,
+                    0.7,
+                    0.3
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly undemanding",
+              "name": "Priming Enhancement",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.91142857142857142857",
+                  "std": 0.06010195419417894
+                },
+                "Chicken": {
+                  "average": "0.875",
+                  "std": 0.025
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.5,
+                    0.875,
+                    0.3,
+                    0.7
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.875,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "weakly undemanding",
+              "name": "Coupling",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.36428571428571428571",
+                  "std": 0.32592098704428096
+                },
+                "Chicken": {
+                  "average": "0.775",
+                  "std": 0.125
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "0.8",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.025,
+                    0.025,
+                    0.025,
+                    0.025
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.975
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Performance Sensitivity",
+          "support": "moderate support",
+          "type": "Feature"
+        },
+        {
+          "demandingness": "weakly demanding",
+          "evidencers": [
+            {
+              "demandingness": "neutral",
+              "name": "Feature Binding",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.725",
+                  "std": 0.2968585521759479
+                },
+                "Chicken": {
+                  "average": "0.9",
+                  "std": 0.1
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.5,
+                    -1,
+                    0.025,
+                    0.3
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.875
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.975
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            },
+            {
+              "demandingness": "moderately undemanding",
+              "name": "Adaptive Learning",
+              "observation_stats": {
+                "2024 Leading Chat LLMs": {
+                  "average": "0.32",
+                  "std": 0.3124099870362662
+                },
+                "Chicken": {
+                  "average": "0.85",
+                  "std": 0.05
+                },
+                "ELIZA": {
+                  "average": "0.0",
+                  "std": 0.0
+                },
+                "Human": {
+                  "average": "1.0",
+                  "std": 0.0
+                }
+              },
+              "observations": {
+                "2024 Leading Chat LLMs": {
+                  "names": [
+                    "Felix Binder",
+                    "Andreas Mogensen",
+                    "Derek Shiller",
+                    "Luhan Mikaelson"
+                  ],
+                  "values": [
+                    0.875,
+                    -1,
+                    0.975,
+                    0.975
+                  ]
+                },
+                "Chicken": {
+                  "names": [
+                    "Rachael Miller",
+                    "Hayley chickens"
+                  ],
+                  "values": [
+                    0.975,
+                    0.7
+                  ]
+                },
+                "ELIZA": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.875
+                  ]
+                },
+                "Human": {
+                  "names": [
+                    "Derek Shiller"
+                  ],
+                  "values": [
+                    0.025
+                  ]
+                }
+              },
+              "support": "moderate support",
+              "type": "Indicator"
+            }
+          ],
+          "name": "Capability Attention Modulation",
+          "support": "strong support",
+          "type": "Feature"
+        }
+      ],
+      "name": "Selective Attention",
+      "support": "strong support",
+      "type": "Feature"
+    },
+    {
+      "demandingness": "moderately demanding",
+      "evidencers": [
+        {
+          "demandingness": "moderately demanding",
+          "name": "Wiring Convergence",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "0.4625",
+              "std": 0.25950674365033366
+            },
+            "Chicken": {
+              "average": "0.85",
+              "std": 0.1
+            },
+            "ELIZA": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "1.0",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.3,
+                0.025,
+                0.5,
+                0.3
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.025,
+                0.025
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.025
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.875
+              ]
+            }
+          },
+          "support": "strong support",
+          "type": "Indicator"
+        },
+        {
+          "demandingness": "weakly undemanding",
+          "name": "Holistic Dependency",
+          "observation_stats": {
+            "2024 Leading Chat LLMs": {
+              "average": "0.4",
+              "std": 0.3968626966596886
+            },
+            "Chicken": {
+              "average": "0.875",
+              "std": 0.025
+            },
+            "ELIZA": {
+              "average": "0.0",
+              "std": 0.0
+            },
+            "Human": {
+              "average": "1.0",
+              "std": 0.0
+            }
+          },
+          "observations": {
+            "2024 Leading Chat LLMs": {
+              "names": [
+                "Felix Binder",
+                "Andreas Mogensen",
+                "Derek Shiller",
+                "Luhan Mikaelson"
+              ],
+              "values": [
+                0.3,
+                0.875,
+                0.7,
+                0.7
+              ]
+            },
+            "Chicken": {
+              "names": [
+                "Rachael Miller",
+                "Hayley chickens"
+              ],
+              "values": [
+                0.875,
+                0.125
+              ]
+            },
+            "ELIZA": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.5
+              ]
+            },
+            "Human": {
+              "names": [
+                "Derek Shiller"
+              ],
+              "values": [
+                0.875
+              ]
+            }
+          },
+          "support": "strong support",
+          "type": "Indicator"
+        }
+      ],
+      "name": "Integration",
+      "support": "strong support",
+      "type": "Feature"
+    }
+  ],
+  "last_updated": "2025-05-22T15:34:33.446Z",
+  "name": "Global Workspace Theory",
+  "type": "Stance"
+}

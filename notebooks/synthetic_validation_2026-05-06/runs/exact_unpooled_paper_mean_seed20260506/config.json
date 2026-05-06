@@ -1,0 +1,31 @@
+{
+  "created_at_utc": "2026-05-05T22:59:25.541180+00:00",
+  "edge_beta_source": "unpooled_paper_prior_means",
+  "indicator_leaf": "three_state_binomial_2",
+  "model_config": {
+    "BETA_ABS_BY_SUPPORT_DEMAND": false,
+    "INDICATOR_STATE_MODEL": "three_state",
+    "ORDINAL_BINS": [
+      0.05,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      0.95
+    ],
+    "POOL_BETAS_BY_LABEL": false,
+    "USE_EXPERT_SHIFTS": false,
+    "USE_HIERARCHICAL_EXPERT_CUTPOINTS": false
+  },
+  "observation_parameter_source": "results/gwt_exact_tree/three_state_pooled_abs_by_sd_exact_anchored.nc",
+  "run_id": "exact_unpooled_paper_mean_seed20260506",
+  "seed": 20260506,
+  "stance": "Global Workspace Theory",
+  "systems": [
+    "Human",
+    "Chicken",
+    "2024 Leading Chat LLMs",
+    "ELIZA"
+  ],
+  "tree_semantics": "exact_latent_state_tree"
+}

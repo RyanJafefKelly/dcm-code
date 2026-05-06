@@ -1,0 +1,123 @@
+{
+  "category_counts_by_system": {
+    "2024 Leading Chat LLMs": {
+      "0": 40,
+      "1": 19,
+      "2": 17,
+      "3": 31,
+      "4": 18,
+      "5": 25,
+      "6": 36
+    },
+    "Chicken": {
+      "0": 23,
+      "1": 9,
+      "2": 5,
+      "3": 12,
+      "4": 10,
+      "5": 16,
+      "6": 18
+    },
+    "ELIZA": {
+      "0": 15,
+      "1": 2,
+      "2": 2,
+      "3": 5,
+      "4": 10,
+      "5": 4,
+      "6": 12
+    },
+    "Human": {
+      "0": 16,
+      "1": 3,
+      "2": 2,
+      "3": 5,
+      "4": 5,
+      "5": 7,
+      "6": 12
+    }
+  },
+  "delta_j": {
+    "max": 0.30250000000000005,
+    "mean": 0.046989788458780296,
+    "mean_log_abs_plus_eps": -3.5146327989409283,
+    "median": 0.040438812887792476,
+    "median_log_abs_plus_eps": -3.208834854011867,
+    "min": -0.01908911712833282,
+    "n": 50
+  },
+  "eliza_bottom_category_mass": 0.3,
+  "human_top_category_mass": 0.24,
+  "internal_z_count_by_system": {
+    "2024 Leading Chat LLMs": 25,
+    "Chicken": 25,
+    "ELIZA": 25,
+    "Human": 25
+  },
+  "internal_z_ones_by_system": {
+    "2024 Leading Chat LLMs": 18,
+    "Chicken": 15,
+    "ELIZA": 14,
+    "Human": 19
+  },
+  "rating_counts_by_system": {
+    "2024 Leading Chat LLMs": 186,
+    "Chicken": 93,
+    "ELIZA": 50,
+    "Human": 50
+  },
+  "root_z_by_system": {
+    "2024 Leading Chat LLMs": 1,
+    "Chicken": 0,
+    "ELIZA": 0,
+    "Human": 1
+  },
+  "source_observed_reference": {
+    "category_counts_by_system": {
+      "2024 Leading Chat LLMs": {
+        "0": 30,
+        "1": 20,
+        "2": 18,
+        "3": 30,
+        "4": 25,
+        "5": 31,
+        "6": 32
+      },
+      "Chicken": {
+        "0": 0,
+        "1": 2,
+        "2": 4,
+        "3": 9,
+        "4": 31,
+        "5": 24,
+        "6": 23
+      },
+      "ELIZA": {
+        "0": 48,
+        "1": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 1
+      },
+      "Human": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 2,
+        "5": 4,
+        "6": 43
+      }
+    },
+    "eliza_bottom_category_mass": 0.96,
+    "human_top_category_mass": 0.86,
+    "rating_counts_by_system": {
+      "2024 Leading Chat LLMs": 186,
+      "Chicken": 93,
+      "ELIZA": 50,
+      "Human": 50
+    }
+  }
+}

@@ -1,0 +1,17 @@
+dgp,fit,leaf,design,nuisance_truth,audit,scope,system,reference_C,comparison_C,abs_delta_C,kl_marginal_nats,kl_per_rating,rating_count
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,2024 Leading Chat LLMs,0.1,0.001,0.099,0.10490681360713508,0.0005640151269200811,186
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,2024 Leading Chat LLMs,0.1,0.1,0.0,0.0,0.0,186
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,2024 Leading Chat LLMs,0.1,0.25,0.15,0.23209735235093282,0.001247835227693187,186
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,2024 Leading Chat LLMs,0.1,0.999,0.899,8.939806156197431,0.048063473958050704,186
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,Chicken,0.25,0.001,0.249,0.3389360943487814,0.0036444741327825957,93
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,Chicken,0.25,0.1,0.15,0.12107695080673929,0.0013019026968466591,93
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,Chicken,0.25,0.25,0.0,0.0,0.0,93
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,Chicken,0.25,0.999,0.749,3.2454381878597314,0.034897184815696036,93
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,ELIZA,0.001,0.001,0.0,0.0,0.0,50
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,ELIZA,0.001,0.1,0.099,0.02723181799795952,0.0005446363599591904,50
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,ELIZA,0.001,0.25,0.249,0.1688728817138943,0.0033774576342778862,50
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,ELIZA,0.001,0.999,0.998,2.87493837103746,0.0574987674207492,50
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,Human,0.999,0.001,0.998,2.7364666157001096,0.05472933231400219,50
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,Human,0.999,0.1,0.899,2.212020221684619,0.04424040443369238,50
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,Human,0.999,0.25,0.749,1.5399031809464645,0.03079806361892929,50
+exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,exact_tree_production_medians,root_signal,system,Human,0.999,0.999,0.0,0.0,0.0,50

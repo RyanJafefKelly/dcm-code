@@ -1,0 +1,1834 @@
+{
+  "category_representatives": [
+    0.025,
+    0.125,
+    0.3,
+    0.5,
+    0.7,
+    0.875,
+    0.975
+  ],
+  "edge_betas": {
+    "Global Workspace Theory > Coherence": {
+      "beta_abs": 0.10156225083779936,
+      "beta_pres": 0.7979354739553153,
+      "delta": 0.6963732231175159,
+      "demandingness": "strongly demanding",
+      "node_name": "Coherence",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Coherence > Autonomous Subparts": {
+      "beta_abs": 0.4870543563304338,
+      "beta_pres": 0.4570038041913731,
+      "delta": -0.030050552139060716,
+      "demandingness": "neutral",
+      "node_name": "Autonomous Subparts",
+      "node_type": "feature",
+      "support": "weak undermining"
+    },
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": {
+      "beta_abs": 0.12155430769091663,
+      "beta_pres": 0.6384525086871429,
+      "delta": 0.5168982009962262,
+      "demandingness": "strongly demanding",
+      "node_name": "Conflicting Subparts",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": {
+      "beta_abs": 0.4019584778791272,
+      "beta_pres": 0.800070964229312,
+      "delta": 0.3981124863501848,
+      "demandingness": "neutral",
+      "node_name": "Functional Subparts",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": {
+      "beta_abs": 0.6389513159466798,
+      "beta_pres": 0.8888837493824054,
+      "delta": 0.2499324334357257,
+      "demandingness": "moderately undemanding",
+      "node_name": "Information Transfer",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Information Transfer Architecture",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": {
+      "beta_abs": 0.3912527556246291,
+      "beta_pres": 0.8586701611233953,
+      "delta": 0.46741740549876626,
+      "demandingness": "weakly undemanding",
+      "node_name": "Learning Transfer",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Common Representational Scheme": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Common Representational Scheme",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Authoritative Representational Scheme",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": {
+      "beta_abs": 0.4019584778791272,
+      "beta_pres": 0.800070964229312,
+      "delta": 0.3981124863501848,
+      "demandingness": "neutral",
+      "node_name": "Distinguishes Self-Produced from Other-Produced Behavior",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": {
+      "beta_abs": 0.32993929915827946,
+      "beta_pres": 0.8581969292138683,
+      "delta": 0.5282576300555888,
+      "demandingness": "weakly demanding",
+      "node_name": "Unified Egocentric Representations",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Coherence > Point of View": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Point of View",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Perspective-relative Representations",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Coherence > Point of View > Stable Personality": {
+      "beta_abs": 0.2332959659893026,
+      "beta_pres": 0.560047800174686,
+      "delta": 0.32675183418538345,
+      "demandingness": "moderately demanding",
+      "node_name": "Stable Personality",
+      "node_type": "indicator",
+      "support": "weak support"
+    },
+    "Global Workspace Theory > Coherence > Social Coherence": {
+      "beta_abs": 0.4019584778791272,
+      "beta_pres": 0.800070964229312,
+      "delta": 0.3981124863501848,
+      "demandingness": "neutral",
+      "node_name": "Social Coherence",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": {
+      "beta_abs": 0.5258744494348768,
+      "beta_pres": 0.7055114197117434,
+      "delta": 0.17963697027686654,
+      "demandingness": "weakly undemanding",
+      "node_name": "Persistence Seeking",
+      "node_type": "indicator",
+      "support": "weak support"
+    },
+    "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Stable Personality",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": {
+      "beta_abs": 0.32993929915827946,
+      "beta_pres": 0.8581969292138683,
+      "delta": 0.5282576300555888,
+      "demandingness": "weakly demanding",
+      "node_name": "Stable Social Interactions",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Complexity": {
+      "beta_abs": 0.3969036303573165,
+      "beta_pres": 0.9205216626808573,
+      "delta": 0.5236180323235409,
+      "demandingness": "weakly undemanding",
+      "node_name": "Complexity",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Complexity > Functional Diversity": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Functional Diversity",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": {
+      "beta_abs": 0.32993929915827946,
+      "beta_pres": 0.8581969292138683,
+      "delta": 0.5282576300555888,
+      "demandingness": "weakly demanding",
+      "node_name": "Diversity of Tasks",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": {
+      "beta_abs": 0.6298719913082595,
+      "beta_pres": 0.8265237784608894,
+      "delta": 0.19665178715262988,
+      "demandingness": "moderately undemanding",
+      "node_name": "Variability of Responses to Stimuli",
+      "node_type": "indicator",
+      "support": "weak support"
+    },
+    "Global Workspace Theory > Complexity > Informational Complexity": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Informational Complexity",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": {
+      "beta_abs": 0.4019584778791272,
+      "beta_pres": 0.800070964229312,
+      "delta": 0.3981124863501848,
+      "demandingness": "neutral",
+      "node_name": "Compressibility",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Complexity > Informational Complexity > Efficient Network Topology": {
+      "beta_abs": 0.4019584778791272,
+      "beta_pres": 0.800070964229312,
+      "delta": 0.3981124863501848,
+      "demandingness": "neutral",
+      "node_name": "Efficient Network Topology",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Complexity > Informational Complexity > Efficient Problem-Solving": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Efficient Problem-Solving",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": {
+      "beta_abs": 0.43417415120952235,
+      "beta_pres": 0.6234429189806305,
+      "delta": 0.18926876777110818,
+      "demandingness": "neutral",
+      "node_name": "Optimized Componentry",
+      "node_type": "indicator",
+      "support": "weak support"
+    },
+    "Global Workspace Theory > Complexity > Structural Complexity": {
+      "beta_abs": 0.10156225083779936,
+      "beta_pres": 0.7979354739553153,
+      "delta": 0.6963732231175159,
+      "demandingness": "strongly demanding",
+      "node_name": "Structural Complexity",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": {
+      "beta_abs": 0.3996914320701517,
+      "beta_pres": 0.8817754922006148,
+      "delta": 0.4820840601304631,
+      "demandingness": "neutral",
+      "node_name": "Functional Specialization",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Number of Connections",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Number of Layers",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Number of Nodes",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Hierarchical Organization": {
+      "beta_abs": 0.6298719913082595,
+      "beta_pres": 0.8265237784608894,
+      "delta": 0.19665178715262988,
+      "demandingness": "moderately undemanding",
+      "node_name": "Hierarchical Organization",
+      "node_type": "feature",
+      "support": "weak support"
+    },
+    "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": {
+      "beta_abs": 0.3996914320701517,
+      "beta_pres": 0.8817754922006148,
+      "delta": 0.4820840601304631,
+      "demandingness": "neutral",
+      "node_name": "Concrete-Abstract Separation",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Integration": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Integration",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Integration > Holistic Dependency": {
+      "beta_abs": 0.3969036303573165,
+      "beta_pres": 0.9205216626808573,
+      "delta": 0.5236180323235409,
+      "demandingness": "weakly undemanding",
+      "node_name": "Holistic Dependency",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Integration > Wiring Convergence": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Wiring Convergence",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Modularity": {
+      "beta_abs": 0.2332959659893026,
+      "beta_pres": 0.560047800174686,
+      "delta": 0.32675183418538345,
+      "demandingness": "moderately demanding",
+      "node_name": "Modularity",
+      "node_type": "feature",
+      "support": "weak support"
+    },
+    "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": {
+      "beta_abs": 0.5886514926336597,
+      "beta_pres": 0.9598425445419301,
+      "delta": 0.3711910519082704,
+      "demandingness": "moderately undemanding",
+      "node_name": "Cross-Modal Learning Deficits",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Modularity > Dedicated Action Systems": {
+      "beta_abs": 0.3969036303573165,
+      "beta_pres": 0.9205216626808573,
+      "delta": 0.5236180323235409,
+      "demandingness": "weakly undemanding",
+      "node_name": "Dedicated Action Systems",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Modularity > Dedicated Sensory Systems": {
+      "beta_abs": 0.5886514926336597,
+      "beta_pres": 0.9598425445419301,
+      "delta": 0.3711910519082704,
+      "demandingness": "moderately undemanding",
+      "node_name": "Dedicated Sensory Systems",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Modularity > Dedicated Speech Systems": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Dedicated Speech Systems",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Poorly Intraconnected Networks",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Modularity > Selective Competence Disruption": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Selective Competence Disruption",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Representationality": {
+      "beta_abs": 0.869159106691928,
+      "beta_pres": 0.9250177775636342,
+      "delta": 0.05585867087170626,
+      "demandingness": "strongly undemanding",
+      "node_name": "Representationality",
+      "node_type": "feature",
+      "support": "weak support"
+    },
+    "Global Workspace Theory > Representationality > Conceptual Representations": {
+      "beta_abs": 0.32993929915827946,
+      "beta_pres": 0.8581969292138683,
+      "delta": 0.5282576300555888,
+      "demandingness": "weakly demanding",
+      "node_name": "Conceptual Representations",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Activation Steering Effects",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": {
+      "beta_abs": 0.10156225083779936,
+      "beta_pres": 0.7979354739553153,
+      "delta": 0.6963732231175159,
+      "demandingness": "strongly demanding",
+      "node_name": "Concept-Specific Ablation Effects",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": {
+      "beta_abs": 0.12155430769091663,
+      "beta_pres": 0.6384525086871429,
+      "delta": 0.5168982009962262,
+      "demandingness": "strongly demanding",
+      "node_name": "Probe-Detectable Themes",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Representationality > Isomorphic Representations": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Isomorphic Representations",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": {
+      "beta_abs": 0.3969036303573165,
+      "beta_pres": 0.9205216626808573,
+      "delta": 0.5236180323235409,
+      "demandingness": "weakly undemanding",
+      "node_name": "Has Retinotopic Neural Maps",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": {
+      "beta_abs": 0.3912527556246291,
+      "beta_pres": 0.8586701611233953,
+      "delta": 0.46741740549876626,
+      "demandingness": "weakly undemanding",
+      "node_name": "Somatotopic Neural Maps",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Representationality > Propositional Representations": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Propositional Representations",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Logical Inference",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Representationality > World Modelling": {
+      "beta_abs": 0.10156225083779936,
+      "beta_pres": 0.7979354739553153,
+      "delta": 0.6963732231175159,
+      "demandingness": "strongly demanding",
+      "node_name": "World Modelling",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": {
+      "beta_abs": 0.6298719913082595,
+      "beta_pres": 0.8265237784608894,
+      "delta": 0.19665178715262988,
+      "demandingness": "moderately undemanding",
+      "node_name": "Broad Predictive Training",
+      "node_type": "indicator",
+      "support": "weak support"
+    },
+    "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": {
+      "beta_abs": 0.32993929915827946,
+      "beta_pres": 0.8581969292138683,
+      "delta": 0.5282576300555888,
+      "demandingness": "weakly demanding",
+      "node_name": "Model Isomorphism",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Selective Attention": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Selective Attention",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Selective Attention > Adaptive Focus": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Adaptive Focus",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Goal Focus Shifts",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Inattentional Blindness",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Task Focus",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Attention-Constrained Architecture",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": {
+      "beta_abs": 0.21587260411564355,
+      "beta_pres": 0.8652906577456392,
+      "delta": 0.6494180536299956,
+      "demandingness": "moderately demanding",
+      "node_name": "Informational Bottleneck",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": {
+      "beta_abs": 0.3996914320701517,
+      "beta_pres": 0.8817754922006148,
+      "delta": 0.4820840601304631,
+      "demandingness": "neutral",
+      "node_name": "Resource Adaptation",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Selective Attention > Capability Attention Modulation": {
+      "beta_abs": 0.32993929915827946,
+      "beta_pres": 0.8581969292138683,
+      "delta": 0.5282576300555888,
+      "demandingness": "weakly demanding",
+      "node_name": "Capability Attention Modulation",
+      "node_type": "feature",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": {
+      "beta_abs": 0.6389513159466798,
+      "beta_pres": 0.8888837493824054,
+      "delta": 0.2499324334357257,
+      "demandingness": "moderately undemanding",
+      "node_name": "Adaptive Learning",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": {
+      "beta_abs": 0.4019584778791272,
+      "beta_pres": 0.800070964229312,
+      "delta": 0.3981124863501848,
+      "demandingness": "neutral",
+      "node_name": "Feature Binding",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Non-Linear Capabilities": {
+      "beta_abs": 0.3912527556246291,
+      "beta_pres": 0.8586701611233953,
+      "delta": 0.46741740549876626,
+      "demandingness": "weakly undemanding",
+      "node_name": "Non-Linear Capabilities",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": {
+      "beta_abs": 0.3912527556246291,
+      "beta_pres": 0.8586701611233953,
+      "delta": 0.46741740549876626,
+      "demandingness": "weakly undemanding",
+      "node_name": "Self-Sustained Activity",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": {
+      "beta_abs": 0.3996914320701517,
+      "beta_pres": 0.8817754922006148,
+      "delta": 0.4820840601304631,
+      "demandingness": "neutral",
+      "node_name": "Threshold Activation",
+      "node_type": "indicator",
+      "support": "strong support"
+    },
+    "Global Workspace Theory > Selective Attention > Performance Sensitivity": {
+      "beta_abs": 0.2863762716993723,
+      "beta_pres": 0.7510862838496203,
+      "delta": 0.464710012150248,
+      "demandingness": "weakly demanding",
+      "node_name": "Performance Sensitivity",
+      "node_type": "feature",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": {
+      "beta_abs": 0.3912527556246291,
+      "beta_pres": 0.8586701611233953,
+      "delta": 0.46741740549876626,
+      "demandingness": "weakly undemanding",
+      "node_name": "Coupling",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": {
+      "beta_abs": 0.32484646175833376,
+      "beta_pres": 0.7999235885736562,
+      "delta": 0.47507712681532244,
+      "demandingness": "moderately demanding",
+      "node_name": "Performance Degradation",
+      "node_type": "indicator",
+      "support": "moderate support"
+    },
+    "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": {
+      "beta_abs": 0.3912527556246291,
+      "beta_pres": 0.8586701611233953,
+      "delta": 0.46741740549876626,
+      "demandingness": "weakly undemanding",
+      "node_name": "Priming Enhancement",
+      "node_type": "indicator",
+      "support": "moderate support"
+    }
+  },
+  "labels": {
+    "design": "current_gwt_rater_design",
+    "dgp": "exact_latent_tree",
+    "fit": "full_exact_tree",
+    "leaf": "three_state_binomial_2",
+    "nuisance_truth": "exact_tree_production_medians"
+  },
+  "latent_by_system": {
+    "2024 Leading Chat LLMs": {
+      "indicator_m": {
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": 1,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": 2,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": 0,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": 0,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": 1,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": 1,
+        "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": 2,
+        "Global Workspace Theory > Coherence > Point of View > Stable Personality": 2,
+        "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": 2,
+        "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": 1,
+        "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": 2,
+        "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": 1,
+        "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": 2,
+        "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": 1,
+        "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": 0,
+        "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": 2,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": 0,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": 0,
+        "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": 2,
+        "Global Workspace Theory > Integration > Holistic Dependency": 1,
+        "Global Workspace Theory > Integration > Wiring Convergence": 1,
+        "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": 2,
+        "Global Workspace Theory > Modularity > Dedicated Action Systems": 1,
+        "Global Workspace Theory > Modularity > Dedicated Sensory Systems": 0,
+        "Global Workspace Theory > Modularity > Dedicated Speech Systems": 0,
+        "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": 1,
+        "Global Workspace Theory > Modularity > Selective Competence Disruption": 0,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": 2,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": 2,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": 1,
+        "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": 2,
+        "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": 2,
+        "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": 0,
+        "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": 2,
+        "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": 1,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": 1,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": 0,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": 1,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": 1,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": 1,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": 2,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": 0,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": 2,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": 0,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": 0,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": 1,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": 1
+      },
+      "internal_z": {
+        "Global Workspace Theory > Coherence": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts": 0,
+        "Global Workspace Theory > Coherence > Common Representational Scheme": 0,
+        "Global Workspace Theory > Coherence > Point of View": 1,
+        "Global Workspace Theory > Coherence > Social Coherence": 1,
+        "Global Workspace Theory > Complexity": 0,
+        "Global Workspace Theory > Complexity > Functional Diversity": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity > Efficient Network Topology": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity > Efficient Problem-Solving": 0,
+        "Global Workspace Theory > Complexity > Structural Complexity": 0,
+        "Global Workspace Theory > Hierarchical Organization": 1,
+        "Global Workspace Theory > Integration": 0,
+        "Global Workspace Theory > Modularity": 0,
+        "Global Workspace Theory > Representationality": 1,
+        "Global Workspace Theory > Representationality > Conceptual Representations": 1,
+        "Global Workspace Theory > Representationality > Isomorphic Representations": 1,
+        "Global Workspace Theory > Representationality > Propositional Representations": 0,
+        "Global Workspace Theory > Representationality > World Modelling": 1,
+        "Global Workspace Theory > Selective Attention": 0,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus": 0,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture": 0,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation": 0,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities": 0,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity": 0
+      },
+      "root_z": 0
+    },
+    "Chicken": {
+      "indicator_m": {
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": 1,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": 2,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": 1,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": 0,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": 1,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": 1,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": 2,
+        "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": 0,
+        "Global Workspace Theory > Coherence > Point of View > Stable Personality": 0,
+        "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": 1,
+        "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": 1,
+        "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": 1,
+        "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": 0,
+        "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": 2,
+        "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": 1,
+        "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": 2,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": 0,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": 2,
+        "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": 1,
+        "Global Workspace Theory > Integration > Holistic Dependency": 1,
+        "Global Workspace Theory > Integration > Wiring Convergence": 0,
+        "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": 1,
+        "Global Workspace Theory > Modularity > Dedicated Action Systems": 1,
+        "Global Workspace Theory > Modularity > Dedicated Sensory Systems": 2,
+        "Global Workspace Theory > Modularity > Dedicated Speech Systems": 2,
+        "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": 0,
+        "Global Workspace Theory > Modularity > Selective Competence Disruption": 0,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": 2,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": 2,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": 2,
+        "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": 2,
+        "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": 2,
+        "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": 0,
+        "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": 1,
+        "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": 2,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": 0,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": 1,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": 1,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": 2,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": 2,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": 2,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": 2,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": 2,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": 1,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": 2,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": 2,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": 2
+      },
+      "internal_z": {
+        "Global Workspace Theory > Coherence": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts": 0,
+        "Global Workspace Theory > Coherence > Common Representational Scheme": 1,
+        "Global Workspace Theory > Coherence > Point of View": 0,
+        "Global Workspace Theory > Coherence > Social Coherence": 0,
+        "Global Workspace Theory > Complexity": 1,
+        "Global Workspace Theory > Complexity > Functional Diversity": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity > Efficient Network Topology": 1,
+        "Global Workspace Theory > Complexity > Informational Complexity > Efficient Problem-Solving": 0,
+        "Global Workspace Theory > Complexity > Structural Complexity": 1,
+        "Global Workspace Theory > Hierarchical Organization": 0,
+        "Global Workspace Theory > Integration": 0,
+        "Global Workspace Theory > Modularity": 0,
+        "Global Workspace Theory > Representationality": 1,
+        "Global Workspace Theory > Representationality > Conceptual Representations": 1,
+        "Global Workspace Theory > Representationality > Isomorphic Representations": 1,
+        "Global Workspace Theory > Representationality > Propositional Representations": 0,
+        "Global Workspace Theory > Representationality > World Modelling": 1,
+        "Global Workspace Theory > Selective Attention": 1,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus": 1,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture": 1,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation": 1,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities": 1,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity": 1
+      },
+      "root_z": 0
+    },
+    "ELIZA": {
+      "indicator_m": {
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": 2,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": 2,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": 1,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": 1,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": 0,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": 1,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": 2,
+        "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": 0,
+        "Global Workspace Theory > Coherence > Point of View > Stable Personality": 1,
+        "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": 2,
+        "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": 1,
+        "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": 2,
+        "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": 1,
+        "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": 2,
+        "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": 2,
+        "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": 0,
+        "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": 2,
+        "Global Workspace Theory > Integration > Holistic Dependency": 0,
+        "Global Workspace Theory > Integration > Wiring Convergence": 0,
+        "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": 0,
+        "Global Workspace Theory > Modularity > Dedicated Action Systems": 1,
+        "Global Workspace Theory > Modularity > Dedicated Sensory Systems": 1,
+        "Global Workspace Theory > Modularity > Dedicated Speech Systems": 0,
+        "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": 1,
+        "Global Workspace Theory > Modularity > Selective Competence Disruption": 0,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": 1,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": 2,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": 1,
+        "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": 0,
+        "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": 2,
+        "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": 1,
+        "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": 1,
+        "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": 1,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": 1,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": 0,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": 1,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": 0,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": 2,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": 1,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": 1,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": 1,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": 1,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": 0,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": 2,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": 1
+      },
+      "internal_z": {
+        "Global Workspace Theory > Coherence": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts": 1,
+        "Global Workspace Theory > Coherence > Common Representational Scheme": 0,
+        "Global Workspace Theory > Coherence > Point of View": 0,
+        "Global Workspace Theory > Coherence > Social Coherence": 1,
+        "Global Workspace Theory > Complexity": 0,
+        "Global Workspace Theory > Complexity > Functional Diversity": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity": 1,
+        "Global Workspace Theory > Complexity > Informational Complexity > Efficient Network Topology": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity > Efficient Problem-Solving": 0,
+        "Global Workspace Theory > Complexity > Structural Complexity": 0,
+        "Global Workspace Theory > Hierarchical Organization": 1,
+        "Global Workspace Theory > Integration": 0,
+        "Global Workspace Theory > Modularity": 0,
+        "Global Workspace Theory > Representationality": 1,
+        "Global Workspace Theory > Representationality > Conceptual Representations": 1,
+        "Global Workspace Theory > Representationality > Isomorphic Representations": 0,
+        "Global Workspace Theory > Representationality > Propositional Representations": 1,
+        "Global Workspace Theory > Representationality > World Modelling": 0,
+        "Global Workspace Theory > Selective Attention": 0,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus": 0,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture": 0,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation": 0,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities": 0,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity": 0
+      },
+      "root_z": 0
+    },
+    "Human": {
+      "indicator_m": {
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": 1,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": 1,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": 2,
+        "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": 2,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": 1,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": 1,
+        "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": 0,
+        "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": 0,
+        "Global Workspace Theory > Coherence > Point of View > Stable Personality": 1,
+        "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": 2,
+        "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": 2,
+        "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": 2,
+        "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": 1,
+        "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": 2,
+        "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": 1,
+        "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": 2,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": 0,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": 1,
+        "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": 0,
+        "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": 1,
+        "Global Workspace Theory > Integration > Holistic Dependency": 2,
+        "Global Workspace Theory > Integration > Wiring Convergence": 2,
+        "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": 2,
+        "Global Workspace Theory > Modularity > Dedicated Action Systems": 1,
+        "Global Workspace Theory > Modularity > Dedicated Sensory Systems": 1,
+        "Global Workspace Theory > Modularity > Dedicated Speech Systems": 0,
+        "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": 1,
+        "Global Workspace Theory > Modularity > Selective Competence Disruption": 0,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": 2,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": 1,
+        "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": 0,
+        "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": 1,
+        "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": 2,
+        "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": 1,
+        "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": 2,
+        "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": 2,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": 2,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": 1,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": 2,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": 2,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": 2,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": 0,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": 2,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": 2,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": 1,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": 2,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": 0,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": 2
+      },
+      "internal_z": {
+        "Global Workspace Theory > Coherence": 0,
+        "Global Workspace Theory > Coherence > Autonomous Subparts": 0,
+        "Global Workspace Theory > Coherence > Common Representational Scheme": 0,
+        "Global Workspace Theory > Coherence > Point of View": 0,
+        "Global Workspace Theory > Coherence > Social Coherence": 1,
+        "Global Workspace Theory > Complexity": 0,
+        "Global Workspace Theory > Complexity > Functional Diversity": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity": 0,
+        "Global Workspace Theory > Complexity > Informational Complexity > Efficient Network Topology": 1,
+        "Global Workspace Theory > Complexity > Informational Complexity > Efficient Problem-Solving": 0,
+        "Global Workspace Theory > Complexity > Structural Complexity": 0,
+        "Global Workspace Theory > Hierarchical Organization": 1,
+        "Global Workspace Theory > Integration": 1,
+        "Global Workspace Theory > Modularity": 0,
+        "Global Workspace Theory > Representationality": 1,
+        "Global Workspace Theory > Representationality > Conceptual Representations": 1,
+        "Global Workspace Theory > Representationality > Isomorphic Representations": 1,
+        "Global Workspace Theory > Representationality > Propositional Representations": 1,
+        "Global Workspace Theory > Representationality > World Modelling": 1,
+        "Global Workspace Theory > Selective Attention": 1,
+        "Global Workspace Theory > Selective Attention > Adaptive Focus": 1,
+        "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture": 1,
+        "Global Workspace Theory > Selective Attention > Capability Attention Modulation": 1,
+        "Global Workspace Theory > Selective Attention > Non-Linear Capabilities": 1,
+        "Global Workspace Theory > Selective Attention > Performance Sensitivity": 1
+      },
+      "root_z": 1
+    }
+  },
+  "observation_parameters": {
+    "a": 4.137660889976744,
+    "expert_shift": 0.0,
+    "kappa": [
+      1.0275199154347838,
+      1.4491911337698526,
+      1.7834771682836879,
+      2.3195987227068366,
+      3.0459405999192013,
+      3.813141096352558
+    ],
+    "source": "results/gwt_exact_tree/three_state_pooled_abs_by_sd_exact_anchored.nc",
+    "use_expert_shifts": false
+  },
+  "ordinal_by_system_indicator": {
+    "2024 Leading Chat LLMs": {
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": [
+        1,
+        4,
+        2,
+        4
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": [
+        6,
+        4,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": [
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": [
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": [
+        0,
+        0,
+        1
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": [
+        4,
+        4,
+        4,
+        2
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": [
+        4,
+        4,
+        4,
+        1
+      ],
+      "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": [
+        6,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Coherence > Point of View > Stable Personality": [
+        4,
+        4,
+        6,
+        3
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": [
+        6,
+        6,
+        4,
+        4
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": [
+        5,
+        2,
+        0,
+        4
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": [
+        3,
+        6,
+        3,
+        4
+      ],
+      "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": [
+        0,
+        6,
+        0,
+        5
+      ],
+      "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": [
+        5,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": [
+        2,
+        5,
+        1
+      ],
+      "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": [
+        0,
+        0,
+        2,
+        0
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": [
+        6,
+        6,
+        4,
+        6
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": [
+        4,
+        0,
+        3,
+        2
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": [
+        6,
+        5,
+        6
+      ],
+      "Global Workspace Theory > Integration > Holistic Dependency": [
+        2,
+        5,
+        4,
+        4
+      ],
+      "Global Workspace Theory > Integration > Wiring Convergence": [
+        2,
+        0,
+        3,
+        2
+      ],
+      "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Action Systems": [
+        5,
+        1,
+        5,
+        0
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Sensory Systems": [
+        0,
+        0,
+        3,
+        0
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Speech Systems": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": [
+        0,
+        6,
+        0,
+        4
+      ],
+      "Global Workspace Theory > Modularity > Selective Competence Disruption": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": [
+        6,
+        5,
+        6
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": [
+        6,
+        5,
+        5,
+        6
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": [
+        5,
+        3,
+        6,
+        5
+      ],
+      "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": [
+        6,
+        5,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": [
+        5,
+        5,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": [
+        5,
+        6,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": [
+        3,
+        3,
+        2
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": [
+        3,
+        4,
+        1,
+        2
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": [
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": [
+        5,
+        4,
+        1,
+        4
+      ],
+      "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": [
+        3,
+        3,
+        5,
+        4
+      ],
+      "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": [
+        4,
+        2,
+        2,
+        3
+      ],
+      "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": [
+        5,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": [
+        3,
+        0,
+        2
+      ],
+      "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": [
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": [
+        2,
+        4,
+        2
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": [
+        3,
+        5,
+        2,
+        4
+      ]
+    },
+    "Chicken": {
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": [
+        0,
+        0
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": [
+        3
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": [
+        5,
+        6
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": [
+        3,
+        4
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": [
+        0,
+        0
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": [
+        1,
+        1
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": [
+        3,
+        1
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": [
+        3,
+        6
+      ],
+      "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": [
+        0,
+        0
+      ],
+      "Global Workspace Theory > Coherence > Point of View > Stable Personality": [
+        1,
+        0
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": [
+        4,
+        5
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": [
+        4,
+        4
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": [
+        3,
+        3
+      ],
+      "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": [
+        1,
+        0
+      ],
+      "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": [
+        4,
+        6
+      ],
+      "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": [
+        6
+      ],
+      "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": [
+        4,
+        1
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": [
+        6,
+        6
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": [
+        0,
+        0
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": [
+        5,
+        4
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": [
+        4,
+        6
+      ],
+      "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": [
+        4
+      ],
+      "Global Workspace Theory > Integration > Holistic Dependency": [
+        5,
+        1
+      ],
+      "Global Workspace Theory > Integration > Wiring Convergence": [
+        0,
+        0
+      ],
+      "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": [
+        5,
+        2
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Action Systems": [
+        5,
+        3
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Sensory Systems": [
+        3,
+        5
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Speech Systems": [
+        4,
+        4
+      ],
+      "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": [
+        0,
+        0
+      ],
+      "Global Workspace Theory > Modularity > Selective Competence Disruption": [
+        0,
+        1
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": [],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": [
+        6
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": [
+        6,
+        6
+      ],
+      "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": [
+        6,
+        6
+      ],
+      "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": [
+        6,
+        5
+      ],
+      "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": [
+        0,
+        0
+      ],
+      "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": [
+        5,
+        0
+      ],
+      "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": [
+        0,
+        1
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": [
+        1,
+        5
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": [
+        2,
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": [
+        6,
+        5
+      ],
+      "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": [
+        5,
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": [
+        6,
+        4
+      ],
+      "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": [
+        6,
+        5
+      ],
+      "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": [
+        5,
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": [
+        5,
+        5
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": [
+        6,
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": [
+        6,
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": [
+        5,
+        6
+      ]
+    },
+    "ELIZA": {
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": [
+        4
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": [
+        3
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": [
+        1
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": [
+        6
+      ],
+      "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Point of View > Stable Personality": [
+        5
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": [
+        6
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": [
+        4
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": [
+        4
+      ],
+      "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": [
+        4
+      ],
+      "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": [
+        5
+      ],
+      "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": [
+        6
+      ],
+      "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": [
+        1
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": [
+        0
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": [
+        3
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": [
+        3
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": [
+        1
+      ],
+      "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": [
+        6
+      ],
+      "Global Workspace Theory > Integration > Holistic Dependency": [
+        3
+      ],
+      "Global Workspace Theory > Integration > Wiring Convergence": [
+        0
+      ],
+      "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": [
+        0
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Action Systems": [
+        3
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Sensory Systems": [
+        5
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Speech Systems": [
+        0
+      ],
+      "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": [
+        3
+      ],
+      "Global Workspace Theory > Modularity > Selective Competence Disruption": [
+        0
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": [
+        5
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": [
+        5
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": [
+        4
+      ],
+      "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": [
+        1
+      ],
+      "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": [
+        5
+      ],
+      "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": [
+        1
+      ],
+      "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": [
+        3
+      ],
+      "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": [
+        3
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": [
+        2
+      ],
+      "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": [
+        5
+      ],
+      "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": [
+        5
+      ],
+      "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": [
+        4
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": [
+        5
+      ]
+    },
+    "Human": {
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer": [
+        4
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture": [
+        5
+      ],
+      "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer": [
+        6
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme": [
+        5
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior": [
+        2
+      ],
+      "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations": [
+        0
+      ],
+      "Global Workspace Theory > Coherence > Point of View > Stable Personality": [
+        4
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking": [
+        6
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Stable Personality": [
+        4
+      ],
+      "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions": [
+        6
+      ],
+      "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks": [
+        1
+      ],
+      "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli": [
+        6
+      ],
+      "Global Workspace Theory > Complexity > Informational Complexity > Compressibility": [
+        0
+      ],
+      "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry": [
+        4
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization": [
+        5
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections": [
+        0
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers": [
+        4
+      ],
+      "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes": [
+        0
+      ],
+      "Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation": [
+        3
+      ],
+      "Global Workspace Theory > Integration > Holistic Dependency": [
+        5
+      ],
+      "Global Workspace Theory > Integration > Wiring Convergence": [
+        5
+      ],
+      "Global Workspace Theory > Modularity > Cross-Modal Learning Deficits": [
+        5
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Action Systems": [
+        2
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Sensory Systems": [
+        1
+      ],
+      "Global Workspace Theory > Modularity > Dedicated Speech Systems": [
+        1
+      ],
+      "Global Workspace Theory > Modularity > Poorly Intraconnected Networks": [
+        2
+      ],
+      "Global Workspace Theory > Modularity > Selective Competence Disruption": [
+        0
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects": [
+        6
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects": [
+        3
+      ],
+      "Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes": [
+        0
+      ],
+      "Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps": [
+        4
+      ],
+      "Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps": [
+        6
+      ],
+      "Global Workspace Theory > Representationality > Propositional Representations > Logical Inference": [
+        2
+      ],
+      "Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training": [
+        5
+      ],
+      "Global Workspace Theory > Representationality > World Modelling > Model Isomorphism": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus": [
+        4
+      ],
+      "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity": [
+        5
+      ],
+      "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling": [
+        6
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation": [
+        0
+      ],
+      "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement": [
+        6
+      ]
+    }
+  },
+  "seed": 20260509,
+  "true_C_by_system": {
+    "2024 Leading Chat LLMs": 0.1,
+    "Chicken": 0.25,
+    "ELIZA": 0.001,
+    "Human": 0.999
+  }
+}

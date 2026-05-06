@@ -1,0 +1,5 @@
+dgp,fit,leaf,nuisance_truth,design,estimand,system,is_hard_anchor,truth,posterior_mean,posterior_median,posterior_p03,posterior_p97,signed_error,abs_error,squared_error,interval_includes_truth
+exact_latent_tree,full_exact_tree,three_state_binomial_2,exact_tree_production_medians,current_gwt_rater_design,root_C,Human,True,0.999,0.9990000000000002,0.999,0.999,0.999,0.0,0.0,0.0,True
+exact_latent_tree,full_exact_tree,three_state_binomial_2,exact_tree_production_medians,current_gwt_rater_design,root_C,Chicken,False,0.25,0.14667698435108575,0.11251282115088296,0.0055823031617832945,0.4389194975231116,-0.13748717884911704,0.13748717884911704,0.018902724347889095,True
+exact_latent_tree,full_exact_tree,three_state_binomial_2,exact_tree_production_medians,current_gwt_rater_design,root_C,2024 Leading Chat LLMs,False,0.1,0.1949734338427968,0.15862363775692753,0.010053052949938367,0.546352409805349,0.05862363775692753,0.05862363775692753,0.0034367309038554586,True
+exact_latent_tree,full_exact_tree,three_state_binomial_2,exact_tree_production_medians,current_gwt_rater_design,root_C,ELIZA,True,0.001,0.0010000000000000005,0.001,0.001,0.001,0.0,0.0,0.0,True

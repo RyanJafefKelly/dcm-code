@@ -1,0 +1,94 @@
+{
+  "audit": "internal_node_identifiability",
+  "created_at_utc": "2026-05-06T00:02:18.339808+00:00",
+  "edge_beta_source": "paper_mean_tree_transmission",
+  "labels": {
+    "design": "current_gwt_rater_design",
+    "dgp": "exact_latent_tree",
+    "fit": "oracle",
+    "leaf": "three_state_binomial_2",
+    "nuisance_truth": "paper_mean_tree_transmission"
+  },
+  "model_config": {
+    "A_PRIOR_SIGMA": 2.0,
+    "BASE": 3,
+    "BETA_ABS_BY_SUPPORT_DEMAND": false,
+    "DATA_CACHE_PATH": "data_cache.json",
+    "DEFAULT_ALPHA": 1,
+    "DEFAULT_BETA": 5,
+    "EXPERT_SCALE_TAU_SIGMA": 0.3,
+    "EXPERT_SHIFT_SIGMA": 2.0,
+    "GAIN_LOGIT_NORMAL": false,
+    "GAIN_LOGIT_NORMAL_SIGMA": 0.5,
+    "HIER_KAPPA_EXPERT_SCALE_SIGMA": 0.15,
+    "HIER_KAPPA_GLOBAL_LOG_GAP_MU": -0.5,
+    "HIER_KAPPA_GLOBAL_LOG_GAP_SIGMA": 0.35,
+    "INDICATOR_STATE_MODEL": "three_state",
+    "KAPPA_PRIOR_SIGMA": 2.0,
+    "LABEL_POOL_SIGMA": 0.5,
+    "MODERATE": 3,
+    "NODE_CONCENTRATION": 10.0,
+    "NUM_CHAINS": 4,
+    "NUM_SAMPLES": 3000,
+    "NUM_TUNE": 500,
+    "N_CATEGORIES": 7,
+    "ORDINAL_BINS": [
+      0.05,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      0.95
+    ],
+    "OVERWHELMING": 50,
+    "POOL_BETAS_BY_LABEL": false,
+    "SOFT_REFERENCE_ANCHORS": null,
+    "STRONG": 8,
+    "TARGET_ACCEPT": 0.9,
+    "TARGET_STANCE": "Global Workspace Theory",
+    "TARGET_SYSTEM": "2024 Leading Chat LLMs",
+    "TRANSMISSION_GAIN": 1.0,
+    "USE_EXPERT_SCALES": false,
+    "USE_EXPERT_SHIFTS": false,
+    "USE_HIERARCHICAL_EXPERT_CUTPOINTS": false,
+    "WEAK": 1.5
+  },
+  "model_config_note": "Used for data loading and oracle semantic metadata. Edge betas are fixed from edge_beta_source rather than sampled from this config.",
+  "n_simulations": 50,
+  "observation_parameters": {
+    "a": 4.137660889976744,
+    "expert_shift": 0.0,
+    "kappa": [
+      1.0275199154347838,
+      1.4491911337698526,
+      1.7834771682836879,
+      2.3195987227068366,
+      3.0459405999192013,
+      3.813141096352558
+    ],
+    "source": "results/gwt_exact_tree/three_state_pooled_abs_by_sd_exact_anchored.nc",
+    "use_expert_shifts": false
+  },
+  "outputs": {
+    "calibration": "calibration.csv",
+    "node_probabilities": "node_probabilities.csv",
+    "overall_summary": "overall_summary.csv",
+    "stratified_summary": "stratified_summary.csv",
+    "summary": "summary.md"
+  },
+  "production_fit_source": "results/gwt_exact_tree/three_state_pooled_abs_by_sd_exact_anchored.nc",
+  "seed": 20260506,
+  "stance": "Global Workspace Theory",
+  "systems": [
+    "Human",
+    "Chicken",
+    "2024 Leading Chat LLMs",
+    "ELIZA"
+  ],
+  "true_C_by_system": {
+    "2024 Leading Chat LLMs": 0.1,
+    "Chicken": 0.25,
+    "ELIZA": 0.001,
+    "Human": 0.999
+  }
+}

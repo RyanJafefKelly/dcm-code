@@ -1,0 +1,2 @@
+nuisance_truth,n,mean_posterior_p,empirical_z_rate,mean_prior_entropy,mean_posterior_entropy,mean_entropy_reduction,mean_relative_entropy_reduction,mean_brier,mean_neg_log_score,dgp,fit,leaf,design,audit
+exact_tree_production_medians,300,0.5062793308705185,0.5333333333333333,0.6042519239420016,0.333643383009433,0.27060854093256853,0.4455175972602246,0.09338211806244222,0.3040663059295094,exact_latent_tree,oracle,three_state_binomial_2,current_gwt_rater_design,internal_node_identifiability
