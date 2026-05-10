@@ -1,0 +1,5 @@
+scope,run,system,posterior_median,p03,p97,diagnostic_status,divergences,max_rhat
+real_data_ref_anchored,pres90_abs10_sig30,Human,0.999,0.999,0.999,passed,0,1.0
+real_data_ref_anchored,pres90_abs10_sig30,Chicken,0.26285821275466736,0.04450391203902719,0.627454770674297,passed,0,1.0
+real_data_ref_anchored,pres90_abs10_sig30,LLMs,0.26281414802747927,0.043554956879306404,0.6241088787130582,passed,0,1.0
+real_data_ref_anchored,pres90_abs10_sig30,ELIZA,0.001,0.001,0.001,passed,0,1.0

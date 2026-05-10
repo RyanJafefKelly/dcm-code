@@ -172,6 +172,19 @@ class ModelConfig:
     # the prior 0.5 under the new fit, the singleton has no direct
     # evidence and the inheritance interpretation is confirmed.
     BETA_ABS_BY_SUPPORT_DEMAND: bool = False
+    # Asymmetric prior overrides for the label-pool path.  When set, replace
+    # paper_mu(s,d) with the override value for ALL pres / abs groups, keeping
+    # the logit-Normal parameterisation.  Motivated by the 2026-05-07 finding
+    # that the paper-centred prior implies a small δ = β_pres − β_abs at every
+    # label and so transmits very little C signal down the tree (multiplicative
+    # collapse via q_child = β_abs + parent_q · (β_pres − β_abs)).  Setting
+    # β_pres → 1 and β_abs → 0 makes "this is a real evidencer" the prior
+    # default, restoring transmission.  Sigma override (defaults to
+    # LABEL_POOL_SIGMA) lets the override path be tighter than the data-pooled
+    # baseline, since the override values already encode strong prior belief.
+    BETA_PRES_OVERRIDE_MEAN: Optional[float] = None
+    BETA_ABS_OVERRIDE_MEAN: Optional[float] = None
+    BETA_OVERRIDE_SIGMA: Optional[float] = None
     # Soft reference-system anchors.  Per-system (alpha, beta) parameters for
     # a Beta prior on root C; overrides the hard anchor (c_fixed) from
     # system_configs for any system listed.  Used for anchor-defensibility
@@ -226,6 +239,24 @@ class ModelConfig:
                 "BETA_ABS_BY_SUPPORT_DEMAND requires POOL_BETAS_BY_LABEL=True. "
                 "It is a refinement of the pooling branch's abs grouping, not "
                 "a standalone parameterisation."
+            )
+        for name, val in (
+            ("BETA_PRES_OVERRIDE_MEAN", self.BETA_PRES_OVERRIDE_MEAN),
+            ("BETA_ABS_OVERRIDE_MEAN", self.BETA_ABS_OVERRIDE_MEAN),
+        ):
+            if val is not None:
+                if not self.POOL_BETAS_BY_LABEL:
+                    raise ValueError(
+                        f"{name} requires POOL_BETAS_BY_LABEL=True; the "
+                        "override is implemented in the label-pool path only."
+                    )
+                if not (0.0 < float(val) < 1.0):
+                    raise ValueError(
+                        f"{name} must be in the open interval (0, 1); got {val!r}."
+                    )
+        if self.BETA_OVERRIDE_SIGMA is not None and float(self.BETA_OVERRIDE_SIGMA) <= 0.0:
+            raise ValueError(
+                f"BETA_OVERRIDE_SIGMA must be positive; got {self.BETA_OVERRIDE_SIGMA!r}."
             )
 
 
@@ -1068,17 +1099,29 @@ def build_label_pool_hyperparameters(
     """
     pres_groups, abs_groups = collect_tree_label_groups(stance_data)
     sigma = config.LABEL_POOL_SIGMA
+    override_sigma = (
+        float(config.BETA_OVERRIDE_SIGMA)
+        if config.BETA_OVERRIDE_SIGMA is not None
+        else sigma
+    )
+    pres_override = config.BETA_PRES_OVERRIDE_MEAN
+    abs_override = config.BETA_ABS_OVERRIDE_MEAN
 
     beta_pres_by_group: Dict[Tuple[str, str], pt.TensorVariable] = {}
     for (s, d) in pres_groups:
-        alpha_p, beta_p, _, _ = evidence_processor.get_beta_parameters(s, d)
-        paper_mu = alpha_p / (alpha_p + beta_p)
+        if pres_override is not None:
+            mu = float(pres_override)
+            sigma_used = override_sigma
+        else:
+            alpha_p, beta_p, _, _ = evidence_processor.get_beta_parameters(s, d)
+            mu = alpha_p / (alpha_p + beta_p)
+            sigma_used = sigma
         raw = pm.Normal(
             f"beta_pres_tilde__{_sanitize_label(s)}__{_sanitize_label(d)}",
             mu=0.0,
             sigma=1.0,
         )
-        logit_beta = pt.constant(_logit_np(paper_mu)) + sigma * raw
+        logit_beta = pt.constant(_logit_np(mu)) + sigma_used * raw
         beta = pm.Deterministic(
             f"beta_pres__{_sanitize_label(s)}__{_sanitize_label(d)}",
             pt.sigmoid(logit_beta),
@@ -1091,16 +1134,21 @@ def build_label_pool_hyperparameters(
         # still the paper's d-only β_abs mean (paper β_abs has no
         # support-dependence).  Only the grouping changes.
         for (s, d) in pres_groups:
-            _, _, alpha_a, beta_a = evidence_processor.get_beta_parameters(
-                "no bearing", d
-            )
-            paper_mu = alpha_a / (alpha_a + beta_a)
+            if abs_override is not None:
+                mu = float(abs_override)
+                sigma_used = override_sigma
+            else:
+                _, _, alpha_a, beta_a = evidence_processor.get_beta_parameters(
+                    "no bearing", d
+                )
+                mu = alpha_a / (alpha_a + beta_a)
+                sigma_used = sigma
             raw = pm.Normal(
                 f"beta_abs_tilde__{_sanitize_label(s)}__{_sanitize_label(d)}",
                 mu=0.0,
                 sigma=1.0,
             )
-            logit_beta = pt.constant(_logit_np(paper_mu)) + sigma * raw
+            logit_beta = pt.constant(_logit_np(mu)) + sigma_used * raw
             beta = pm.Deterministic(
                 f"beta_abs__{_sanitize_label(s)}__{_sanitize_label(d)}",
                 pt.sigmoid(logit_beta),
@@ -1108,16 +1156,21 @@ def build_label_pool_hyperparameters(
             beta_abs_by_group[(s, d)] = beta
     else:
         for d in abs_groups:
-            _, _, alpha_a, beta_a = evidence_processor.get_beta_parameters(
-                "no bearing", d
-            )
-            paper_mu = alpha_a / (alpha_a + beta_a)
+            if abs_override is not None:
+                mu = float(abs_override)
+                sigma_used = override_sigma
+            else:
+                _, _, alpha_a, beta_a = evidence_processor.get_beta_parameters(
+                    "no bearing", d
+                )
+                mu = alpha_a / (alpha_a + beta_a)
+                sigma_used = sigma
             raw = pm.Normal(
                 f"beta_abs_tilde__{_sanitize_label(d)}",
                 mu=0.0,
                 sigma=1.0,
             )
-            logit_beta = pt.constant(_logit_np(paper_mu)) + sigma * raw
+            logit_beta = pt.constant(_logit_np(mu)) + sigma_used * raw
             beta = pm.Deterministic(
                 f"beta_abs__{_sanitize_label(d)}",
                 pt.sigmoid(logit_beta),
