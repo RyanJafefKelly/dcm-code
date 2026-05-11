@@ -1,0 +1,54 @@
+# Main Synthetic Validation Recovery Ladder
+
+## Executive Summary
+
+The no-fit ladder checks progressively more DCM-like synthetic recovery before HMC validation.
+
+## Rung Pass/Fail Table
+
+| rung_id | rung | rung_description | sweep_beta_pres | sweep_beta_abs | system | n_cases | n_replicates | median_log_B_eff_R1 | median_log_B_eff_R0 | mean_rho_R1 | mean_rho_R0 | evidence_margin_M | evidence_margin_bootstrap_ci_low | evidence_margin_bootstrap_ci_high | evidence_margin_bootstrap_ci_crosses_0 | balanced_log_score_improvement_vs_prior | balanced_brier_improvement_vs_prior | TPR_at_rho_gt_0p5 | TNR_at_rho_le_0p5 | balanced_accuracy | pass_fail_label |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| L0 | L0 | toy depth-2 binary tree, all edges 0.90/0.10, binary noisy leaves | nan | nan | ALL | 1000 | 500 | 6.28 | -6.28 | 0.873 | 0.02907 | 4.67 | 4.668 | 4.67 | False | 0.8347 | 0.3183 | 0.93 | 0.976 | 0.953 | pass |
+| L0 | L0 | toy depth-2 binary tree, all edges 0.90/0.10, binary noisy leaves | nan | nan | Chicken | 500 | 500 | 6.28 | -6.28 | 0.869 | 0.03416 | 4.67 | 4.663 | 4.67 | False | 0.8302 | 0.3168 | 0.932 | 0.968 | 0.95 | pass |
+| L0 | L0 | toy depth-2 binary tree, all edges 0.90/0.10, binary noisy leaves | nan | nan | LLMs | 500 | 500 | 6.28 | -6.28 | 0.8769 | 0.02398 | 4.67 | 2.854 | 4.67 | False | 0.8393 | 0.3198 | 0.928 | 0.984 | 0.956 | pass |
+| L2 | L2 | toy depth-3 binary tree, all edges 0.90/0.10, binary noisy leaves | nan | nan | ALL | 1000 | 500 | 4.999 | -4.748 | 0.8336 | 0.03696 | 3.39 | 2.806 | 3.664 | False | 0.7975 | 0.3041 | 0.856 | 0.984 | 0.92 | pass |
+| L2 | L2 | toy depth-3 binary tree, all edges 0.90/0.10, binary noisy leaves | nan | nan | Chicken | 500 | 500 | 4.999 | -4.999 | 0.8326 | 0.03619 | 3.39 | 2.784 | 3.664 | False | 0.8049 | 0.3066 | 0.86 | 0.984 | 0.922 | pass |
+| L2 | L2 | toy depth-3 binary tree, all edges 0.90/0.10, binary noisy leaves | nan | nan | LLMs | 500 | 500 | 4.999 | -4.393 | 0.8346 | 0.03773 | 3.058 | 2.806 | 3.664 | False | 0.7901 | 0.3017 | 0.852 | 0.984 | 0.918 | pass |
+| L2_sweep__0p43_0p50 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.43 | 0.5 | ALL | 1000 | 500 | -0.007284 | -0.006998 | 0.1668 | 0.1669 | -1.617 | -1.617 | -1.602 | False | 0.0001118 | 5.856e-05 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p43_0p50 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.43 | 0.5 | Chicken | 500 | 500 | -0.007322 | -0.007322 | 0.1668 | 0.1669 | -1.617 | -1.617 | -1.602 | False | 1.144e-06 | 2.854e-05 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p43_0p50 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.43 | 0.5 | LLMs | 500 | 500 | 0.003614 | -0.006953 | 0.1668 | 0.1668 | -1.606 | -1.617 | -1.601 | False | 0.0002225 | 8.858e-05 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p55_0p45 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.55 | 0.45 | ALL | 1000 | 500 | 0 | -1.441e-08 | 0.1669 | 0.1664 | -1.609 | -1.609 | -1.609 | False | 0.0002122 | 0.0001851 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p55_0p45 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.55 | 0.45 | Chicken | 500 | 500 | -4.802e-09 | -2.473e-07 | 0.1669 | 0.1663 | -1.609 | -1.609 | -1.609 | False | 0.0001368 | 0.0001597 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p55_0p45 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.55 | 0.45 | LLMs | 500 | 500 | 1.746e-11 | 9.639e-09 | 0.167 | 0.1665 | -1.609 | -1.61 | -1.609 | False | 0.0002876 | 0.0002105 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p60_0p40 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.6 | 0.4 | ALL | 1000 | 500 | 1.165e-06 | -0.0005262 | 0.1732 | 0.164 | -1.609 | -1.609 | -1.609 | False | 0.01007 | 0.004696 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p60_0p40 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.6 | 0.4 | Chicken | 500 | 500 | 2.247e-06 | -0.0003664 | 0.1737 | 0.1647 | -1.609 | -1.609 | -1.487 | False | 0.01208 | 0.005051 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p60_0p40 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.6 | 0.4 | LLMs | 500 | 500 | 1.018e-06 | -0.0617 | 0.1727 | 0.1633 | -1.609 | -1.61 | -1.609 | False | 0.008054 | 0.004342 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p65_0p35 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.65 | 0.35 | ALL | 1000 | 500 | 0.2598 | -0.2605 | 0.2013 | 0.1549 | -1.35 | -1.609 | -1.348 | False | 0.05407 | 0.02411 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p65_0p35 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.65 | 0.35 | Chicken | 500 | 500 | 0.2605 | -0.2605 | 0.2026 | 0.1547 | -1.349 | -1.609 | -1.344 | False | 0.06451 | 0.02579 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p65_0p35 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.65 | 0.35 | LLMs | 500 | 500 | 0.004572 | -0.2605 | 0.2 | 0.1551 | -1.605 | -1.609 | -1.346 | False | 0.04362 | 0.02242 | 0 | 1 | 0.5 | fail |
+| L2_sweep__0p70_0p30 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.7 | 0.3 | ALL | 1000 | 500 | 0.4488 | -0.4488 | 0.2731 | 0.1356 | -1.161 | -1.162 | -1.161 | False | 0.16 | 0.06896 | 0.116 | 0.984 | 0.55 | fail |
+| L2_sweep__0p70_0p30 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.7 | 0.3 | Chicken | 500 | 500 | 0.4483 | -0.4488 | 0.268 | 0.1341 | -1.161 | -1.187 | -1.161 | False | 0.1652 | 0.06854 | 0.092 | 0.996 | 0.544 | fail |
+| L2_sweep__0p70_0p30 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.7 | 0.3 | LLMs | 500 | 500 | 0.4488 | -0.4488 | 0.2782 | 0.1371 | -1.161 | -1.162 | -1.147 | False | 0.1548 | 0.06937 | 0.14 | 0.972 | 0.556 | fail |
+| L2_sweep__0p80_0p20 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.8 | 0.2 | ALL | 1000 | 500 | 1.808 | -1.808 | 0.5449 | 0.09142 | 0.1985 | 0.1938 | 0.4729 | False | 0.4743 | 0.1955 | 0.55 | 0.964 | 0.757 | pass |
+| L2_sweep__0p80_0p20 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.8 | 0.2 | Chicken | 500 | 500 | 1.808 | -1.596 | 0.5479 | 0.09207 | 0.1985 | -0.01748 | 0.5289 | True | 0.5017 | 0.2014 | 0.544 | 0.976 | 0.76 | borderline |
+| L2_sweep__0p80_0p20 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.8 | 0.2 | LLMs | 500 | 500 | 1.808 | -1.808 | 0.5419 | 0.09078 | 0.1985 | -0.01308 | 0.6731 | True | 0.4469 | 0.1897 | 0.556 | 0.952 | 0.754 | borderline |
+| L2_sweep__0p90_0p10 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.9 | 0.1 | ALL | 1000 | 500 | 4.999 | -4.748 | 0.8336 | 0.03696 | 3.39 | 2.806 | 3.664 | False | 0.7975 | 0.3041 | 0.856 | 0.984 | 0.92 | pass |
+| L2_sweep__0p90_0p10 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.9 | 0.1 | Chicken | 500 | 500 | 4.999 | -4.999 | 0.8326 | 0.03619 | 3.39 | 2.538 | 3.664 | False | 0.8049 | 0.3066 | 0.86 | 0.984 | 0.922 | pass |
+| L2_sweep__0p90_0p10 | L2_sweep | toy depth-3 lower-edge gap sweep with root-to-top edges fixed at 0.90/0.10 | 0.9 | 0.1 | LLMs | 500 | 500 | 4.999 | -4.393 | 0.8346 | 0.03773 | 3.058 | 2.806 | 3.664 | False | 0.7901 | 0.3017 | 0.852 | 0.984 | 0.918 | pass |
+| L3 | L3 | actual GWT topology, all edges 0.90/0.10, binary noisy leaves | nan | nan | ALL | 1000 | 500 | 10.74 | -10.18 | 0.9819 | 0.004568 | 8.843 | 8.68 | 9.08 | False | 0.9682 | 0.3563 | 0.988 | 0.998 | 0.993 | pass |
+| L3 | L3 | actual GWT topology, all edges 0.90/0.10, binary noisy leaves | nan | nan | Chicken | 500 | 500 | 10.31 | -10.17 | 0.9884 | 0.00523 | 8.701 | 8.477 | 8.96 | False | 0.9769 | 0.3587 | 0.992 | 0.996 | 0.994 | pass |
+| L3 | L3 | actual GWT topology, all edges 0.90/0.10, binary noisy leaves | nan | nan | LLMs | 500 | 500 | 11.21 | -10.2 | 0.9754 | 0.003906 | 8.867 | 8.664 | 9.405 | False | 0.9596 | 0.354 | 0.984 | 1 | 0.992 | pass |
+| L4 | L4 | actual GWT topology, targeted_strong_lower_override, binary noisy leaves | nan | nan | ALL | 1000 | 500 | 2.345 | -2.607 | 0.6327 | 0.07638 | 0.7357 | 0.5173 | 1.051 | False | 0.5711 | 0.2321 | 0.696 | 0.958 | 0.827 | pass |
+| L4 | L4 | actual GWT topology, targeted_strong_lower_override, binary noisy leaves | nan | nan | Chicken | 500 | 500 | 2.364 | -2.528 | 0.6311 | 0.07607 | 0.7541 | 0.4993 | 1.158 | False | 0.5657 | 0.2308 | 0.704 | 0.956 | 0.83 | pass |
+| L4 | L4 | actual GWT topology, targeted_strong_lower_override, binary noisy leaves | nan | nan | LLMs | 500 | 500 | 2.308 | -2.874 | 0.6343 | 0.07669 | 0.6981 | 0.4058 | 1.189 | False | 0.5764 | 0.2333 | 0.688 | 0.96 | 0.824 | pass |
+| L5 | L5 | targeted_strong_lower_override, binary latent leaf plus ordinal probit, nuisance clamped to truth | nan | nan | ALL | 1000 | 500 | 2.478 | -2.525 | 0.6424 | 0.07969 | 0.8689 | 0.6257 | 1.22 | False | 0.5776 | 0.2335 | 0.708 | 0.96 | 0.834 | pass |
+| L5 | L5 | targeted_strong_lower_override, binary latent leaf plus ordinal probit, nuisance clamped to truth | nan | nan | Chicken | 500 | 500 | 2.349 | -2.53 | 0.6306 | 0.07611 | 0.7398 | 0.4923 | 1.166 | False | 0.5663 | 0.2307 | 0.704 | 0.956 | 0.83 | pass |
+| L5 | L5 | targeted_strong_lower_override, binary latent leaf plus ordinal probit, nuisance clamped to truth | nan | nan | LLMs | 500 | 500 | 2.598 | -2.514 | 0.6542 | 0.08327 | 0.9888 | 0.7137 | 1.321 | False | 0.5888 | 0.2363 | 0.712 | 0.964 | 0.838 | pass |
+| L6 | L6 | targeted_strong_lower_override, production three-state ordinal leaf, nuisance clamped to truth | nan | nan | ALL | 1000 | 500 | 2.583 | -2.951 | 0.6608 | 0.07393 | 0.9732 | 0.7762 | 1.118 | False | 0.5998 | 0.2414 | 0.734 | 0.962 | 0.848 | pass |
+| L6 | L6 | targeted_strong_lower_override, production three-state ordinal leaf, nuisance clamped to truth | nan | nan | Chicken | 500 | 500 | 2.448 | -2.957 | 0.649 | 0.07592 | 0.8389 | 0.5369 | 1.11 | False | 0.5827 | 0.2364 | 0.716 | 0.952 | 0.834 | pass |
+| L6 | L6 | targeted_strong_lower_override, production three-state ordinal leaf, nuisance clamped to truth | nan | nan | LLMs | 500 | 500 | 2.676 | -2.911 | 0.6727 | 0.07193 | 1.067 | 0.8029 | 1.517 | False | 0.6168 | 0.2463 | 0.752 | 0.972 | 0.862 | pass |
+
+## Interpretation
+
+Failing diagnostic rungs: `L2_sweep__0p43_0p50, L2_sweep__0p55_0p45, L2_sweep__0p60_0p40, L2_sweep__0p65_0p35, L2_sweep__0p70_0p30`.
+The critical L4 no-fit gate did not fail, so `STOP_BEFORE_HMC=true` was not emitted.

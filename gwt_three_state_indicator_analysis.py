@@ -78,10 +78,10 @@ SYSTEM_ORDER = ["Human", "Chicken", "2024 Leading Chat LLMs", "ELIZA"]
 
 # Focus cells that drove the week-6 diagnosis; reused across Stage 0 inspections.
 FOCUS_KEYS: List[Tuple[str, str]] = [
-    ("Derek Shiller", "Human"),
-    ("Derek Shiller", "ELIZA"),
-    ("Rachael Miller", "Chicken"),
-    ("Luhan Mikaelson", "2024 Leading Chat LLMs"),
+    ("Rater_B", "Human"),
+    ("Rater_B", "ELIZA"),
+    ("Rater_E", "Chicken"),
+    ("Rater_D", "2024 Leading Chat LLMs"),
 ]
 
 DEFAULT_FIT_OVERRIDES: Dict[str, Any] = {

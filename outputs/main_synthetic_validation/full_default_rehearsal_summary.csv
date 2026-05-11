@@ -1,0 +1,2 @@
+fit_variant,seed,runtime_seconds,max_rhat,n_rhat_gt_1p01,n_rhat_gt_1p05,min_ess_bulk,min_ess_tail,n_divergences,max_tree_depth_hits,mean_acceptance_rate,rho_chicken,rho_llms,log_B_eff_chicken,log_B_eff_llms,sampler_status,estimated_10_seed_pilot_wallclock_hours,estimated_50_seed_full_wallclock_hours
+targeted_strong_lower_override,20260511,2236.078668117523,1.01,0,0,2679.0,1569.0,0,0,0.9481066738517944,0.985998572588115,0.0007882340561387,5.8639335369466075,-5.5354890293429175,pass,6.211329633659787,31.056648168298935

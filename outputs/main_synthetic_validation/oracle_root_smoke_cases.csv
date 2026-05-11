@@ -1,0 +1,5 @@
+fit_variant,seed,system,system_raw,root_z_true,log_B_oracle,rho_oracle_collapsed,log_B_eff_posterior,rho_collapsed_posterior,delta_eff_minus_oracle,posterior_correct_sign,oracle_correct_sign,posterior_decisive,oracle_decisive,run_dir
+targeted_strong_lower_override,20260511,Chicken,Chicken,1,4.958350427505891,0.9660692066964256,5.928127756803209,0.986857700329246,0.969777329297318,True,True,True,True,runs/targeted_strong_lower_override/seed_20260511
+targeted_strong_lower_override,20260511,LLMs,2024 Leading Chat LLMs,0,-4.431528781979154,0.0023736103554229974,-5.729240064506335,0.0006494870405678,-1.2977112825271817,True,True,True,True,runs/targeted_strong_lower_override/seed_20260511
+targeted_strong_lower_override,20260512,Chicken,Chicken,0,-3.863662426202879,0.004180644963211323,-4.041464273106477,0.0035020373865153,-0.17780184690359846,True,True,True,True,runs/targeted_strong_lower_override/seed_20260512
+targeted_strong_lower_override,20260512,LLMs,2024 Leading Chat LLMs,1,-1.5682554860248956,0.040013842879516794,-1.7493401183638055,0.0336088894135672,-0.18108463233890992,False,False,False,False,runs/targeted_strong_lower_override/seed_20260512

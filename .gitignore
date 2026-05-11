@@ -148,3 +148,12 @@ resources/
 *.html
 dcm_project_brief.md
 learning_principles.md
+
+# Large posterior sample files (regenerable; excluded to avoid GitHub size limits)
+outputs/**/fit.nc
+outputs/**/posterior_predictive.nc
+outputs/**/per_rating_log_lik.nc
+outputs/**/per_rating_log_lik.zarr/
+
+# Additional local-only outputs from intermediate experiments
+notebooks/**/runs/**/*.nc

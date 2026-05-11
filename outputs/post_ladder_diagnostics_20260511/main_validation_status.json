@@ -1,0 +1,102 @@
+{
+  "detected_status": "smoke_complete",
+  "n_fit_dirs": 2,
+  "n_completed_fits": 2,
+  "n_failed_or_partial_fits": 0,
+  "fit_variants_present": [
+    "targeted_strong_lower_override"
+  ],
+  "seeds_present": [
+    20260511,
+    20260512
+  ],
+  "has_validation_manifest": true,
+  "has_validation_cases": true,
+  "has_rho_recovery_summary": true,
+  "has_ppc_summary": true,
+  "has_loo_summary": true,
+  "has_sampler_summary": true,
+  "has_pass_fail_summary": true,
+  "has_main_report": true,
+  "any_failed_runs": false,
+  "any_missing_required_outputs": false,
+  "do_not_trust_posterior_metrics_reason": "Smoke outputs are diagnostic only: sampler health fails Rhat/ESS acceptance in pass_fail_summary; top-level sampler summary has max_rhat=1.05, n_rhat_gt_1p01=95, min_ess_bulk=177, min_ess_tail=56, n_divergences=0. LOO is partial only: 50 of 379 ratings were used with 100 draws. Top-level summaries disagree with a newer seed_20260511 run_summary/fit artefact, so reconcile summaries before treating them as final.",
+  "next_recommended_action": "Treat this as a completed smoke-scope ingest with failed acceptance diagnostics. No missing summary output was found; later, with explicit authorization, run a non-sampling summary refresh from existing fit/PPC/log-lik artefacts to reconcile the seed_20260511 top-level-summary mismatch, then decide whether a new sampling/refit run is needed.",
+  "validation_scope": "smoke",
+  "overall_targeted_baseline_status": "FAIL",
+  "any_failed_validation_checks": true,
+  "n_failed_validation_checks": 8,
+  "failed_validation_checks": [
+    {
+      "pillar": "posterior_predictive",
+      "metric": "weighted_mean_cell_TV",
+      "value": "0.39428308282569136",
+      "threshold": "<= 0.25"
+    },
+    {
+      "pillar": "posterior_predictive",
+      "metric": "median_cell_TV",
+      "value": "0.37577814703853885",
+      "threshold": "<= 0.25"
+    },
+    {
+      "pillar": "posterior_predictive",
+      "metric": "q90_cell_TV",
+      "value": "0.8370203540019212",
+      "threshold": "<= 0.50"
+    },
+    {
+      "pillar": "posterior_predictive",
+      "metric": "fraction_cell_TV_gt_0p5",
+      "value": "0.30653266331658285",
+      "threshold": "<= 0.10"
+    },
+    {
+      "pillar": "posterior_predictive",
+      "metric": "posterior_predictive_tv_p_value",
+      "value": "1.0",
+      "threshold": "in [0.05, 0.95]"
+    },
+    {
+      "pillar": "sampler_health",
+      "metric": "fit_pass_rate_rhat",
+      "value": "0.0",
+      "threshold": ">= 0.90"
+    },
+    {
+      "pillar": "sampler_health",
+      "metric": "fit_pass_rate_ess_bulk",
+      "value": "0.0",
+      "threshold": ">= 0.90"
+    },
+    {
+      "pillar": "sampler_health",
+      "metric": "fit_pass_rate_ess_tail",
+      "value": "0.0",
+      "threshold": ">= 0.90"
+    }
+  ],
+  "loo_partial_flag": true,
+  "posterior_summaries_trustworthy": false,
+  "loo_reliable_as_full_run": false,
+  "missing_outputs": [],
+  "run_summary_discrepancies": [
+    {
+      "seed": 20260511,
+      "run_dir": "outputs/main_synthetic_validation/runs/targeted_strong_lower_override/seed_20260511",
+      "differences": [
+        "max_rhat: run_summary=1.01, top_summary=1.04",
+        "n_rhat_gt_1p01: run_summary=0.0, top_summary=38.0",
+        "min_ess_bulk: run_summary=2679.0, top_summary=247.0",
+        "min_ess_tail: run_summary=1569.0, top_summary=80.0",
+        "runtime_seconds: run_summary=2210.085331916809, top_summary=1044.3279082775116"
+      ]
+    }
+  ],
+  "safe_to_run_later_from_existing_artifacts": {
+    "metrics_only": true,
+    "plots_only": true,
+    "loo_only": true,
+    "caveat": "Only safe later if configured to reuse existing artefacts and not sample/refit; no such step was run in this ingest pass."
+  }
+}

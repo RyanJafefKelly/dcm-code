@@ -1,0 +1,12 @@
+fit_variant,validation_scope,pillar,metric,value,threshold,status,notes
+targeted_strong_lower_override,pilot,rho_recovery,overall_status,pass,overall hard gates,pass,"M=1.478, BA=0.800"
+targeted_strong_lower_override,pilot,rho_recovery,chicken_status,pass,BA>=0.65 no-collapse; M>0 for strong pass,pass,"M=1.203, BA=0.900"
+targeted_strong_lower_override,pilot,rho_recovery,llms_status,warning,BA>=0.65 no-collapse; M>0 for strong pass,warning,"M=-2.458, BA=0.700, TPR=0.400"
+targeted_strong_lower_override,pilot,posterior_predictive,overall_oracle_weighted_tv,0,no repeated overall practical excess,pass,mean fitted TV=0.388; practical excess seeds=
+targeted_strong_lower_override,pilot,posterior_predictive,eliza_weighted_tv_recurrence,1,not repeated across seeds,pass,ELIZA practical excess seeds=20260511
+targeted_strong_lower_override,pilot,posterior_predictive,system_weighted_tv_repeated_excess,Human:2,no system with >1 practical excess seed,fail,Repeated practical excess is a PPC block under the pilot rule.
+targeted_strong_lower_override,pilot,predictive_alignment,overall_alignment_status,pass,overall not fail,pass,mean TV fit-vs-truth=0.110
+targeted_strong_lower_override,pilot,predictive_alignment,any_system_alignment_fail,0,0 system failures,pass,Warnings are present for Human but no system fails.
+targeted_strong_lower_override,pilot,sampler_health,overall_sampler_status,pass,>=90% fits pass and no divergences,pass,"total divergences=0, max Rhat=1.01, min ESS bulk=1904, min ESS tail=882"
+targeted_strong_lower_override,pilot,loo_lppd,overall_loo_status,pass,Pareto-k diagnostic pass,pass,"max Pareto-k=0.490, frac k>0.7=0.000"
+targeted_strong_lower_override,pilot,overall,pilot_decision,NOT_READY_FOR_50_SEED_FULL_VALIDATION_PPC_REVIEW,ready only if no hard/recurrent PPC block,warning,Pilot completed; final decision follows the user-specified PPC recurrence rule.

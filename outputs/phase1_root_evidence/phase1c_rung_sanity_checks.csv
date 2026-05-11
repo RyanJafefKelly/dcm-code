@@ -1,0 +1,7 @@
+rung,beta_profile,n_rep_checked,observation_model,latent_leaf_model,unique_observation_values,mean_leaf_loglik_z0,mean_leaf_loglik_z1,max_abs_diff_leaf_loglik_vs_rung_1P,exact_loglik_consistency_error,status
+1P,production_prior_mean,5,binary_noisy,binary,"0,1",-10.636851705241178,-7.645301702408074,0.0,3.064215547965432e-14,pass
+3,production_prior_mean,5,ordinal_binary,binary,"0,1,2,3,4,5,6",-30.57922879417604,-20.050749699981335,22.19376457819786,4.440892098500626e-14,pass
+4,production_prior_mean,5,ordinal_three_state,three_state,"0,1,2,3,4,5,6",-29.794410161220515,-19.748680402392203,21.37135425633274,6.217248937900877e-14,pass
+1O,production_oracle_median,5,binary_noisy,binary,"0,1",-10.801740288074498,-7.480413119574751,0.0,1.7541523789077473e-14,pass
+3O,production_oracle_median,5,ordinal_binary,binary,"0,1,2,3,4,5,6",-31.21090853095104,-19.569087820627686,27.735551135635347,9.50350909079134e-14,pass
+4O,production_oracle_median,5,ordinal_three_state,three_state,"0,1,2,3,4,5,6",-30.924724508444577,-18.82782496648149,26.195227780178982,1.2967404927621828e-13,pass

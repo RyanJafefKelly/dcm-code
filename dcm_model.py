@@ -37,7 +37,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Literal, Optional, Tuple
+from typing import Any, Dict, List, Literal, Optional, Sequence, Tuple
 
 import numpy as np
 import pymc as pm
@@ -185,6 +185,11 @@ class ModelConfig:
     BETA_PRES_OVERRIDE_MEAN: Optional[float] = None
     BETA_ABS_OVERRIDE_MEAN: Optional[float] = None
     BETA_OVERRIDE_SIGMA: Optional[float] = None
+    # Node-level lower-edge override keys for targeted synthetic validation.
+    # When provided, exact-tree builders may replace only these node betas with
+    # logit-Normal priors centred on BETA_*_OVERRIDE_MEAN while leaving all
+    # other nodes on the configured production prior path.
+    TARGETED_OVERRIDE_NODE_KEYS: Optional[Sequence[str]] = None
     # Soft reference-system anchors.  Per-system (alpha, beta) parameters for
     # a Beta prior on root C; overrides the hard anchor (c_fixed) from
     # system_configs for any system listed.  Used for anchor-defensibility
@@ -245,10 +250,14 @@ class ModelConfig:
             ("BETA_ABS_OVERRIDE_MEAN", self.BETA_ABS_OVERRIDE_MEAN),
         ):
             if val is not None:
-                if not self.POOL_BETAS_BY_LABEL:
+                if (
+                    not self.POOL_BETAS_BY_LABEL
+                    and self.TARGETED_OVERRIDE_NODE_KEYS is None
+                ):
                     raise ValueError(
-                        f"{name} requires POOL_BETAS_BY_LABEL=True; the "
-                        "override is implemented in the label-pool path only."
+                        f"{name} requires POOL_BETAS_BY_LABEL=True or "
+                        "TARGETED_OVERRIDE_NODE_KEYS; otherwise the override "
+                        "has no model branch."
                     )
                 if not (0.0 < float(val) < 1.0):
                     raise ValueError(
@@ -1104,8 +1113,9 @@ def build_label_pool_hyperparameters(
         if config.BETA_OVERRIDE_SIGMA is not None
         else sigma
     )
-    pres_override = config.BETA_PRES_OVERRIDE_MEAN
-    abs_override = config.BETA_ABS_OVERRIDE_MEAN
+    targeted_override_active = config.TARGETED_OVERRIDE_NODE_KEYS is not None
+    pres_override = None if targeted_override_active else config.BETA_PRES_OVERRIDE_MEAN
+    abs_override = None if targeted_override_active else config.BETA_ABS_OVERRIDE_MEAN
 
     beta_pres_by_group: Dict[Tuple[str, str], pt.TensorVariable] = {}
     for (s, d) in pres_groups:

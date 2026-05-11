@@ -145,8 +145,18 @@ def simulate_observations_in_place(
     latent_by_system: Mapping[str, Mapping[str, Any]],
     obs_params: Mapping[str, Any],
     systems: Sequence[str],
+    rater_multiplier: int = 1,
 ) -> Dict[str, Dict[str, List[int]]]:
-    """Mutate stance_data observations to synthetic category representatives."""
+    """Mutate stance_data observations to synthetic category representatives.
+
+    If ``rater_multiplier`` K > 1, each existing (rater, indicator) rating slot
+    is replicated K times — the rater identity is preserved, and K independent
+    categories are drawn from the posterior-predictive given the indicator's
+    latent state.  Missing slots are also replicated K times (still missing).
+    """
+    K = int(rater_multiplier)
+    if K < 1:
+        raise ValueError(f"rater_multiplier must be >= 1; got {K}")
     a = float(obs_params["a"])
     kappa = np.asarray(obs_params["kappa"], dtype=float)
     ordinal_by_system_indicator: Dict[str, Dict[str, List[int]]] = {
@@ -161,17 +171,26 @@ def simulate_observations_in_place(
                 if system not in systems:
                     continue
                 values = obs.get("values", [])
+                names = obs.get("names", [])
                 synthetic_values: List[Any] = []
+                synthetic_names: List[Any] = []
                 ordinal_values: List[int] = []
                 m = int(latent_by_system[system]["indicator_m"][key])
-                for val in values:
+                for i, val in enumerate(values):
+                    rater_name = names[i] if i < len(names) else None
                     if is_missing(val):
-                        synthetic_values.append(-1)
+                        for _ in range(K):
+                            synthetic_values.append(-1)
+                            synthetic_names.append(rater_name)
                         continue
-                    category = sample_rating_category(rng, kappa, a, m)
-                    ordinal_values.append(category)
-                    synthetic_values.append(float(CATEGORY_REPRESENTATIVES[category]))
+                    for _ in range(K):
+                        category = sample_rating_category(rng, kappa, a, m)
+                        ordinal_values.append(category)
+                        synthetic_values.append(float(CATEGORY_REPRESENTATIVES[category]))
+                        synthetic_names.append(rater_name)
                 obs["values"] = synthetic_values
+                if names:
+                    obs["names"] = synthetic_names
                 ordinal_by_system_indicator[system][key] = ordinal_values
             return
         for child in node.get("evidencers", []):
@@ -185,6 +204,7 @@ def simulate_observations_in_place(
 def generate_synthetic_dataset(
     seed: int,
     cfg: ModelConfig,
+    rater_multiplier: int = 1,
 ) -> Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]:
     systems = [s for s, _ in ANCHORED_SYSTEM_CONFIGS]
     source_stance_data = next(s for s in load_data(cfg) if s["name"] == STANCE)
@@ -207,11 +227,13 @@ def generate_synthetic_dataset(
         latent_by_system,
         truth.obs_params,
         systems,
+        rater_multiplier=rater_multiplier,
     )
 
     truth_payload = {
         "labels": LABELS,
         "seed": seed,
+        "rater_multiplier": int(rater_multiplier),
         "true_C_by_system": TRUE_C_BY_SYSTEM,
         "latent_by_system": latent_by_system,
         "edge_betas": truth.edge_betas,
@@ -241,6 +263,15 @@ def build_fit_config(args: argparse.Namespace) -> ModelConfig:
         POOL_BETAS_BY_LABEL=True,
         BETA_ABS_BY_SUPPORT_DEMAND=True,
         LABEL_POOL_SIGMA=0.5,
+        BETA_PRES_OVERRIDE_MEAN=(
+            float(args.beta_pres_mean) if args.beta_pres_mean is not None else None
+        ),
+        BETA_ABS_OVERRIDE_MEAN=(
+            float(args.beta_abs_mean) if args.beta_abs_mean is not None else None
+        ),
+        BETA_OVERRIDE_SIGMA=(
+            float(args.beta_override_sigma) if args.beta_override_sigma is not None else None
+        ),
         NUM_SAMPLES=draws,
         NUM_TUNE=tune,
         NUM_CHAINS=chains,
@@ -1096,6 +1127,19 @@ def parse_args() -> argparse.Namespace:
         help="Reuse an existing run directory with fit.nc and regenerate recovery outputs.",
     )
     parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument(
+        "--rater-multiplier",
+        type=int,
+        default=1,
+        help=(
+            "Replicate every (rater, indicator) rating slot K times in the "
+            "synthetic dataset; K independent draws from the same posterior-"
+            "predictive distribution given the latent state.  Default 1."
+        ),
+    )
+    parser.add_argument("--beta-pres-mean", type=float, default=None)
+    parser.add_argument("--beta-abs-mean", type=float, default=None)
+    parser.add_argument("--beta-override-sigma", type=float, default=None)
     return parser.parse_args()
 
 
@@ -1103,9 +1147,11 @@ def main() -> None:
     args = parse_args()
     cfg = build_fit_config(args)
     labels = dict(LABELS)
+    K = int(args.rater_multiplier)
     run_id = args.run_id or (
         f"{labels['dgp']}__{labels['fit']}__{labels['leaf']}__"
         f"{labels['nuisance_truth']}__{labels['design']}__seed{args.seed}"
+        + (f"__multK{K}" if K != 1 else "")
         + ("__smoke" if args.smoke else "")
     )
     runs_dir = args.runs_dir if args.runs_dir.is_absolute() else REPO_ROOT / args.runs_dir
@@ -1141,6 +1187,7 @@ def main() -> None:
         synthetic_stance_data, source_stance_data, truth_payload = generate_synthetic_dataset(
             args.seed,
             cfg,
+            rater_multiplier=K,
         )
         write_json(out_dir / "truth.json", truth_payload)
         write_json(out_dir / "synthetic_stance_data.json", synthetic_stance_data)
@@ -1222,6 +1269,7 @@ def main() -> None:
         "mode": "smoke" if args.smoke else "full",
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "seed": args.seed,
+        "rater_multiplier": K,
         "git": git,
         "stance": STANCE,
         "systems": systems,

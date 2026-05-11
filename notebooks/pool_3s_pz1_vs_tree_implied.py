@@ -54,10 +54,10 @@ SYSTEM_DISPLAY = {
 }
 SYSTEM_ORDER = ["Human", "Chicken", "2024 Leading Chat LLMs", "ELIZA"]
 FOCUS_KEYS = [
-    ("Derek Shiller", "Human"),
-    ("Derek Shiller", "ELIZA"),
-    ("Rachael Miller", "Chicken"),
-    ("Luhan Mikaelson", "2024 Leading Chat LLMs"),
+    ("Rater_B", "Human"),
+    ("Rater_B", "ELIZA"),
+    ("Rater_E", "Chicken"),
+    ("Rater_D", "2024 Leading Chat LLMs"),
 ]
 
 REPO_ROOT = Path(__file__).resolve().parent.parent

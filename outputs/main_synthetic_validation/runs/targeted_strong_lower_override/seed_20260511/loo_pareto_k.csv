@@ -1,0 +1,380 @@
+rating_row,system_raw,system,node_key,local_rating_index,expert_idx,rating,pareto_k,fit_variant,seed
+0,Human,Human,Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects,0,0,1,0.28816827928569544,targeted_strong_lower_override,20260511
+1,Human,Human,Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes,0,0,1,0.026939158280108788,targeted_strong_lower_override,20260511
+2,Human,Human,Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects,0,0,0,0.2880379880371316,targeted_strong_lower_override,20260511
+3,Human,Human,Global Workspace Theory > Representationality > Propositional Representations > Logical Inference,0,0,4,0.06764067968706829,targeted_strong_lower_override,20260511
+4,Human,Human,Global Workspace Theory > Representationality > World Modelling > Model Isomorphism,0,0,5,0.11035729511245801,targeted_strong_lower_override,20260511
+5,Human,Human,Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training,0,0,5,0.2975322225399611,targeted_strong_lower_override,20260511
+6,Human,Human,Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps,0,0,3,0.28876912329801085,targeted_strong_lower_override,20260511
+7,Human,Human,Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps,0,0,6,0.17955811969198288,targeted_strong_lower_override,20260511
+8,Human,Human,Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation,0,0,5,0.30390608555987353,targeted_strong_lower_override,20260511
+9,Human,Human,Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts,0,0,4,0.004572649807923148,targeted_strong_lower_override,20260511
+10,Human,Human,Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts,0,0,5,0.10347133355118124,targeted_strong_lower_override,20260511
+11,Human,Human,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer,0,0,2,0.217885402522737,targeted_strong_lower_override,20260511
+12,Human,Human,Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer,0,0,5,0.13386433351227991,targeted_strong_lower_override,20260511
+13,Human,Human,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture,0,0,5,0.0693001216893115,targeted_strong_lower_override,20260511
+14,Human,Human,Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations,0,0,6,-0.16652593098442936,targeted_strong_lower_override,20260511
+15,Human,Human,Global Workspace Theory > Coherence > Point of View > Stable Personality,0,0,6,-0.014077521898632263,targeted_strong_lower_override,20260511
+16,Human,Human,Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme,0,0,4,-0.0754713898336109,targeted_strong_lower_override,20260511
+17,Human,Human,Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations,0,0,6,-0.21025902651503414,targeted_strong_lower_override,20260511
+18,Human,Human,Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior,0,0,6,-0.01368640109155966,targeted_strong_lower_override,20260511
+19,Human,Human,Global Workspace Theory > Coherence > Social Coherence > Stable Personality,0,0,6,0.07152846011500956,targeted_strong_lower_override,20260511
+20,Human,Human,Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking,0,0,6,0.20318938455933536,targeted_strong_lower_override,20260511
+21,Human,Human,Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions,0,0,0,-0.011056775180173898,targeted_strong_lower_override,20260511
+22,Human,Human,Global Workspace Theory > Modularity > Cross-Modal Learning Deficits,0,0,6,0.2762547060394781,targeted_strong_lower_override,20260511
+23,Human,Human,Global Workspace Theory > Modularity > Selective Competence Disruption,0,0,5,0.059779456832533974,targeted_strong_lower_override,20260511
+24,Human,Human,Global Workspace Theory > Modularity > Poorly Intraconnected Networks,0,0,6,0.3446827632452025,targeted_strong_lower_override,20260511
+25,Human,Human,Global Workspace Theory > Modularity > Dedicated Speech Systems,0,0,2,0.21152585167418964,targeted_strong_lower_override,20260511
+26,Human,Human,Global Workspace Theory > Modularity > Dedicated Action Systems,0,0,6,0.16883644107330684,targeted_strong_lower_override,20260511
+27,Human,Human,Global Workspace Theory > Modularity > Dedicated Sensory Systems,0,0,6,0.43165879911716043,targeted_strong_lower_override,20260511
+28,Human,Human,Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks,0,0,6,0.03047278308908423,targeted_strong_lower_override,20260511
+29,Human,Human,Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli,0,0,4,-0.03480205995779581,targeted_strong_lower_override,20260511
+30,Human,Human,Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry,0,0,1,-0.019212734104300876,targeted_strong_lower_override,20260511
+31,Human,Human,Global Workspace Theory > Complexity > Informational Complexity > Compressibility,0,0,5,0.01727691901135533,targeted_strong_lower_override,20260511
+32,Human,Human,Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization,0,0,6,0.052957096135750635,targeted_strong_lower_override,20260511
+33,Human,Human,Global Workspace Theory > Complexity > Structural Complexity > Number of Layers,0,0,6,0.071471538555217,targeted_strong_lower_override,20260511
+34,Human,Human,Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes,0,0,6,0.17955110085444198,targeted_strong_lower_override,20260511
+35,Human,Human,Global Workspace Theory > Complexity > Structural Complexity > Number of Connections,0,0,6,-0.024143092649414707,targeted_strong_lower_override,20260511
+36,Human,Human,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation,0,0,6,0.16349751169730772,targeted_strong_lower_override,20260511
+37,Human,Human,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity,0,0,6,0.021923841774704404,targeted_strong_lower_override,20260511
+38,Human,Human,Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus,0,0,0,-0.07637393469238095,targeted_strong_lower_override,20260511
+39,Human,Human,Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts,0,0,0,-0.04902968982676229,targeted_strong_lower_override,20260511
+40,Human,Human,Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness,0,0,0,0.14463558079600108,targeted_strong_lower_override,20260511
+41,Human,Human,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck,0,0,1,0.19986435020835613,targeted_strong_lower_override,20260511
+42,Human,Human,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation,0,0,6,0.19821539020055334,targeted_strong_lower_override,20260511
+43,Human,Human,Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation,0,0,6,0.03017823129389108,targeted_strong_lower_override,20260511
+44,Human,Human,Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement,0,0,0,-0.047925262707525375,targeted_strong_lower_override,20260511
+45,Human,Human,Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling,0,0,3,-0.08815295064894639,targeted_strong_lower_override,20260511
+46,Human,Human,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding,0,0,4,-0.17747604206288273,targeted_strong_lower_override,20260511
+47,Human,Human,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning,0,0,5,0.1466122510746096,targeted_strong_lower_override,20260511
+48,Human,Human,Global Workspace Theory > Integration > Wiring Convergence,0,0,5,0.3035850785862731,targeted_strong_lower_override,20260511
+49,Human,Human,Global Workspace Theory > Integration > Holistic Dependency,0,0,4,-0.08568345572755881,targeted_strong_lower_override,20260511
+50,Chicken,Chicken,Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes,0,5,5,0.09800242405969484,targeted_strong_lower_override,20260511
+51,Chicken,Chicken,Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes,1,3,0,0.14906472993827782,targeted_strong_lower_override,20260511
+52,Chicken,Chicken,Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects,0,5,5,0.072122854926999,targeted_strong_lower_override,20260511
+53,Chicken,Chicken,Global Workspace Theory > Representationality > Propositional Representations > Logical Inference,0,5,6,0.08409847913879046,targeted_strong_lower_override,20260511
+54,Chicken,Chicken,Global Workspace Theory > Representationality > Propositional Representations > Logical Inference,1,3,4,-0.05271349119674285,targeted_strong_lower_override,20260511
+55,Chicken,Chicken,Global Workspace Theory > Representationality > World Modelling > Model Isomorphism,0,3,3,0.023223013511250612,targeted_strong_lower_override,20260511
+56,Chicken,Chicken,Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training,0,5,3,-0.02753694659474804,targeted_strong_lower_override,20260511
+57,Chicken,Chicken,Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training,1,3,0,0.17957103926479812,targeted_strong_lower_override,20260511
+58,Chicken,Chicken,Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps,0,5,4,0.012646471381014766,targeted_strong_lower_override,20260511
+59,Chicken,Chicken,Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps,1,3,5,0.06568730999296393,targeted_strong_lower_override,20260511
+60,Chicken,Chicken,Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps,0,5,6,0.022389401631025364,targeted_strong_lower_override,20260511
+61,Chicken,Chicken,Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps,1,3,5,0.12410816543121754,targeted_strong_lower_override,20260511
+62,Chicken,Chicken,Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation,0,5,0,0.3504457197219669,targeted_strong_lower_override,20260511
+63,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts,0,3,5,0.14927614477206794,targeted_strong_lower_override,20260511
+64,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts,0,5,3,0.03711569242051158,targeted_strong_lower_override,20260511
+65,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts,1,3,5,0.0940869505436707,targeted_strong_lower_override,20260511
+66,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer,0,5,5,0.11439769864277949,targeted_strong_lower_override,20260511
+67,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer,1,3,6,-0.10339934977782321,targeted_strong_lower_override,20260511
+68,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer,0,5,6,0.01303510745216645,targeted_strong_lower_override,20260511
+69,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer,1,3,6,0.01303510745216645,targeted_strong_lower_override,20260511
+70,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture,0,5,6,0.04302233455245139,targeted_strong_lower_override,20260511
+71,Chicken,Chicken,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture,1,3,6,0.04302233455245139,targeted_strong_lower_override,20260511
+72,Chicken,Chicken,Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations,0,5,6,0.061084774889562765,targeted_strong_lower_override,20260511
+73,Chicken,Chicken,Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations,1,3,6,0.061084774889562765,targeted_strong_lower_override,20260511
+74,Chicken,Chicken,Global Workspace Theory > Coherence > Point of View > Stable Personality,0,5,4,-0.10519033364688808,targeted_strong_lower_override,20260511
+75,Chicken,Chicken,Global Workspace Theory > Coherence > Point of View > Stable Personality,1,3,6,0.08184513166789312,targeted_strong_lower_override,20260511
+76,Chicken,Chicken,Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme,0,5,5,0.13778820104494613,targeted_strong_lower_override,20260511
+77,Chicken,Chicken,Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme,1,3,6,0.053924991997194735,targeted_strong_lower_override,20260511
+78,Chicken,Chicken,Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations,0,5,6,0.007036413888988622,targeted_strong_lower_override,20260511
+79,Chicken,Chicken,Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations,1,3,6,0.007036413888988622,targeted_strong_lower_override,20260511
+80,Chicken,Chicken,Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior,0,5,5,0.1456300420445892,targeted_strong_lower_override,20260511
+81,Chicken,Chicken,Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior,1,3,6,0.021016014154581823,targeted_strong_lower_override,20260511
+82,Chicken,Chicken,Global Workspace Theory > Coherence > Social Coherence > Stable Personality,0,5,6,0.07900519063044434,targeted_strong_lower_override,20260511
+83,Chicken,Chicken,Global Workspace Theory > Coherence > Social Coherence > Stable Personality,1,3,6,0.07900519063044434,targeted_strong_lower_override,20260511
+84,Chicken,Chicken,Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking,0,5,6,0.04595117942930987,targeted_strong_lower_override,20260511
+85,Chicken,Chicken,Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking,1,3,6,0.04595117942930987,targeted_strong_lower_override,20260511
+86,Chicken,Chicken,Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions,0,5,2,-0.16263575403135905,targeted_strong_lower_override,20260511
+87,Chicken,Chicken,Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions,1,3,5,0.07917479284329386,targeted_strong_lower_override,20260511
+88,Chicken,Chicken,Global Workspace Theory > Modularity > Cross-Modal Learning Deficits,0,5,6,0.08884257021132032,targeted_strong_lower_override,20260511
+89,Chicken,Chicken,Global Workspace Theory > Modularity > Cross-Modal Learning Deficits,1,3,6,0.08884257021132032,targeted_strong_lower_override,20260511
+90,Chicken,Chicken,Global Workspace Theory > Modularity > Selective Competence Disruption,0,5,6,0.06585257398974899,targeted_strong_lower_override,20260511
+91,Chicken,Chicken,Global Workspace Theory > Modularity > Selective Competence Disruption,1,3,4,-0.19632948831588282,targeted_strong_lower_override,20260511
+92,Chicken,Chicken,Global Workspace Theory > Modularity > Poorly Intraconnected Networks,0,5,4,0.11619263874986924,targeted_strong_lower_override,20260511
+93,Chicken,Chicken,Global Workspace Theory > Modularity > Poorly Intraconnected Networks,1,3,4,0.11619263874986924,targeted_strong_lower_override,20260511
+94,Chicken,Chicken,Global Workspace Theory > Modularity > Dedicated Speech Systems,0,5,4,0.06859950512728,targeted_strong_lower_override,20260511
+95,Chicken,Chicken,Global Workspace Theory > Modularity > Dedicated Speech Systems,1,3,0,0.1426309305856015,targeted_strong_lower_override,20260511
+96,Chicken,Chicken,Global Workspace Theory > Modularity > Dedicated Action Systems,0,5,6,0.005059567341522706,targeted_strong_lower_override,20260511
+97,Chicken,Chicken,Global Workspace Theory > Modularity > Dedicated Action Systems,1,3,6,0.005059567341522706,targeted_strong_lower_override,20260511
+98,Chicken,Chicken,Global Workspace Theory > Modularity > Dedicated Sensory Systems,0,5,6,0.08777796735184723,targeted_strong_lower_override,20260511
+99,Chicken,Chicken,Global Workspace Theory > Modularity > Dedicated Sensory Systems,1,3,6,0.08777796735184723,targeted_strong_lower_override,20260511
+100,Chicken,Chicken,Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks,0,5,5,0.11995652564987526,targeted_strong_lower_override,20260511
+101,Chicken,Chicken,Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks,1,3,6,0.009082837921910211,targeted_strong_lower_override,20260511
+102,Chicken,Chicken,Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli,0,5,6,0.10845029135909948,targeted_strong_lower_override,20260511
+103,Chicken,Chicken,Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli,1,3,5,0.0977599308984442,targeted_strong_lower_override,20260511
+104,Chicken,Chicken,Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry,0,5,6,0.08091885230208323,targeted_strong_lower_override,20260511
+105,Chicken,Chicken,Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry,1,3,5,0.11451634399003278,targeted_strong_lower_override,20260511
+106,Chicken,Chicken,Global Workspace Theory > Complexity > Informational Complexity > Compressibility,0,3,6,0.04592868938781357,targeted_strong_lower_override,20260511
+107,Chicken,Chicken,Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization,0,5,6,0.020533083085678888,targeted_strong_lower_override,20260511
+108,Chicken,Chicken,Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization,1,3,6,0.020533083085678888,targeted_strong_lower_override,20260511
+109,Chicken,Chicken,Global Workspace Theory > Complexity > Structural Complexity > Number of Layers,0,5,5,0.09607886657076413,targeted_strong_lower_override,20260511
+110,Chicken,Chicken,Global Workspace Theory > Complexity > Structural Complexity > Number of Layers,1,3,6,0.1026127285626832,targeted_strong_lower_override,20260511
+111,Chicken,Chicken,Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes,0,5,4,-0.1954697287056932,targeted_strong_lower_override,20260511
+112,Chicken,Chicken,Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes,1,3,4,-0.1954697287056932,targeted_strong_lower_override,20260511
+113,Chicken,Chicken,Global Workspace Theory > Complexity > Structural Complexity > Number of Connections,0,5,6,0.007752968516898924,targeted_strong_lower_override,20260511
+114,Chicken,Chicken,Global Workspace Theory > Complexity > Structural Complexity > Number of Connections,1,3,5,0.11266233016127014,targeted_strong_lower_override,20260511
+115,Chicken,Chicken,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation,0,5,6,0.05402652679458699,targeted_strong_lower_override,20260511
+116,Chicken,Chicken,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation,1,3,6,0.05402652679458699,targeted_strong_lower_override,20260511
+117,Chicken,Chicken,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity,0,5,5,0.05892832799585856,targeted_strong_lower_override,20260511
+118,Chicken,Chicken,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity,1,3,5,0.05892832799585856,targeted_strong_lower_override,20260511
+119,Chicken,Chicken,Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus,0,5,6,-0.05191988503670317,targeted_strong_lower_override,20260511
+120,Chicken,Chicken,Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus,1,3,5,0.13212028252215038,targeted_strong_lower_override,20260511
+121,Chicken,Chicken,Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts,0,5,6,0.2412241847557307,targeted_strong_lower_override,20260511
+122,Chicken,Chicken,Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts,1,3,4,-0.028258831441520443,targeted_strong_lower_override,20260511
+123,Chicken,Chicken,Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness,0,5,6,0.079097869248248,targeted_strong_lower_override,20260511
+124,Chicken,Chicken,Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness,1,3,6,0.079097869248248,targeted_strong_lower_override,20260511
+125,Chicken,Chicken,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck,0,5,3,0.035147540326305717,targeted_strong_lower_override,20260511
+126,Chicken,Chicken,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck,1,3,6,-0.0320381152117046,targeted_strong_lower_override,20260511
+127,Chicken,Chicken,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation,0,5,5,0.09461570039231877,targeted_strong_lower_override,20260511
+128,Chicken,Chicken,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation,1,3,6,0.0779817872709041,targeted_strong_lower_override,20260511
+129,Chicken,Chicken,Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation,0,5,5,0.1205616124780062,targeted_strong_lower_override,20260511
+130,Chicken,Chicken,Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation,1,3,3,0.1431803980140349,targeted_strong_lower_override,20260511
+131,Chicken,Chicken,Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement,0,5,6,0.06953835052902173,targeted_strong_lower_override,20260511
+132,Chicken,Chicken,Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement,1,3,6,0.06953835052902173,targeted_strong_lower_override,20260511
+133,Chicken,Chicken,Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling,0,5,6,0.10076204918062744,targeted_strong_lower_override,20260511
+134,Chicken,Chicken,Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling,1,3,6,0.10076204918062744,targeted_strong_lower_override,20260511
+135,Chicken,Chicken,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding,0,5,6,0.05471431248802988,targeted_strong_lower_override,20260511
+136,Chicken,Chicken,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding,1,3,6,0.05471431248802988,targeted_strong_lower_override,20260511
+137,Chicken,Chicken,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning,0,5,6,0.0810268404573858,targeted_strong_lower_override,20260511
+138,Chicken,Chicken,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning,1,3,6,0.0810268404573858,targeted_strong_lower_override,20260511
+139,Chicken,Chicken,Global Workspace Theory > Integration > Wiring Convergence,0,5,6,0.09697247511375243,targeted_strong_lower_override,20260511
+140,Chicken,Chicken,Global Workspace Theory > Integration > Wiring Convergence,1,3,5,0.11259749960169636,targeted_strong_lower_override,20260511
+141,Chicken,Chicken,Global Workspace Theory > Integration > Holistic Dependency,0,5,3,-0.23293001807878666,targeted_strong_lower_override,20260511
+142,Chicken,Chicken,Global Workspace Theory > Integration > Holistic Dependency,1,3,3,-0.23293001807878666,targeted_strong_lower_override,20260511
+143,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects,0,2,5,0.10473062497934162,targeted_strong_lower_override,20260511
+144,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects,1,1,6,0.09751625896025796,targeted_strong_lower_override,20260511
+145,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects,2,0,6,0.09751625896025796,targeted_strong_lower_override,20260511
+146,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes,0,2,4,0.1272363079529845,targeted_strong_lower_override,20260511
+147,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes,1,1,0,-0.0016386651054025364,targeted_strong_lower_override,20260511
+148,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes,2,0,5,0.2704839503555325,targeted_strong_lower_override,20260511
+149,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes,3,4,0,-0.0016386651054025364,targeted_strong_lower_override,20260511
+150,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects,0,2,3,-0.16042131125555698,targeted_strong_lower_override,20260511
+151,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects,1,1,4,-0.06790375520492398,targeted_strong_lower_override,20260511
+152,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects,2,0,1,0.25143649554551434,targeted_strong_lower_override,20260511
+153,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects,3,4,3,-0.16042131125555698,targeted_strong_lower_override,20260511
+154,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Propositional Representations > Logical Inference,0,2,6,0.028168827625351372,targeted_strong_lower_override,20260511
+155,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Propositional Representations > Logical Inference,1,1,6,0.028168827625351372,targeted_strong_lower_override,20260511
+156,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Propositional Representations > Logical Inference,2,0,5,0.11594811674854184,targeted_strong_lower_override,20260511
+157,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Propositional Representations > Logical Inference,3,4,6,0.028168827625351372,targeted_strong_lower_override,20260511
+158,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > World Modelling > Model Isomorphism,0,2,0,0.10363792318846829,targeted_strong_lower_override,20260511
+159,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > World Modelling > Model Isomorphism,1,0,4,0.2516886818440019,targeted_strong_lower_override,20260511
+160,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > World Modelling > Model Isomorphism,2,4,0,0.10363792318846829,targeted_strong_lower_override,20260511
+161,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training,0,2,6,0.061358886660054145,targeted_strong_lower_override,20260511
+162,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training,1,1,5,0.11153579282128104,targeted_strong_lower_override,20260511
+163,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training,2,0,6,0.061358886660054145,targeted_strong_lower_override,20260511
+164,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training,3,4,5,0.11153579282128104,targeted_strong_lower_override,20260511
+165,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps,0,2,0,-0.10187744449787094,targeted_strong_lower_override,20260511
+166,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps,1,1,2,0.011546243408703893,targeted_strong_lower_override,20260511
+167,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps,2,0,3,-0.0191827724838308,targeted_strong_lower_override,20260511
+168,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps,3,4,4,-0.1895131284643683,targeted_strong_lower_override,20260511
+169,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps,0,2,3,0.048394174501813214,targeted_strong_lower_override,20260511
+170,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps,1,1,3,0.048394174501813214,targeted_strong_lower_override,20260511
+171,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps,2,0,2,-0.03594879479327265,targeted_strong_lower_override,20260511
+172,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps,3,4,1,0.24795502094733338,targeted_strong_lower_override,20260511
+173,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation,0,2,5,0.045213322216592806,targeted_strong_lower_override,20260511
+174,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation,1,1,1,0.16913640498641408,targeted_strong_lower_override,20260511
+175,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation,2,0,4,0.041125703356641785,targeted_strong_lower_override,20260511
+176,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts,0,2,0,0.09603090912262147,targeted_strong_lower_override,20260511
+177,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts,1,1,1,0.3529007432760156,targeted_strong_lower_override,20260511
+178,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts,2,0,0,0.09603090912262147,targeted_strong_lower_override,20260511
+179,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts,3,4,0,0.09603090912262147,targeted_strong_lower_override,20260511
+180,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts,0,2,0,0.05177300216819863,targeted_strong_lower_override,20260511
+181,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts,1,1,1,0.3524409695322341,targeted_strong_lower_override,20260511
+182,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts,2,0,0,0.05177300216819863,targeted_strong_lower_override,20260511
+183,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts,3,4,0,0.05177300216819863,targeted_strong_lower_override,20260511
+184,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer,0,2,0,0.16622321948077812,targeted_strong_lower_override,20260511
+185,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer,1,1,0,0.16622321948077812,targeted_strong_lower_override,20260511
+186,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer,2,0,4,0.09363943131194397,targeted_strong_lower_override,20260511
+187,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer,3,4,3,-0.03974367976402577,targeted_strong_lower_override,20260511
+188,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer,0,1,3,-0.0752235528544283,targeted_strong_lower_override,20260511
+189,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer,1,0,0,0.10866644020718311,targeted_strong_lower_override,20260511
+190,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer,2,4,0,0.10866644020718311,targeted_strong_lower_override,20260511
+191,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture,0,2,0,0.0791851866755201,targeted_strong_lower_override,20260511
+192,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture,1,0,0,0.0791851866755201,targeted_strong_lower_override,20260511
+193,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture,2,4,1,0.3392324406845751,targeted_strong_lower_override,20260511
+194,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations,0,2,4,0.03893445555420124,targeted_strong_lower_override,20260511
+195,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations,1,0,6,0.037908718929793674,targeted_strong_lower_override,20260511
+196,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations,2,4,0,0.6085174077850221,targeted_strong_lower_override,20260511
+197,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Point of View > Stable Personality,0,2,2,-0.014368058195556225,targeted_strong_lower_override,20260511
+198,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Point of View > Stable Personality,1,1,0,0.37815184340659563,targeted_strong_lower_override,20260511
+199,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Point of View > Stable Personality,2,0,1,0.39179091052601106,targeted_strong_lower_override,20260511
+200,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Point of View > Stable Personality,3,4,0,0.37815184340659563,targeted_strong_lower_override,20260511
+201,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme,0,2,5,0.09764735352345852,targeted_strong_lower_override,20260511
+202,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme,1,0,6,0.1872175929109301,targeted_strong_lower_override,20260511
+203,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme,2,4,3,0.06799527142556,targeted_strong_lower_override,20260511
+204,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations,0,2,6,0.02185691034782976,targeted_strong_lower_override,20260511
+205,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations,1,1,6,0.02185691034782976,targeted_strong_lower_override,20260511
+206,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations,2,0,5,0.11801465062202791,targeted_strong_lower_override,20260511
+207,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations,3,4,5,0.11801465062202791,targeted_strong_lower_override,20260511
+208,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior,0,2,6,0.05515512838872974,targeted_strong_lower_override,20260511
+209,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior,1,1,5,0.11700074626634312,targeted_strong_lower_override,20260511
+210,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior,2,0,5,0.11700074626634312,targeted_strong_lower_override,20260511
+211,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior,3,4,5,0.11700074626634312,targeted_strong_lower_override,20260511
+212,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Stable Personality,0,2,5,0.06912104640182654,targeted_strong_lower_override,20260511
+213,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Stable Personality,1,1,6,0.2306974405256144,targeted_strong_lower_override,20260511
+214,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Stable Personality,2,0,5,0.06912104640182654,targeted_strong_lower_override,20260511
+215,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Stable Personality,3,4,6,0.2306974405256144,targeted_strong_lower_override,20260511
+216,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking,0,2,4,0.1884547174070486,targeted_strong_lower_override,20260511
+217,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking,1,1,0,0.11473715893222654,targeted_strong_lower_override,20260511
+218,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking,2,0,2,-0.01732558871791427,targeted_strong_lower_override,20260511
+219,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking,3,4,0,0.11473715893222654,targeted_strong_lower_override,20260511
+220,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions,0,2,6,0.0023864263036761767,targeted_strong_lower_override,20260511
+221,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions,1,1,0,-0.011694290010154691,targeted_strong_lower_override,20260511
+222,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions,2,0,4,0.08136035660786688,targeted_strong_lower_override,20260511
+223,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions,3,4,0,-0.011694290010154691,targeted_strong_lower_override,20260511
+224,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Cross-Modal Learning Deficits,0,2,1,0.24184390161319883,targeted_strong_lower_override,20260511
+225,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Cross-Modal Learning Deficits,1,1,3,-0.06835858194486343,targeted_strong_lower_override,20260511
+226,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Cross-Modal Learning Deficits,2,0,3,-0.06835858194486343,targeted_strong_lower_override,20260511
+227,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Cross-Modal Learning Deficits,3,4,2,-0.029201988234040844,targeted_strong_lower_override,20260511
+228,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Selective Competence Disruption,0,2,5,0.11341053130926568,targeted_strong_lower_override,20260511
+229,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Selective Competence Disruption,1,1,0,-0.053831290246205685,targeted_strong_lower_override,20260511
+230,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Selective Competence Disruption,2,0,4,0.2111750421781521,targeted_strong_lower_override,20260511
+231,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Selective Competence Disruption,3,4,0,-0.053831290246205685,targeted_strong_lower_override,20260511
+232,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Poorly Intraconnected Networks,0,2,1,0.35571096474044395,targeted_strong_lower_override,20260511
+233,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Poorly Intraconnected Networks,1,1,0,0.04553601877099688,targeted_strong_lower_override,20260511
+234,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Poorly Intraconnected Networks,2,0,0,0.04553601877099688,targeted_strong_lower_override,20260511
+235,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Poorly Intraconnected Networks,3,4,0,0.04553601877099688,targeted_strong_lower_override,20260511
+236,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Speech Systems,0,2,2,-0.06696437644759613,targeted_strong_lower_override,20260511
+237,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Speech Systems,1,1,6,0.5365726719656978,targeted_strong_lower_override,20260511
+238,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Speech Systems,2,0,4,0.10957292082556783,targeted_strong_lower_override,20260511
+239,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Speech Systems,3,4,0,-0.24800640331616122,targeted_strong_lower_override,20260511
+240,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Action Systems,0,2,0,0.03923451600489029,targeted_strong_lower_override,20260511
+241,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Action Systems,1,1,0,0.03923451600489029,targeted_strong_lower_override,20260511
+242,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Action Systems,2,0,1,0.35096596671559976,targeted_strong_lower_override,20260511
+243,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Action Systems,3,4,0,0.03923451600489029,targeted_strong_lower_override,20260511
+244,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Sensory Systems,0,2,0,0.067270763474452,targeted_strong_lower_override,20260511
+245,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Sensory Systems,1,1,4,-0.07774949305739047,targeted_strong_lower_override,20260511
+246,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Sensory Systems,2,0,4,-0.07774949305739047,targeted_strong_lower_override,20260511
+247,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Modularity > Dedicated Sensory Systems,3,4,4,-0.07774949305739047,targeted_strong_lower_override,20260511
+248,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks,0,2,0,0.057709413340207245,targeted_strong_lower_override,20260511
+249,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks,1,1,0,0.057709413340207245,targeted_strong_lower_override,20260511
+250,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks,2,0,3,-0.08818915749578791,targeted_strong_lower_override,20260511
+251,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks,3,4,0,0.057709413340207245,targeted_strong_lower_override,20260511
+252,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli,0,2,2,-0.0028738380834731504,targeted_strong_lower_override,20260511
+253,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli,1,0,0,0.1446939486386902,targeted_strong_lower_override,20260511
+254,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli,2,4,0,0.1446939486386902,targeted_strong_lower_override,20260511
+255,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry,0,2,0,0.03891363063228262,targeted_strong_lower_override,20260511
+256,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry,1,1,0,0.03891363063228262,targeted_strong_lower_override,20260511
+257,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry,2,0,0,0.03891363063228262,targeted_strong_lower_override,20260511
+258,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry,3,4,0,0.03891363063228262,targeted_strong_lower_override,20260511
+259,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Informational Complexity > Compressibility,0,2,0,0.06597327468322378,targeted_strong_lower_override,20260511
+260,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Informational Complexity > Compressibility,1,0,0,0.06597327468322378,targeted_strong_lower_override,20260511
+261,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Informational Complexity > Compressibility,2,4,0,0.06597327468322378,targeted_strong_lower_override,20260511
+262,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization,0,2,0,0.09461691426363943,targeted_strong_lower_override,20260511
+263,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization,1,1,0,0.09461691426363943,targeted_strong_lower_override,20260511
+264,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization,2,0,1,0.3559424699652691,targeted_strong_lower_override,20260511
+265,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization,3,4,0,0.09461691426363943,targeted_strong_lower_override,20260511
+266,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Layers,0,2,0,0.0503453042573663,targeted_strong_lower_override,20260511
+267,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Layers,1,1,0,0.0503453042573663,targeted_strong_lower_override,20260511
+268,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Layers,2,0,0,0.0503453042573663,targeted_strong_lower_override,20260511
+269,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Layers,3,4,0,0.0503453042573663,targeted_strong_lower_override,20260511
+270,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes,0,2,0,0.048784619076263594,targeted_strong_lower_override,20260511
+271,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes,1,1,0,0.048784619076263594,targeted_strong_lower_override,20260511
+272,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes,2,0,0,0.048784619076263594,targeted_strong_lower_override,20260511
+273,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes,3,4,0,0.048784619076263594,targeted_strong_lower_override,20260511
+274,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Connections,0,2,0,0.09845199955016501,targeted_strong_lower_override,20260511
+275,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Connections,1,1,0,0.09845199955016501,targeted_strong_lower_override,20260511
+276,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Connections,2,0,3,-0.08708617675154127,targeted_strong_lower_override,20260511
+277,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Complexity > Structural Complexity > Number of Connections,3,4,0,0.09845199955016501,targeted_strong_lower_override,20260511
+278,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation,0,1,4,-0.008296032081419972,targeted_strong_lower_override,20260511
+279,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation,1,0,3,-0.1273129888453289,targeted_strong_lower_override,20260511
+280,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation,2,4,2,-0.005599228968115062,targeted_strong_lower_override,20260511
+281,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity,0,2,0,0.05063948497400739,targeted_strong_lower_override,20260511
+282,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity,1,1,0,0.05063948497400739,targeted_strong_lower_override,20260511
+283,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity,2,0,0,0.05063948497400739,targeted_strong_lower_override,20260511
+284,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity,3,4,0,0.05063948497400739,targeted_strong_lower_override,20260511
+285,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus,0,2,2,-0.04107006146571165,targeted_strong_lower_override,20260511
+286,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus,1,1,3,0.010835753468630612,targeted_strong_lower_override,20260511
+287,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus,2,0,4,-0.06458471184804317,targeted_strong_lower_override,20260511
+288,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus,3,4,4,-0.06458471184804317,targeted_strong_lower_override,20260511
+289,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts,0,2,0,0.04353939803416059,targeted_strong_lower_override,20260511
+290,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts,1,1,0,0.04353939803416059,targeted_strong_lower_override,20260511
+291,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts,2,0,0,0.04353939803416059,targeted_strong_lower_override,20260511
+292,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts,3,4,0,0.04353939803416059,targeted_strong_lower_override,20260511
+293,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness,0,2,4,0.030919296382847048,targeted_strong_lower_override,20260511
+294,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness,1,0,4,0.030919296382847048,targeted_strong_lower_override,20260511
+295,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness,2,4,4,0.030919296382847048,targeted_strong_lower_override,20260511
+296,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck,0,2,3,-0.026633424520888526,targeted_strong_lower_override,20260511
+297,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck,1,1,4,-0.12333524867695736,targeted_strong_lower_override,20260511
+298,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck,2,0,3,-0.026633424520888526,targeted_strong_lower_override,20260511
+299,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck,3,4,2,-0.03831642587863996,targeted_strong_lower_override,20260511
+300,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation,0,2,0,0.07598479372543092,targeted_strong_lower_override,20260511
+301,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation,1,1,2,-0.003088125304246947,targeted_strong_lower_override,20260511
+302,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation,2,0,0,0.07598479372543092,targeted_strong_lower_override,20260511
+303,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation,3,4,0,0.07598479372543092,targeted_strong_lower_override,20260511
+304,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation,0,2,1,0.2978404720253368,targeted_strong_lower_override,20260511
+305,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation,1,0,0,0.12974756452671343,targeted_strong_lower_override,20260511
+306,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation,2,4,1,0.2978404720253368,targeted_strong_lower_override,20260511
+307,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement,0,2,1,0.3575872911326562,targeted_strong_lower_override,20260511
+308,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement,1,1,0,0.0618328502335025,targeted_strong_lower_override,20260511
+309,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement,2,0,0,0.0618328502335025,targeted_strong_lower_override,20260511
+310,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement,3,4,0,0.0618328502335025,targeted_strong_lower_override,20260511
+311,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling,0,2,0,0.04778029514470553,targeted_strong_lower_override,20260511
+312,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling,1,1,0,0.04778029514470553,targeted_strong_lower_override,20260511
+313,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling,2,0,0,0.04778029514470553,targeted_strong_lower_override,20260511
+314,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling,3,4,0,0.04778029514470553,targeted_strong_lower_override,20260511
+315,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding,0,2,3,-0.08674617319330619,targeted_strong_lower_override,20260511
+316,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding,1,0,0,0.10545121622939299,targeted_strong_lower_override,20260511
+317,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding,2,4,0,0.10545121622939299,targeted_strong_lower_override,20260511
+318,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning,0,2,0,-0.11273166164082969,targeted_strong_lower_override,20260511
+319,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning,1,0,0,-0.11273166164082969,targeted_strong_lower_override,20260511
+320,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning,2,4,3,-0.13621632050468366,targeted_strong_lower_override,20260511
+321,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Integration > Wiring Convergence,0,2,0,0.05519744515023232,targeted_strong_lower_override,20260511
+322,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Integration > Wiring Convergence,1,1,0,0.05519744515023232,targeted_strong_lower_override,20260511
+323,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Integration > Wiring Convergence,2,0,0,0.05519744515023232,targeted_strong_lower_override,20260511
+324,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Integration > Wiring Convergence,3,4,0,0.05519744515023232,targeted_strong_lower_override,20260511
+325,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Integration > Holistic Dependency,0,2,0,0.06626291059287247,targeted_strong_lower_override,20260511
+326,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Integration > Holistic Dependency,1,1,0,0.06626291059287247,targeted_strong_lower_override,20260511
+327,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Integration > Holistic Dependency,2,0,1,0.35232967011526883,targeted_strong_lower_override,20260511
+328,2024 Leading Chat LLMs,LLMs,Global Workspace Theory > Integration > Holistic Dependency,3,4,0,0.06626291059287247,targeted_strong_lower_override,20260511
+329,ELIZA,ELIZA,Global Workspace Theory > Representationality > Conceptual Representations > Activation Steering Effects,0,0,4,-0.20057865829074606,targeted_strong_lower_override,20260511
+330,ELIZA,ELIZA,Global Workspace Theory > Representationality > Conceptual Representations > Probe-Detectable Themes,0,0,1,0.13524105623488566,targeted_strong_lower_override,20260511
+331,ELIZA,ELIZA,Global Workspace Theory > Representationality > Conceptual Representations > Concept-Specific Ablation Effects,0,0,6,0.09525466564703045,targeted_strong_lower_override,20260511
+332,ELIZA,ELIZA,Global Workspace Theory > Representationality > Propositional Representations > Logical Inference,0,0,6,0.12517527135106013,targeted_strong_lower_override,20260511
+333,ELIZA,ELIZA,Global Workspace Theory > Representationality > World Modelling > Model Isomorphism,0,0,5,0.207526875456364,targeted_strong_lower_override,20260511
+334,ELIZA,ELIZA,Global Workspace Theory > Representationality > World Modelling > Broad Predictive Training,0,0,4,-0.058846618652467236,targeted_strong_lower_override,20260511
+335,ELIZA,ELIZA,Global Workspace Theory > Representationality > Isomorphic Representations > Somatotopic Neural Maps,0,0,3,0.2514399901957967,targeted_strong_lower_override,20260511
+336,ELIZA,ELIZA,Global Workspace Theory > Representationality > Isomorphic Representations > Has Retinotopic Neural Maps,0,0,6,0.19479937159139146,targeted_strong_lower_override,20260511
+337,ELIZA,ELIZA,Global Workspace Theory > Hierarchical Organization > Concrete-Abstract Separation,0,0,6,0.2707690536453292,targeted_strong_lower_override,20260511
+338,ELIZA,ELIZA,Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts,0,0,1,0.2556946310618636,targeted_strong_lower_override,20260511
+339,ELIZA,ELIZA,Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts,0,0,0,-0.029125073651398006,targeted_strong_lower_override,20260511
+340,ELIZA,ELIZA,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer,0,0,0,0.006564904602840979,targeted_strong_lower_override,20260511
+341,ELIZA,ELIZA,Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer,0,0,0,0.07550257712609233,targeted_strong_lower_override,20260511
+342,ELIZA,ELIZA,Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture,0,0,0,-0.1223986033961382,targeted_strong_lower_override,20260511
+343,ELIZA,ELIZA,Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations,0,0,5,0.034468286577461135,targeted_strong_lower_override,20260511
+344,ELIZA,ELIZA,Global Workspace Theory > Coherence > Point of View > Stable Personality,0,0,0,0.022704218119832663,targeted_strong_lower_override,20260511
+345,ELIZA,ELIZA,Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme,0,0,4,0.1363137994749192,targeted_strong_lower_override,20260511
+346,ELIZA,ELIZA,Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations,0,0,2,0.030649003921357238,targeted_strong_lower_override,20260511
+347,ELIZA,ELIZA,Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior,0,0,0,-0.1258968059990817,targeted_strong_lower_override,20260511
+348,ELIZA,ELIZA,Global Workspace Theory > Coherence > Social Coherence > Stable Personality,0,0,0,0.023947240944653378,targeted_strong_lower_override,20260511
+349,ELIZA,ELIZA,Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking,0,0,0,0.04854854118803775,targeted_strong_lower_override,20260511
+350,ELIZA,ELIZA,Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions,0,0,3,-0.04636745024788955,targeted_strong_lower_override,20260511
+351,ELIZA,ELIZA,Global Workspace Theory > Modularity > Cross-Modal Learning Deficits,0,0,2,0.15790961714466084,targeted_strong_lower_override,20260511
+352,ELIZA,ELIZA,Global Workspace Theory > Modularity > Selective Competence Disruption,0,0,3,0.11234323059289505,targeted_strong_lower_override,20260511
+353,ELIZA,ELIZA,Global Workspace Theory > Modularity > Poorly Intraconnected Networks,0,0,0,-0.0027731257372232486,targeted_strong_lower_override,20260511
+354,ELIZA,ELIZA,Global Workspace Theory > Modularity > Dedicated Speech Systems,0,0,1,0.0765379786146323,targeted_strong_lower_override,20260511
+355,ELIZA,ELIZA,Global Workspace Theory > Modularity > Dedicated Action Systems,0,0,0,0.23348269599241048,targeted_strong_lower_override,20260511
+356,ELIZA,ELIZA,Global Workspace Theory > Modularity > Dedicated Sensory Systems,0,0,0,0.35017376316046844,targeted_strong_lower_override,20260511
+357,ELIZA,ELIZA,Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks,0,0,0,0.13526494856676755,targeted_strong_lower_override,20260511
+358,ELIZA,ELIZA,Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli,0,0,3,0.004300537535821449,targeted_strong_lower_override,20260511
+359,ELIZA,ELIZA,Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry,0,0,3,-0.055820003749330015,targeted_strong_lower_override,20260511
+360,ELIZA,ELIZA,Global Workspace Theory > Complexity > Informational Complexity > Compressibility,0,0,0,-0.07533533148077627,targeted_strong_lower_override,20260511
+361,ELIZA,ELIZA,Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization,0,0,5,0.09374229317218606,targeted_strong_lower_override,20260511
+362,ELIZA,ELIZA,Global Workspace Theory > Complexity > Structural Complexity > Number of Layers,0,0,6,-0.04991881113344554,targeted_strong_lower_override,20260511
+363,ELIZA,ELIZA,Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes,0,0,4,-0.24343721148170766,targeted_strong_lower_override,20260511
+364,ELIZA,ELIZA,Global Workspace Theory > Complexity > Structural Complexity > Number of Connections,0,0,5,0.08913330912113268,targeted_strong_lower_override,20260511
+365,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation,0,0,0,-0.06794178652488417,targeted_strong_lower_override,20260511
+366,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity,0,0,3,-0.10743937738780378,targeted_strong_lower_override,20260511
+367,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus,0,0,2,-0.0482444110689524,targeted_strong_lower_override,20260511
+368,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts,0,0,1,0.24935237774177813,targeted_strong_lower_override,20260511
+369,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness,0,0,0,0.11919355539389884,targeted_strong_lower_override,20260511
+370,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck,0,0,1,0.2020352956980701,targeted_strong_lower_override,20260511
+371,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation,0,0,0,0.2627372297462383,targeted_strong_lower_override,20260511
+372,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation,0,0,5,0.010990708777238015,targeted_strong_lower_override,20260511
+373,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement,0,0,4,-0.05638504808422235,targeted_strong_lower_override,20260511
+374,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling,0,0,5,0.0508638815478988,targeted_strong_lower_override,20260511
+375,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding,0,0,0,0.11166512975308371,targeted_strong_lower_override,20260511
+376,ELIZA,ELIZA,Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning,0,0,0,-0.19938029572059995,targeted_strong_lower_override,20260511
+377,ELIZA,ELIZA,Global Workspace Theory > Integration > Wiring Convergence,0,0,0,-0.002964174374959373,targeted_strong_lower_override,20260511
+378,ELIZA,ELIZA,Global Workspace Theory > Integration > Holistic Dependency,0,0,0,0.0956224421950567,targeted_strong_lower_override,20260511

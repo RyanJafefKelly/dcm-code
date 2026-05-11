@@ -43,10 +43,10 @@ SYSTEM_DISPLAY = {
 }
 SYSTEM_ORDER = ["Human", "Chicken", "2024 Leading Chat LLMs", "ELIZA"]
 FOCUS_KEYS = [
-    ("Derek Shiller", "Human"),
-    ("Derek Shiller", "ELIZA"),
-    ("Rachael Miller", "Chicken"),
-    ("Luhan Mikaelson", "2024 Leading Chat LLMs"),
+    ("Rater_B", "Human"),
+    ("Rater_B", "ELIZA"),
+    ("Rater_E", "Chicken"),
+    ("Rater_D", "2024 Leading Chat LLMs"),
 ]
 DEFAULT_FIT_OVERRIDES = {
     "NUM_SAMPLES": 2000,
@@ -335,10 +335,10 @@ def build_interpretation_note(results: Dict[str, Dict[str, Any]]) -> str:
         row = ppc[key]
         return abs(row[f"obs_{stat}"] - row[f"pred_{stat}_mean"])
 
-    ref_keys = [("Derek Shiller", "Human"), ("Derek Shiller", "ELIZA")]
+    ref_keys = [("Rater_B", "Human"), ("Rater_B", "ELIZA")]
     mid_keys = [
-        ("Rachael Miller", "Chicken"),
-        ("Luhan Mikaelson", "2024 Leading Chat LLMs"),
+        ("Rater_E", "Chicken"),
+        ("Rater_D", "2024 Leading Chat LLMs"),
     ]
     ref_delta = np.mean(
         [
@@ -369,11 +369,11 @@ def build_interpretation_note(results: Dict[str, Dict[str, Any]]) -> str:
     lines = ["Interpretation note"]
     if ref_delta < -0.03:
         lines.append(
-            "- The hierarchical cutpoints materially improve the Derek/Human-ELIZA reference cells."
+            "- The hierarchical cutpoints materially improve the Rater_B/Human-ELIZA reference cells."
         )
     else:
         lines.append(
-            "- The hierarchical cutpoints do not visibly improve the Derek/Human-ELIZA reference cells."
+            "- The hierarchical cutpoints do not visibly improve the Rater_B/Human-ELIZA reference cells."
         )
 
     if abs(hier_chicken - base_chicken) <= 0.05 and abs(hier_llm - base_llm) <= 0.05:
@@ -396,11 +396,11 @@ def build_interpretation_note(results: Dict[str, Dict[str, Any]]) -> str:
 
     if global_mean_delta > 0.03 or global_ext_delta > 0.03:
         lines.append(
-            "- Global stratified PPC gets worse elsewhere, so this may be fixing Derek by smearing other experts."
+            "- Global stratified PPC gets worse elsewhere, so this may be fixing Rater_B by smearing other experts."
         )
     else:
         lines.append(
-            "- There is no broad sign of fixing Derek by simply degrading the other experts' fit."
+            "- There is no broad sign of fixing Rater_B by simply degrading the other experts' fit."
         )
 
     return "\n".join(lines)

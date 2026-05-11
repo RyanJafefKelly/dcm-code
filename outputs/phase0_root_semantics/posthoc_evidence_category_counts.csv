@@ -1,0 +1,7 @@
+rho_type,evidence_category,n
+sampled_pi,ambiguous,10
+sampled_pi,moderate_absent,10
+sampled_pi,strong_absent,6
+collapsed,ambiguous,10
+collapsed,moderate_absent,10
+collapsed,strong_absent,6

@@ -8,8 +8,8 @@ No new fits.
      P(r = 1 | eta = 0, a, kappa)          -- outer-left component ceiling
      P(r = K | eta = a, a, kappa)          -- outer-right component ceiling
      (three-state also: P(r = 1 | eta = a/2) and P(r = K | eta = a/2))
-   Compare to observed P(r=1) at Derek × ELIZA (= 0.96) and P(r=K) at
-   Derek × Human (= 0.86). If the ceiling is below observed, the issue is
+   Compare to observed P(r=1) at Rater_B × ELIZA (= 0.96) and P(r=K) at
+   Rater_B × Human (= 0.86). If the ceiling is below observed, the issue is
    not state assignment -- it is emission sharpness. That would justify
    expert-specific scale or cutpoints.
 
@@ -165,8 +165,8 @@ def write_ceiling_report(
         "the joint posterior of (a, kappa).\n"
     )
     lines.append("## Observed extreme-category mass at focus reference cells\n")
-    lines.append(f"- Derek × Human P(r=7): **{observed['human_right']:.3f}**")
-    lines.append(f"- Derek × ELIZA P(r=1): **{observed['eliza_left']:.3f}**\n")
+    lines.append(f"- Rater_B × Human P(r=7): **{observed['human_right']:.3f}**")
+    lines.append(f"- Rater_B × ELIZA P(r=1): **{observed['eliza_left']:.3f}**\n")
 
     def _section(name: str, rows: List[Dict[str, Any]]):
         lines.append(f"## {name}\n")
@@ -196,7 +196,7 @@ def write_ceiling_report(
 
     lines.append("## Interpretation\n")
     lines.append("Comparing ceiling to observed extreme-category mass:\n")
-    lines.append(f"- **Derek × ELIZA** P(r=1): observed = {observed['eliza_left']:.3f}")
+    lines.append(f"- **Rater_B × ELIZA** P(r=1): observed = {observed['eliza_left']:.3f}")
     lines.append(
         f"  - Binary ceiling (eta=0): {b_r1:.3f}  -- "
         f"{'below observed by {:.3f}'.format(observed['eliza_left'] - b_r1) if b_r1 < observed['eliza_left'] else 'at or above observed'}"
@@ -205,7 +205,7 @@ def write_ceiling_report(
         f"  - Three-state ceiling (eta=0): {t_r1:.3f}  -- "
         f"{'below observed by {:.3f}'.format(observed['eliza_left'] - t_r1) if t_r1 < observed['eliza_left'] else 'at or above observed'}"
     )
-    lines.append(f"- **Derek × Human** P(r=7): observed = {observed['human_right']:.3f}")
+    lines.append(f"- **Rater_B × Human** P(r=7): observed = {observed['human_right']:.3f}")
     lines.append(
         f"  - Binary ceiling (eta=a): {b_r7:.3f}  -- "
         f"{'below observed by {:.3f}'.format(observed['human_right'] - b_r7) if b_r7 < observed['human_right'] else 'at or above observed'}"
@@ -223,7 +223,7 @@ def write_ceiling_report(
     )
     lines.append(
         "- If oracle components cannot reach observed extremes (ceiling < obs), "
-        "the shared ordered-probit emission is too blunt for Derek's rating "
+        "the shared ordered-probit emission is too blunt for Rater_B's rating "
         "style. Expert-specific scale or cutpoints are justified."
     )
     lines.append("")

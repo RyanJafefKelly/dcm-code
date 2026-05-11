@@ -1,0 +1,6 @@
+rung,rung_description,n_rep_smoke,seed,status,reason
+2,binary noisy leaves with inferred beta and matching production priors,2,20260511,config_validated_not_sampled,Full PyMC/NUTS refits are intentionally left as explicit commands in phase1b_ladder_plan.md.
+5M,"matched-prior nuisance washout, fully crossed",2,20260511,config_validated_not_sampled,Full PyMC/NUTS refits are intentionally left as explicit commands in phase1b_ladder_plan.md.
+5X,"extreme-beta nuisance positive control, fully crossed",2,20260511,config_validated_not_sampled,Full PyMC/NUTS refits are intentionally left as explicit commands in phase1b_ladder_plan.md.
+6,production-like rater design,2,20260511,config_validated_not_sampled,Full PyMC/NUTS refits are intentionally left as explicit commands in phase1b_ladder_plan.md.
+7,improved crossed design,2,20260511,config_validated_not_sampled,Full PyMC/NUTS refits are intentionally left as explicit commands in phase1b_ladder_plan.md.

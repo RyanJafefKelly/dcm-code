@@ -1,0 +1,20 @@
+fit_variant,validation_scope,pillar,metric,value,threshold,status,notes
+targeted_strong_lower_override,smoke,rho_recovery,evidence_margin_M,0.44785879685730023,> 0,pass,
+targeted_strong_lower_override,smoke,rho_recovery,balanced_accuracy,0.75,>= 0.75,pass,
+targeted_strong_lower_override,smoke,rho_recovery,brier_improvement,0.12758093506890295,> 0,pass,
+targeted_strong_lower_override,smoke,rho_recovery,log_score_improvement,0.1342000675274888,> 0,pass,
+targeted_strong_lower_override,smoke,rho_recovery,mean_rho_gap,0.5076585952795141,> 0.30,pass,
+targeted_strong_lower_override,smoke,posterior_predictive,mean_RPS_improvement,0.15882387677371976,> 0,pass,
+targeted_strong_lower_override,smoke,posterior_predictive,weighted_mean_cell_TV,0.39394159054296085,<= 0.25,fail,
+targeted_strong_lower_override,smoke,posterior_predictive,median_cell_TV,0.3731515654991237,<= 0.25,fail,
+targeted_strong_lower_override,smoke,posterior_predictive,q90_cell_TV,0.8372725528828427,<= 0.50,fail,
+targeted_strong_lower_override,smoke,posterior_predictive,fraction_cell_TV_gt_0p5,0.3040201005025125,<= 0.10,fail,
+targeted_strong_lower_override,smoke,posterior_predictive,posterior_predictive_tv_p_value,1.0,"in [0.05, 0.95]",fail,
+targeted_strong_lower_override,smoke,loo_lppd,frac_pareto_k_gt_0p7,0.0,<= 0.05,pass,partial
+targeted_strong_lower_override,smoke,loo_lppd,frac_pareto_k_gt_1p0,0.0,== 0,pass,partial
+targeted_strong_lower_override,smoke,loo_lppd,max_pareto_k,0.6046919227699887,< 1.0,pass,partial
+targeted_strong_lower_override,smoke,sampler_health,fit_pass_rate_no_divergences,1.0,>= 0.90,pass,
+targeted_strong_lower_override,smoke,sampler_health,fit_pass_rate_rhat,0.5,>= 0.90,fail,
+targeted_strong_lower_override,smoke,sampler_health,fit_pass_rate_ess_bulk,0.5,>= 0.90,fail,
+targeted_strong_lower_override,smoke,sampler_health,fit_pass_rate_ess_tail,0.5,>= 0.90,fail,
+targeted_strong_lower_override,smoke,sampler_health,fit_pass_rate_tree_depth,1.0,>= 0.90,pass,

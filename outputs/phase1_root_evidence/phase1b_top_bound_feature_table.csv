@@ -1,0 +1,22 @@
+beta_profile,top_feature_key,top_feature_name,support_label,demandingness_label,beta_pres,beta_abs,beta_gap,contribution_if_top_present,contribution_if_top_absent,n_descendant_subfeatures,n_descendant_indicators,n_observed_ratings_desc
+production_prior_mean,Global Workspace Theory > Representationality,Representationality,weak support,strongly undemanding,0.923076923076923,0.888888888888889,0.03418803418803407,0.0377403279828469,-0.3677247801253161,4,8,0
+production_prior_mean,Global Workspace Theory > Hierarchical Organization,Hierarchical Organization,weak support,moderately undemanding,0.8125,0.75,0.0625,0.08004270767353636,-0.2876820724517809,0,1,0
+production_prior_mean,Global Workspace Theory > Coherence,Coherence,strong support,strongly demanding,0.75,0.11111111111111112,0.6388888888888888,1.9095425048844383,-1.2685113254635072,4,13,0
+production_prior_mean,Global Workspace Theory > Modularity,Modularity,weak support,moderately demanding,0.4,0.25,0.15000000000000002,0.47000362924573563,-0.22314355131420985,0,6,0
+production_prior_mean,Global Workspace Theory > Complexity,Complexity,strong support,weakly undemanding,0.9142857142857143,0.5714285714285714,0.34285714285714286,0.47000362924573563,-1.6094379124341003,5,8,0
+production_prior_mean,Global Workspace Theory > Selective Attention,Selective Attention,strong support,moderately demanding,0.8,0.25,0.55,1.1631508098056809,-1.3217558399823197,5,12,0
+production_prior_mean,Global Workspace Theory > Integration,Integration,strong support,moderately demanding,0.8,0.25,0.55,1.1631508098056809,-1.3217558399823197,0,2,0
+production_oracle_median,Global Workspace Theory > Representationality,Representationality,weak support,strongly undemanding,0.9250177775636342,0.869159106691928,0.05585867087170626,0.06228675610397856,-0.5567309788738974,4,8,0
+production_oracle_median,Global Workspace Theory > Hierarchical Organization,Hierarchical Organization,weak support,moderately undemanding,0.8265237784608894,0.6298719913082595,0.19665178715262988,0.2717120765744194,-0.7578083768950798,0,1,0
+production_oracle_median,Global Workspace Theory > Coherence,Coherence,strong support,strongly demanding,0.7979354739553153,0.10156225083779936,0.6963732231175159,2.061355815243681,-1.4920703384968867,4,13,0
+production_oracle_median,Global Workspace Theory > Modularity,Modularity,weak support,moderately demanding,0.560047800174686,0.2332959659893026,0.32675183418538345,0.8757142497507894,-0.5554347678250722,0,6,0
+production_oracle_median,Global Workspace Theory > Complexity,Complexity,strong support,weakly undemanding,0.9205216626808573,0.3969036303573165,0.5236180323235409,0.8412470274704257,-2.0265925029666034,5,8,0
+production_oracle_median,Global Workspace Theory > Selective Attention,Selective Attention,strong support,moderately demanding,0.8652906577456392,0.21587260411564355,0.6494180536299956,1.3883770330795024,-1.761452064880101,5,12,0
+production_oracle_median,Global Workspace Theory > Integration,Integration,strong support,moderately demanding,0.8652906577456392,0.21587260411564355,0.6494180536299956,1.3883770330795024,-1.761452064880101,0,2,0
+extreme_0p9_0p1,Global Workspace Theory > Representationality,Representationality,weak support,strongly undemanding,0.9,0.1,0.8,2.1972245773362196,-2.1972245773362196,4,8,0
+extreme_0p9_0p1,Global Workspace Theory > Hierarchical Organization,Hierarchical Organization,weak support,moderately undemanding,0.9,0.1,0.8,2.1972245773362196,-2.1972245773362196,0,1,0
+extreme_0p9_0p1,Global Workspace Theory > Coherence,Coherence,strong support,strongly demanding,0.9,0.1,0.8,2.1972245773362196,-2.1972245773362196,4,13,0
+extreme_0p9_0p1,Global Workspace Theory > Modularity,Modularity,weak support,moderately demanding,0.9,0.1,0.8,2.1972245773362196,-2.1972245773362196,0,6,0
+extreme_0p9_0p1,Global Workspace Theory > Complexity,Complexity,strong support,weakly undemanding,0.9,0.1,0.8,2.1972245773362196,-2.1972245773362196,5,8,0
+extreme_0p9_0p1,Global Workspace Theory > Selective Attention,Selective Attention,strong support,moderately demanding,0.9,0.1,0.8,2.1972245773362196,-2.1972245773362196,5,12,0
+extreme_0p9_0p1,Global Workspace Theory > Integration,Integration,strong support,moderately demanding,0.9,0.1,0.8,2.1972245773362196,-2.1972245773362196,0,2,0

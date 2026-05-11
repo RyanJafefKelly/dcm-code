@@ -1,0 +1,80 @@
+{
+  "git": {
+    "branch": "c-id-sample-size-sweep",
+    "commit": "929063b36d14762e13fd2826839a45ffbd002c7c",
+    "diff_stat": "dcm_model.py                                       | 22 +++++---\n dcm_model_exact_tree.py                            | 49 +++++++++++++++++-\n .../gwt_full_exact_recovery.py                     | 60 +++++++++++++++++++---\n 3 files changed, 118 insertions(+), 13 deletions(-)",
+    "status_short": "M dcm_model.py\n M dcm_model_exact_tree.py\n M notebooks/synthetic_validation_2026-05-06/gwt_full_exact_recovery.py\n?? notebooks/anthropic_meeting_2026-05-12/\n?? notebooks/expert_discrimination_feasibility_2026-05-10/\n?? notebooks/ryan_endofspar_doc.md\n?? notebooks/sample_size_sweep_2026-05-10/\n?? notebooks/synthetic_validation_ladder_2026-05-11/\n?? outputs/\n?? phase0_root_semantics.py\n?? scripts/\n?? test_phase0_root_semantics.py"
+  },
+  "hmc_or_refit_launched": false,
+  "input_run_directories": [
+    "runs/targeted_strong_lower_override/seed_20260511"
+  ],
+  "loo_recomputed": false,
+  "mode": "refresh-existing",
+  "output_dir": "/Users/ryankelly/ryan-code/research/dcm-code/outputs/main_synthetic_validation_smoke_postpatch_20260511",
+  "posterior_predictive_draws_generated": false,
+  "refresh_output_dir": "/Users/ryankelly/ryan-code/research/dcm-code/outputs/main_synthetic_validation_smoke_postpatch_20260511/refreshed_summaries",
+  "refresh_timestamp_utc": "2026-05-11T09:13:16.406139+00:00",
+  "refreshed_output_mtimes": {
+    "loo_lppd_summary_refreshed.csv": "2026-05-11T09:13:16.390718+00:00",
+    "loo_pareto_k_refreshed.csv": "2026-05-11T09:13:16.391536+00:00",
+    "oracle_root_bridge_cases.csv": "2026-05-11T09:13:16.376472+00:00",
+    "oracle_root_bridge_summary.csv": "2026-05-11T09:13:16.392729+00:00",
+    "pass_fail_summary_refreshed.csv": "2026-05-11T09:13:16.392390+00:00",
+    "posterior_predictive_rating_distribution_by_system_refreshed.csv": "2026-05-11T09:13:16.390250+00:00",
+    "posterior_predictive_row_metadata.csv": "2026-05-11T09:13:16.385455+00:00",
+    "posterior_predictive_summary_refreshed.csv": "2026-05-11T09:13:16.389737+00:00",
+    "rho_recovery_summary_refreshed.csv": "2026-05-11T09:13:16.388285+00:00",
+    "sampler_diagnostics_summary_refreshed.csv": "2026-05-11T09:13:16.391891+00:00",
+    "validation_cases_refreshed.csv": "2026-05-11T09:13:16.387581+00:00",
+    "validation_manifest_refreshed.csv": "2026-05-11T09:13:16.386889+00:00"
+  },
+  "refreshed_values_consistency": {
+    "fit_nc_rho_matches_per_run_rho_cases": true,
+    "fit_nc_sampler_matches_run_summary_json": true,
+    "loo_refreshed_from_existing_per_run_summaries": true,
+    "oracle_root_bridge_cases_written": true,
+    "ppc_refreshed_from_existing_per_run_summaries": true,
+    "rho_mismatch_examples": [],
+    "sampler_mismatch_examples": []
+  },
+  "run_artifact_mtimes": [
+    {
+      "fit_nc_mtime": "2026-05-11T09:12:42.707548+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-11T09:12:47.251693+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-11T09:12:43.847645+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260511",
+      "run_summary_json_mtime": "2026-05-11T09:12:47.401706+00:00",
+      "seed": 20260511
+    }
+  ],
+  "skipped_incomplete_run_directories": [],
+  "stale_or_missing_top_level_files_before_refresh": [],
+  "summary_stale_before_refresh": false,
+  "top_level_csv_mtimes_after_refresh": {
+    "loo_lppd_summary.csv": "2026-05-11T09:12:47.478441+00:00",
+    "loo_pareto_k.csv": "2026-05-11T09:12:47.479173+00:00",
+    "main_synthetic_validation_report.md": "2026-05-11T09:12:47.493855+00:00",
+    "pass_fail_summary.csv": "2026-05-11T09:12:47.479910+00:00",
+    "posterior_predictive_rating_distribution_by_system.csv": "2026-05-11T09:12:47.475664+00:00",
+    "posterior_predictive_summary.csv": "2026-05-11T09:12:47.475206+00:00",
+    "rho_recovery_summary.csv": "2026-05-11T09:12:47.474617+00:00",
+    "sampler_diagnostics_summary.csv": "2026-05-11T09:12:47.479470+00:00",
+    "validation_cases.csv": "2026-05-11T09:12:47.474138+00:00",
+    "validation_manifest.csv": "2026-05-11T09:12:47.473481+00:00"
+  },
+  "top_level_csv_mtimes_before_refresh": {
+    "loo_lppd_summary.csv": "2026-05-11T09:12:47.478441+00:00",
+    "loo_pareto_k.csv": "2026-05-11T09:12:47.479173+00:00",
+    "main_synthetic_validation_report.md": "2026-05-11T09:12:47.493855+00:00",
+    "pass_fail_summary.csv": "2026-05-11T09:12:47.479910+00:00",
+    "posterior_predictive_rating_distribution_by_system.csv": "2026-05-11T09:12:47.475664+00:00",
+    "posterior_predictive_summary.csv": "2026-05-11T09:12:47.475206+00:00",
+    "rho_recovery_summary.csv": "2026-05-11T09:12:47.474617+00:00",
+    "sampler_diagnostics_summary.csv": "2026-05-11T09:12:47.479470+00:00",
+    "validation_cases.csv": "2026-05-11T09:12:47.474138+00:00",
+    "validation_manifest.csv": "2026-05-11T09:12:47.473481+00:00"
+  }
+}

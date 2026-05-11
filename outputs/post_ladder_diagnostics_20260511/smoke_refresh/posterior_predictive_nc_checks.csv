@@ -1,0 +1,3 @@
+fit_variant,seed,n_ratings,ppc_draws_in_nc,mean_RPS_from_nc,max_abs_category_prob_sum_minus_one,has_system_or_node_metadata_in_nc,cell_tv_recomputable_from_nc_alone,note
+targeted_strong_lower_override,20260511,379,500,0.07926495470537727,1.1102230246251565e-15,False,False,posterior_predictive.nc stores rating_row/category arrays but no system/node_key row metadata
+targeted_strong_lower_override,20260512,379,100,0.0648913727546949,9.992007221626409e-16,False,False,posterior_predictive.nc stores rating_row/category arrays but no system/node_key row metadata

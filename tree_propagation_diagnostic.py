@@ -102,14 +102,14 @@ ELIZA_SYSTEM = "ELIZA"
 # ``processor.expert_to_idx``).  All downstream display uses
 # ``anonymise_expert``.
 _EXPERT_ANON_MAP: Dict[str, str] = {
-    "Derek Shiller": "E_cross",
-    "Andreas Mogensen": "E_llmA",
-    "Felix Binder": "E_llmB",
-    "Luhan Mikaelson": "E_llmC",
+    "Rater_B": "E_cross",
+    "Rater_A": "E_llmA",
+    "Rater_C": "E_llmB",
+    "Rater_D": "E_llmC",
     "Hayley chickens": "E_chickenA",
-    "Rachael Miller": "E_chickenB",
+    "Rater_E": "E_chickenB",
 }
-_CROSS_SYSTEM_EXPERT = "Derek Shiller"  # data_cache.json lookup key
+_CROSS_SYSTEM_EXPERT = "Rater_B"  # data_cache.json lookup key
 
 
 def anonymise_expert(name: str) -> str:

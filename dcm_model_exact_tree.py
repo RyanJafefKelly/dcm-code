@@ -20,6 +20,7 @@ to numerical precision.
 
 from __future__ import annotations
 
+import math
 from typing import Any, Dict, List, Tuple
 
 import numpy as np
@@ -144,6 +145,11 @@ class MultiSystemExactTreeBuilder(MultiSystemModelBuilder):
         For pooled fits, references `self.beta_pres_by_group` / `_abs_by_group`.
         """
         root_path = (stance_data["name"],)
+        targeted_keys = (
+            set(self.config.TARGETED_OVERRIDE_NODE_KEYS)
+            if self.config.TARGETED_OVERRIDE_NODE_KEYS is not None
+            else None
+        )
 
         def walk(node: Dict, path: Tuple[str, ...]) -> None:
             current_path = path + (node["name"],)
@@ -154,7 +160,25 @@ class MultiSystemExactTreeBuilder(MultiSystemModelBuilder):
             support = node.get("support", "no bearing")
             demand = node.get("demandingness", "neutral")
 
-            if self.config.POOL_BETAS_BY_LABEL:
+            if targeted_keys is not None and key in targeted_keys:
+                mu_p = (
+                    float(self.config.BETA_PRES_OVERRIDE_MEAN)
+                    if self.config.BETA_PRES_OVERRIDE_MEAN is not None
+                    else 0.90
+                )
+                mu_a = (
+                    float(self.config.BETA_ABS_OVERRIDE_MEAN)
+                    if self.config.BETA_ABS_OVERRIDE_MEAN is not None
+                    else 0.10
+                )
+                sigma = (
+                    float(self.config.BETA_OVERRIDE_SIGMA)
+                    if self.config.BETA_OVERRIDE_SIGMA is not None
+                    else float(self.config.LABEL_POOL_SIGMA)
+                )
+                bp = build_safe_gain_node_beta(name, "pres", mu_p, sigma)
+                ba = build_safe_gain_node_beta(name, "abs", mu_a, sigma)
+            elif self.config.POOL_BETAS_BY_LABEL:
                 bp = self.beta_pres_by_group[(support, demand)]
                 abs_key: Any = (
                     (support, demand)
@@ -331,6 +355,29 @@ class MultiSystemExactTreeBuilder(MultiSystemModelBuilder):
             log_L_top1 = log_L_top1 + cL_zpa1
 
         c_c = pt.clip(c_var, eps, 1.0 - eps)
+        stance_prefix = self.node_to_varname.get(stance_data["name"])
+        if stance_prefix is None:
+            stance_prefix = stance_data["name"].replace(" ", "_").replace("/", "_").lower()
+        safe_prefix = f"{self._sys_prefix(sys_name)}__{stance_prefix}"
+        pm.Deterministic(f"{safe_prefix}_log_L_root0", log_L_top0)
+        pm.Deterministic(f"{safe_prefix}_log_L_root1", log_L_top1)
+        log_B = log_L_top1 - log_L_top0
+        pm.Deterministic(f"{safe_prefix}_log_B", log_B)
+        log_prior_odds = math.log(
+            float(self.config.DEFAULT_ALPHA) / float(self.config.DEFAULT_BETA)
+        )
+        pm.Deterministic(
+            f"{safe_prefix}_rho_collapsed",
+            pt.sigmoid(log_prior_odds + log_B),
+        )
+
+        log_num_present = pt.log(c_c) + log_L_top1
+        log_num_absent = pt.log1p(-c_c) + log_L_top0
+        log_norm = pt.logaddexp(log_num_present, log_num_absent)
+        pm.Deterministic(
+            f"{safe_prefix}_rho",
+            pt.exp(log_num_present - log_norm),
+        )
         return pt.logaddexp(
             pt.log(c_c) + log_L_top1,
             pt.log(1.0 - c_c) + log_L_top0,

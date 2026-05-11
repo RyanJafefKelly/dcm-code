@@ -160,12 +160,12 @@ def evaluate_flags(
         }
     )
 
-    # Flag 2: Derek x ELIZA improves via cat-1 (Delta_left towards 0), not cat-7.
-    b = focus_binary_leaf.get(("Derek Shiller", "ELIZA"))
-    t = focus_three_leaf.get(("Derek Shiller", "ELIZA"))
+    # Flag 2: Rater_B x ELIZA improves via cat-1 (Delta_left towards 0), not cat-7.
+    b = focus_binary_leaf.get(("Rater_B", "ELIZA"))
+    t = focus_three_leaf.get(("Rater_B", "ELIZA"))
     if b is None or t is None:
         flags.append(
-            {"name": "Derek x ELIZA cat-1 improvement", "pass": None, "detail": "cell missing"}
+            {"name": "Rater_B x ELIZA cat-1 improvement", "pass": None, "detail": "cell missing"}
         )
     else:
         dL_b = b["delta_left"]
@@ -175,7 +175,7 @@ def evaluate_flags(
         right_stable = abs(dR_t) < 0.1  # model is not cat-7 spiking
         flags.append(
             {
-                "name": "Derek x ELIZA cat-1 improvement (|delta_left| down, |delta_right| small)",
+                "name": "Rater_B x ELIZA cat-1 improvement (|delta_left| down, |delta_right| small)",
                 "pass": left_improved and right_stable,
                 "detail": (
                     f"|delta_left| {abs(dL_b):.3f} -> {abs(dL_t):.3f}; "
@@ -184,12 +184,12 @@ def evaluate_flags(
             }
         )
 
-    # Flag 3: Derek x Human improves via cat-7 (|Delta_right| decreased), not cat-1.
-    b = focus_binary_leaf.get(("Derek Shiller", "Human"))
-    t = focus_three_leaf.get(("Derek Shiller", "Human"))
+    # Flag 3: Rater_B x Human improves via cat-7 (|Delta_right| decreased), not cat-1.
+    b = focus_binary_leaf.get(("Rater_B", "Human"))
+    t = focus_three_leaf.get(("Rater_B", "Human"))
     if b is None or t is None:
         flags.append(
-            {"name": "Derek x Human cat-7 improvement", "pass": None, "detail": "cell missing"}
+            {"name": "Rater_B x Human cat-7 improvement", "pass": None, "detail": "cell missing"}
         )
     else:
         dR_b = b["delta_right"]
@@ -199,7 +199,7 @@ def evaluate_flags(
         left_stable = abs(dL_t) < 0.1
         flags.append(
             {
-                "name": "Derek x Human cat-7 improvement (|delta_right| down, |delta_left| small)",
+                "name": "Rater_B x Human cat-7 improvement (|delta_right| down, |delta_left| small)",
                 "pass": right_improved and left_stable,
                 "detail": (
                     f"|delta_right| {abs(dR_b):.3f} -> {abs(dR_t):.3f}; "
@@ -208,10 +208,10 @@ def evaluate_flags(
             }
         )
 
-    # Flag 4: Rachael x Chicken and Luhan x LLMs improve without wrong-tail spikes.
+    # Flag 4: Rater_E x Chicken and Rater_D x LLMs improve without wrong-tail spikes.
     detail_parts = []
     fail = False
-    for cell_key in [("Rachael Miller", "Chicken"), ("Luhan Mikaelson", "2024 Leading Chat LLMs")]:
+    for cell_key in [("Rater_E", "Chicken"), ("Rater_D", "2024 Leading Chat LLMs")]:
         b = focus_binary_leaf.get(cell_key)
         t = focus_three_leaf.get(cell_key)
         if b is None or t is None:
@@ -229,7 +229,7 @@ def evaluate_flags(
         )
     flags.append(
         {
-            "name": "Rachael x Chicken + Luhan x LLMs improve without wrong-tail spikes",
+            "name": "Rater_E x Chicken + Rater_D x LLMs improve without wrong-tail spikes",
             "pass": not fail,
             "detail": " | ".join(detail_parts),
         }

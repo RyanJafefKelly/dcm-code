@@ -1,0 +1,59 @@
+{
+  "deterministics_present": true,
+  "expected_deterministics": [
+    "human__global_workspace_theory_log_L_root0",
+    "human__global_workspace_theory_log_L_root1",
+    "human__global_workspace_theory_log_B",
+    "human__global_workspace_theory_rho",
+    "chicken__global_workspace_theory_log_L_root0",
+    "chicken__global_workspace_theory_log_L_root1",
+    "chicken__global_workspace_theory_log_B",
+    "chicken__global_workspace_theory_rho",
+    "2024_leading_chat_llms__global_workspace_theory_log_L_root0",
+    "2024_leading_chat_llms__global_workspace_theory_log_L_root1",
+    "2024_leading_chat_llms__global_workspace_theory_log_B",
+    "2024_leading_chat_llms__global_workspace_theory_rho",
+    "eliza__global_workspace_theory_log_L_root0",
+    "eliza__global_workspace_theory_log_L_root1",
+    "eliza__global_workspace_theory_log_B",
+    "eliza__global_workspace_theory_rho"
+  ],
+  "missing_deterministics": [],
+  "model_build_ok": true,
+  "no_extra_potentials_added": true,
+  "potential_names": [
+    "human__exact_tree_lik",
+    "chicken__exact_tree_lik",
+    "2024_leading_chat_llms__exact_tree_lik",
+    "eliza__exact_tree_lik"
+  ],
+  "prior_predictive_inferencedata_ok": true,
+  "rho_finite": true,
+  "rho_in_unit_interval": true,
+  "rho_ranges": {
+    "2024_leading_chat_llms__global_workspace_theory_rho": {
+      "finite": true,
+      "in_unit_interval": true,
+      "max": 0.013779121475571785,
+      "min": 0.0020100454280510553
+    },
+    "chicken__global_workspace_theory_rho": {
+      "finite": true,
+      "in_unit_interval": true,
+      "max": 0.541567046654759,
+      "min": 0.0012375294686120116
+    },
+    "eliza__global_workspace_theory_rho": {
+      "finite": true,
+      "in_unit_interval": true,
+      "max": 0.0004935134628226297,
+      "min": 1.0682116545053222e-05
+    },
+    "human__global_workspace_theory_rho": {
+      "finite": true,
+      "in_unit_interval": true,
+      "max": 0.9999923090645549,
+      "min": 0.9991002172377215
+    }
+  }
+}

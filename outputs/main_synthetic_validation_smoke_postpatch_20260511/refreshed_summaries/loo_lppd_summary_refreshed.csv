@@ -1,0 +1,2 @@
+fit_variant,n_ratings,n_ratings_used_for_loo,loo_draws,loo_partial_flag,elpd_loo,se_elpd_loo,p_loo,lppd_conditional,mean_pareto_k,median_pareto_k,max_pareto_k,frac_pareto_k_gt_0p7,frac_pareto_k_gt_1p0,n_seeds,seed_min,seed_max,seed_list
+targeted_strong_lower_override,379.0,50.0,100.0,1.0,-62.90072785549184,5.5854409064025505,1.7970220522011928,-61.10370580329065,0.1879521111141487,0.1852323049642745,0.5712835802858354,0.0,0.0,1,20260511,20260511,20260511
