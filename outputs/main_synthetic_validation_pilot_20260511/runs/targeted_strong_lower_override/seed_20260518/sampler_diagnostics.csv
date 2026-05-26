@@ -1,0 +1,2 @@
+fit_variant,seed,max_rhat,n_rhat_gt_1p01,n_rhat_gt_1p05,min_ess_bulk,min_ess_tail,median_ess_bulk,median_ess_tail,n_divergences,divergence_rate,max_tree_depth_hits,max_tree_depth_hit_rate,mean_acceptance_rate,runtime_seconds
+targeted_strong_lower_override,20260518,1.01,0,0,2962.0,1875.0,9482.0,2710.0,0,0.0,0,0.0,0.9447605959698802,2418.3014960289

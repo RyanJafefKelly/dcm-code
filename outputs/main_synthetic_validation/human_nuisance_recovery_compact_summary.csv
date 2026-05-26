@@ -1,0 +1,11 @@
+seed,max_abs_b_error_for_human_raters,mean_abs_b_error_for_human_raters,a_error,max_kappa_abs_error,n_human_rater_truth_outside_90pct_interval,n_key_beta_truth_outside_90pct_interval,n_key_beta_audited,notes
+20260511,0.0,0.0,0.38119946755208245,0.3471523072591356,0,0,0,fixed_zero_no_b_posterior_variable
+20260512,0.0,0.0,0.16536800773926874,0.377926391667204,0,0,0,fixed_zero_no_b_posterior_variable
+20260513,0.0,0.0,0.48931539699068427,0.18971663656285997,0,0,100,fixed_zero_no_b_posterior_variable
+20260514,0.0,0.0,0.25892593410325393,0.42345071808279355,0,0,0,fixed_zero_no_b_posterior_variable
+20260515,0.0,0.0,0.09734046857580214,0.16194621962717504,0,0,0,fixed_zero_no_b_posterior_variable
+20260516,0.0,0.0,0.30284016782884926,0.3020443239160806,0,0,0,fixed_zero_no_b_posterior_variable
+20260517,0.0,0.0,0.220516538606379,0.3629512812451885,0,0,0,fixed_zero_no_b_posterior_variable
+20260518,0.0,0.0,0.26557052530465874,0.4245704309764835,0,0,100,fixed_zero_no_b_posterior_variable
+20260519,0.0,0.0,0.23158238409065302,0.28975986463131376,0,0,0,fixed_zero_no_b_posterior_variable
+20260520,0.0,0.0,0.07781860162175214,0.22457518492038853,0,0,0,fixed_zero_no_b_posterior_variable

@@ -1,0 +1,13 @@
+project:
+  type: default
+
+format:
+  pdf:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    geometry:
+      - margin=1in
+    fontsize: 11pt
+    fig-pos: "H"
+    colorlinks: true

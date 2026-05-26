@@ -1,0 +1,1223 @@
+{
+  "check_results": {
+    "fit_variant_is_targeted_strong_lower_override": {
+      "detail": "fit_variant=targeted_strong_lower_override",
+      "status": "pass"
+    },
+    "generator_fitter_centres_match": {
+      "detail": "max_pres_diff=0.000e+00, max_abs_diff=0.000e+00",
+      "status": "pass"
+    },
+    "main_targeted_config_pool_betas_by_label_false": {
+      "detail": "POOL_BETAS_BY_LABEL=False",
+      "status": "pass"
+    },
+    "main_targeted_non_targeted_edges_use_production_per_node_beta": {
+      "detail": "non-targeted edges remain on EvidenceProcessor get_beta_parameters + pm.Beta centres",
+      "status": "pass"
+    },
+    "no_overridden_weak_top_ancestors": {
+      "detail": "disallowed_top_ancestors=[]",
+      "status": "pass"
+    },
+    "no_root_to_top_overrides": {
+      "detail": "root_to_top_overridden_count=0",
+      "status": "pass"
+    },
+    "no_weak_top_overrides": {
+      "detail": "weak_top_overridden_count=0",
+      "status": "pass"
+    },
+    "overridden_edge_count_is_expected_current_gwt": {
+      "detail": "overridden_edge_count=49",
+      "status": "pass"
+    },
+    "overridden_edge_count_positive": {
+      "detail": "overridden_edge_count=49",
+      "status": "pass"
+    },
+    "overridden_tops_are_allowed_strong_features": {
+      "detail": "outside_allowed_top_ancestors=[]",
+      "status": "pass"
+    },
+    "rho_collapsed_extraction_path_available": {
+      "detail": "trace deterministic exists or extract_rho_cases computes expit(LOGIT_PRIOR + log_B)",
+      "status": "pass"
+    },
+    "targeted_fitter_prior_centres_are_0p90_0p10": {
+      "detail": "all overridden fitter prior centres are beta_pres=0.90 and beta_abs=0.10",
+      "status": "pass"
+    },
+    "targeted_generator_truth_is_0p90_0p10": {
+      "detail": "all overridden generator truth centres are beta_pres=0.90 and beta_abs=0.10",
+      "status": "pass"
+    },
+    "targeted_prior_family_is_logit_normal_safe_gain": {
+      "detail": "targeted branch uses build_safe_gain_node_beta and contains no pm.Beta call",
+      "status": "pass"
+    }
+  },
+  "created_at_utc": "2026-05-11T22:58:40.092415+00:00",
+  "failed_checks": [],
+  "fit_variant": "targeted_strong_lower_override",
+  "git": {
+    "branch": "ryan/spar-handover-2026-05-12",
+    "commit": "87d331cba21218432ae30a89f0bd1b885fa5cc0d"
+  },
+  "max_generator_fitter_abs_diff": 0.0,
+  "max_generator_fitter_pres_diff": 0.0,
+  "non_targeted_prior_family_for_main_targeted_config": "production_evidence_processor_per_node_beta",
+  "overridden_edge_count": 49,
+  "overridden_edge_keys": [
+    "Global Workspace Theory > Coherence > Autonomous Subparts",
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts",
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts",
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer",
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture",
+    "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer",
+    "Global Workspace Theory > Coherence > Common Representational Scheme",
+    "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme",
+    "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior",
+    "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations",
+    "Global Workspace Theory > Coherence > Point of View",
+    "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations",
+    "Global Workspace Theory > Coherence > Point of View > Stable Personality",
+    "Global Workspace Theory > Coherence > Social Coherence",
+    "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking",
+    "Global Workspace Theory > Coherence > Social Coherence > Stable Personality",
+    "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions",
+    "Global Workspace Theory > Complexity > Functional Diversity",
+    "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks",
+    "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli",
+    "Global Workspace Theory > Complexity > Informational Complexity",
+    "Global Workspace Theory > Complexity > Informational Complexity > Compressibility",
+    "Global Workspace Theory > Complexity > Informational Complexity > Efficient Network Topology",
+    "Global Workspace Theory > Complexity > Informational Complexity > Efficient Problem-Solving",
+    "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry",
+    "Global Workspace Theory > Complexity > Structural Complexity",
+    "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization",
+    "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections",
+    "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers",
+    "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes",
+    "Global Workspace Theory > Integration > Holistic Dependency",
+    "Global Workspace Theory > Integration > Wiring Convergence",
+    "Global Workspace Theory > Selective Attention > Adaptive Focus",
+    "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts",
+    "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness",
+    "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus",
+    "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture",
+    "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck",
+    "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation",
+    "Global Workspace Theory > Selective Attention > Capability Attention Modulation",
+    "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning",
+    "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding",
+    "Global Workspace Theory > Selective Attention > Non-Linear Capabilities",
+    "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity",
+    "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation",
+    "Global Workspace Theory > Selective Attention > Performance Sensitivity",
+    "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling",
+    "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation",
+    "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement"
+  ],
+  "overridden_edge_table": [
+    {
+      "demandingness_label": "neutral",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Autonomous Subparts",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Coherence",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.42857142857142855,
+      "production_gap": -0.07142857142857145,
+      "support_label": "weak undermining",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Autonomous Subparts > Functional Subparts",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Autonomous Subparts",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Autonomous Subparts"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.75,
+      "production_gap": 0.25,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "strongly demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Autonomous Subparts > Conflicting Subparts",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Autonomous Subparts",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Autonomous Subparts"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.11111111111111112,
+      "production_beta_pres_mean": 0.5294117647058824,
+      "production_gap": 0.41830065359477125,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "moderately undemanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Autonomous Subparts",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Autonomous Subparts"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.75,
+      "production_beta_pres_mean": 0.9,
+      "production_gap": 0.15000000000000002,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "weakly undemanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Autonomous Subparts > Learning Transfer",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Autonomous Subparts",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Autonomous Subparts"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5714285714285714,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.22857142857142865,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Autonomous Subparts > Information Transfer Architecture",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Autonomous Subparts",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Autonomous Subparts"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Point of View",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Coherence",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Point of View > Perspective-relative Representations",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Point of View",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Point of View"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.55,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Point of View > Stable Personality",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Point of View",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Point of View"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.4,
+      "production_gap": 0.15000000000000002,
+      "support_label": "weak support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Common Representational Scheme",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Coherence",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.6923076923076923,
+      "production_gap": 0.26373626373626374,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Common Representational Scheme > Authoritative Representational Scheme",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Common Representational Scheme",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Common Representational Scheme"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Common Representational Scheme > Unified Egocentric Representations",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Common Representational Scheme",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Common Representational Scheme"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.8571428571428571,
+      "production_gap": 0.42857142857142855,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Common Representational Scheme > Distinguishes Self-Produced from Other-Produced Behavior",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Common Representational Scheme",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Common Representational Scheme"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.75,
+      "production_gap": 0.25,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Social Coherence",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Coherence",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.75,
+      "production_gap": 0.25,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Social Coherence > Stable Personality",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Social Coherence",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Social Coherence"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "weakly undemanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Social Coherence > Persistence Seeking",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Social Coherence",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Social Coherence"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5714285714285714,
+      "production_beta_pres_mean": 0.6666666666666667,
+      "production_gap": 0.09523809523809534,
+      "support_label": "weak support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Coherence > Social Coherence > Stable Social Interactions",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Coherence > Social Coherence",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Coherence",
+        "Social Coherence"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.8571428571428571,
+      "production_gap": 0.42857142857142855,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Coherence"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Functional Diversity",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.6923076923076923,
+      "production_gap": 0.26373626373626374,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Functional Diversity > Diversity of Tasks",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Complexity > Functional Diversity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Functional Diversity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.8571428571428571,
+      "production_gap": 0.42857142857142855,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "moderately undemanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Functional Diversity > Variability of Responses to Stimuli",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Complexity > Functional Diversity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Functional Diversity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.75,
+      "production_beta_pres_mean": 0.8125,
+      "production_gap": 0.0625,
+      "support_label": "weak support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Informational Complexity",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.55,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Informational Complexity > Efficient Problem-Solving",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Complexity > Informational Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Informational Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Informational Complexity > Optimized Componentry",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Complexity > Informational Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Informational Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.5714285714285714,
+      "production_gap": 0.0714285714285714,
+      "support_label": "weak support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Informational Complexity > Compressibility",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Complexity > Informational Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Informational Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.75,
+      "production_gap": 0.25,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Informational Complexity > Efficient Network Topology",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Complexity > Informational Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Informational Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.75,
+      "production_gap": 0.25,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "strongly demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Structural Complexity",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.11111111111111112,
+      "production_beta_pres_mean": 0.75,
+      "production_gap": 0.6388888888888888,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Structural Complexity > Functional Specialization",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Complexity > Structural Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Structural Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.888888888888889,
+      "production_gap": 0.38888888888888895,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Structural Complexity > Number of Layers",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Complexity > Structural Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Structural Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Structural Complexity > Number of Nodes",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Complexity > Structural Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Structural Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.6923076923076923,
+      "production_gap": 0.26373626373626374,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Complexity > Structural Complexity > Number of Connections",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Complexity > Structural Complexity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Complexity",
+        "Structural Complexity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.6923076923076923,
+      "production_gap": 0.26373626373626374,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Complexity"
+    },
+    {
+      "demandingness_label": "weakly undemanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Non-Linear Capabilities",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Selective Attention",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5714285714285714,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.22857142857142865,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Threshold Activation",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Non-Linear Capabilities",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Non-Linear Capabilities"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.888888888888889,
+      "production_gap": 0.38888888888888895,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "weakly undemanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Non-Linear Capabilities > Self-Sustained Activity",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Non-Linear Capabilities",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Non-Linear Capabilities"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5714285714285714,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.22857142857142865,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Adaptive Focus",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Selective Attention",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.55,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Adaptive Focus > Task Focus",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Adaptive Focus",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Adaptive Focus"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Adaptive Focus > Goal Focus Shifts",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Adaptive Focus",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Adaptive Focus"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Adaptive Focus > Inattentional Blindness",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Adaptive Focus",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Adaptive Focus"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.6923076923076923,
+      "production_gap": 0.26373626373626374,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Selective Attention",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.6923076923076923,
+      "production_gap": 0.26373626373626374,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Informational Bottleneck",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Attention-Constrained Architecture"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.55,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture > Resource Adaptation",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Attention-Constrained Architecture",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Attention-Constrained Architecture"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.888888888888889,
+      "production_gap": 0.38888888888888895,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Performance Sensitivity",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Selective Attention",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.6923076923076923,
+      "production_gap": 0.26373626373626374,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Performance Sensitivity > Performance Degradation",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Performance Sensitivity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Performance Sensitivity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.5909090909090909,
+      "production_gap": 0.34090909090909094,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "weakly undemanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Performance Sensitivity > Priming Enhancement",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Performance Sensitivity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Performance Sensitivity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5714285714285714,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.22857142857142865,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "weakly undemanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Performance Sensitivity > Coupling",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Performance Sensitivity",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Performance Sensitivity"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5714285714285714,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.22857142857142865,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "weakly demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Capability Attention Modulation",
+      "node_type": "feature",
+      "parent_key": "Global Workspace Theory > Selective Attention",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.42857142857142855,
+      "production_beta_pres_mean": 0.8571428571428571,
+      "production_gap": 0.42857142857142855,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "neutral",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Feature Binding",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Capability Attention Modulation",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Capability Attention Modulation"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5,
+      "production_beta_pres_mean": 0.75,
+      "production_gap": 0.25,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "moderately undemanding",
+      "depth": 3,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Selective Attention > Capability Attention Modulation > Adaptive Learning",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Selective Attention > Capability Attention Modulation",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Selective Attention",
+        "Capability Attention Modulation"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.75,
+      "production_beta_pres_mean": 0.9,
+      "production_gap": 0.15000000000000002,
+      "support_label": "moderate support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Selective Attention"
+    },
+    {
+      "demandingness_label": "moderately demanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Integration > Wiring Convergence",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Integration",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Integration"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.25,
+      "production_beta_pres_mean": 0.8,
+      "production_gap": 0.55,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Integration"
+    },
+    {
+      "demandingness_label": "weakly undemanding",
+      "depth": 2,
+      "fitter_beta_abs_prior_centre": 0.1,
+      "fitter_beta_pres_prior_centre": 0.9,
+      "node_key": "Global Workspace Theory > Integration > Holistic Dependency",
+      "node_type": "indicator",
+      "parent_key": "Global Workspace Theory > Integration",
+      "parent_path": [
+        "Global Workspace Theory",
+        "Integration"
+      ],
+      "prior_family": "logit-Normal/build_safe_gain_node_beta",
+      "production_beta_abs_mean": 0.5714285714285714,
+      "production_beta_pres_mean": 0.9142857142857143,
+      "production_gap": 0.34285714285714286,
+      "support_label": "strong support",
+      "targeted_beta_abs_true": 0.1,
+      "targeted_beta_pres_true": 0.9,
+      "top_ancestor": "Integration"
+    }
+  ],
+  "pass_fail": "pass",
+  "pool_betas_by_label_for_main_targeted_config": false,
+  "rho_collapsed_extraction_path": {
+    "extract_rho_cases_fallback_declared": true,
+    "fallback_formula": "expit(log(1/5) + log_B)",
+    "trace_deterministic_declared": true
+  },
+  "root_to_top_overridden_count": 0,
+  "seed": 20260511,
+  "targeted_by_depth_or_type": {
+    "by_depth": {
+      "2": 14,
+      "3": 35
+    },
+    "by_depth_and_node_type": {
+      "depth_2__feature": 12,
+      "depth_2__indicator": 2,
+      "depth_3__feature": 2,
+      "depth_3__indicator": 33
+    },
+    "by_node_type": {
+      "feature": 14,
+      "indicator": 35
+    }
+  },
+  "targeted_by_top_feature": {
+    "Coherence": 17,
+    "Complexity": 13,
+    "Integration": 2,
+    "Selective Attention": 17
+  },
+  "targeted_prior_family_for_main_targeted_config": "logit-Normal/build_safe_gain_node_beta",
+  "total_non_root_edges": 75,
+  "warnings": [],
+  "weak_top_overridden_count": 0
+}

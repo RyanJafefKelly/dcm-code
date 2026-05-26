@@ -1,0 +1,3 @@
+fit_variant,system,n_cases,n_R1_cases,n_oracle_correct,n_posterior_correct,n_hmc_only_sign_flips,n_R1_oracle_negative,mean_delta_log_B_eff_minus_oracle,max_abs_delta_log_B_eff_minus_oracle
+targeted_strong_lower_override,Chicken,10,5,10,10,0,0,0.12402470902053644,0.9055831094407161
+targeted_strong_lower_override,LLMs,10,5,7,7,0,3,-0.28780193464744713,1.103960247363764

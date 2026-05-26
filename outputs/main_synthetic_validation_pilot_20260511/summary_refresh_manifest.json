@@ -1,0 +1,179 @@
+{
+  "git": {
+    "branch": "ryan/spar-handover-2026-05-12",
+    "commit": "87d331cba21218432ae30a89f0bd1b885fa5cc0d",
+    "diff_stat": ".../plots/confusion_matrix_counts.png              | Bin 23840 -> 18858 bytes\n .../plots/pareto_k_distribution.png                | Bin 24507 -> 28621 bytes\n .../ppc_rating_distribution_overlay_by_system.png  | Bin 59200 -> 58438 bytes\n .../plots/rho_by_truth_and_system.png              | Bin 24756 -> 27383 bytes\n .../plots/rho_calibration_curve.png                | Bin 40042 -> 40757 bytes\n .../plots/sampler_diagnostics_overview.png         | Bin 51861 -> 64840 bytes\n scripts/main_synthetic_validation_plots.py         | 160 +++++++++++++++++++++\n 7 files changed, 160 insertions(+)",
+    "status_short": "M outputs/main_synthetic_validation/plots/confusion_matrix_counts.png\n M outputs/main_synthetic_validation/plots/pareto_k_distribution.png\n M outputs/main_synthetic_validation/plots/ppc_rating_distribution_overlay_by_system.png\n M outputs/main_synthetic_validation/plots/rho_by_truth_and_system.png\n M outputs/main_synthetic_validation/plots/rho_calibration_curve.png\n M outputs/main_synthetic_validation/plots/sampler_diagnostics_overview.png\n M scripts/main_synthetic_validation_plots.py\n?? outputs/main_synthetic_validation/human_nuisance_recovery_audit.csv\n?? outputs/main_synthetic_validation/human_nuisance_recovery_compact_summary.csv\n?? outputs/main_synthetic_validation/human_oracle_posterior_predictive_cells.csv\n?? outputs/main_synthetic_validation/human_ppc_cell_decomposition.csv\n?? outputs/main_synthetic_validation/human_ppc_conditioning_audit_report.md\n?? outputs/main_synthetic_validation/human_ppc_conditioning_decision.csv\n?? outputs/main_synthetic_validation/human_ppc_recurrence_calibration.csv\n?? outputs/main_synthetic_validation/human_ppc_target_comparison.csv\n?? outputs/main_synthetic_validation/llm_oracle_root_audit.csv\n?? outputs/main_synthetic_validation/pilot_review_decision.csv\n?? outputs/main_synthetic_validation/pilot_review_report.md\n?? outputs/main_synthetic_validation/plots/human_ppc_conditioning_audit.png\n?? outputs/main_synthetic_validation/plots/ppc_observed_vs_predicted_rating_bars.png\n?? outputs/main_synthetic_validation/plots/ppc_rps_improvement_by_system.png\n?? outputs/main_synthetic_validation/plots/ppc_weighted_cell_tv_oracle_bands_by_system.png\n?? outputs/main_synthetic_validation_pilot_20260511/"
+  },
+  "hmc_or_refit_launched": false,
+  "input_run_directories": [
+    "runs/targeted_strong_lower_override/seed_20260511",
+    "runs/targeted_strong_lower_override/seed_20260512",
+    "runs/targeted_strong_lower_override/seed_20260513",
+    "runs/targeted_strong_lower_override/seed_20260514",
+    "runs/targeted_strong_lower_override/seed_20260515",
+    "runs/targeted_strong_lower_override/seed_20260516",
+    "runs/targeted_strong_lower_override/seed_20260517",
+    "runs/targeted_strong_lower_override/seed_20260518",
+    "runs/targeted_strong_lower_override/seed_20260519",
+    "runs/targeted_strong_lower_override/seed_20260520"
+  ],
+  "loo_recomputed": false,
+  "mode": "refresh-existing",
+  "output_dir": "/Users/ryankelly/ryan-code/research/dcm-code/outputs/main_synthetic_validation_pilot_20260511",
+  "posterior_predictive_draws_generated": false,
+  "refresh_output_dir": "/Users/ryankelly/ryan-code/research/dcm-code/outputs/main_synthetic_validation_pilot_20260511/refreshed_summaries",
+  "refresh_timestamp_utc": "2026-05-12T05:07:55.296880+00:00",
+  "refreshed_output_mtimes": {
+    "loo_lppd_summary_refreshed.csv": "2026-05-12T05:07:55.270386+00:00",
+    "loo_pareto_k_refreshed.csv": "2026-05-12T05:07:55.280851+00:00",
+    "oracle_root_bridge_cases.csv": "2026-05-12T05:07:55.240517+00:00",
+    "oracle_root_bridge_summary.csv": "2026-05-12T05:07:55.281759+00:00",
+    "pass_fail_summary_refreshed.csv": "2026-05-12T05:07:55.281536+00:00",
+    "posterior_predictive_rating_distribution_by_system_refreshed.csv": "2026-05-12T05:07:55.270107+00:00",
+    "posterior_predictive_row_metadata.csv": "2026-05-12T05:07:55.266897+00:00",
+    "posterior_predictive_summary_refreshed.csv": "2026-05-12T05:07:55.269742+00:00",
+    "rho_recovery_summary_refreshed.csv": "2026-05-12T05:07:55.268445+00:00",
+    "sampler_diagnostics_summary_refreshed.csv": "2026-05-12T05:07:55.281226+00:00",
+    "validation_cases_refreshed.csv": "2026-05-12T05:07:55.268104+00:00",
+    "validation_manifest_refreshed.csv": "2026-05-12T05:07:55.267506+00:00"
+  },
+  "refreshed_values_consistency": {
+    "fit_nc_rho_matches_per_run_rho_cases": true,
+    "fit_nc_sampler_matches_run_summary_json": true,
+    "loo_refreshed_from_existing_per_run_summaries": true,
+    "oracle_root_bridge_cases_written": true,
+    "ppc_refreshed_from_existing_per_run_summaries": true,
+    "rho_mismatch_examples": [],
+    "sampler_mismatch_examples": []
+  },
+  "run_artifact_mtimes": [
+    {
+      "fit_nc_mtime": "2026-05-11T23:36:13.938053+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-11T23:36:25.348053+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-11T23:36:14.916571+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260511",
+      "run_summary_json_mtime": "2026-05-11T23:36:25.454352+00:00",
+      "seed": 20260511
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T00:08:55.832573+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T00:09:06.952447+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T00:08:56.864223+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260512",
+      "run_summary_json_mtime": "2026-05-12T00:09:07.055976+00:00",
+      "seed": 20260512
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T00:42:26.788544+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T00:42:38.532509+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T00:42:27.961004+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260513",
+      "run_summary_json_mtime": "2026-05-12T00:42:38.634859+00:00",
+      "seed": 20260513
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T01:17:24.005752+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T01:17:34.900507+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T01:17:25.038905+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260514",
+      "run_summary_json_mtime": "2026-05-12T01:17:35.017201+00:00",
+      "seed": 20260514
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T01:58:20.566528+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T01:58:31.632394+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T01:58:21.625127+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260515",
+      "run_summary_json_mtime": "2026-05-12T01:58:31.754483+00:00",
+      "seed": 20260515
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T02:40:42.853693+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T02:41:07.263378+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T02:40:44.118173+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260516",
+      "run_summary_json_mtime": "2026-05-12T02:41:07.390479+00:00",
+      "seed": 20260516
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T03:18:33.511404+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T03:18:45.020916+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T03:18:34.612785+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260517",
+      "run_summary_json_mtime": "2026-05-12T03:18:45.139885+00:00",
+      "seed": 20260517
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T03:59:10.615240+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T03:59:21.338816+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T03:59:11.641658+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260518",
+      "run_summary_json_mtime": "2026-05-12T03:59:21.453808+00:00",
+      "seed": 20260518
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T04:38:36.669801+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T04:38:47.961662+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T04:38:37.654242+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260519",
+      "run_summary_json_mtime": "2026-05-12T04:38:48.079359+00:00",
+      "seed": 20260519
+    },
+    {
+      "fit_nc_mtime": "2026-05-12T05:06:20.823938+00:00",
+      "fit_variant": "targeted_strong_lower_override",
+      "per_rating_log_lik_nc_mtime": "2026-05-12T05:06:32.426186+00:00",
+      "per_rating_log_lik_zarr_mtime": null,
+      "posterior_predictive_nc_mtime": "2026-05-12T05:06:21.868298+00:00",
+      "run_dir": "runs/targeted_strong_lower_override/seed_20260520",
+      "run_summary_json_mtime": "2026-05-12T05:06:32.545178+00:00",
+      "seed": 20260520
+    }
+  ],
+  "skipped_incomplete_run_directories": [],
+  "stale_or_missing_top_level_files_before_refresh": [],
+  "summary_stale_before_refresh": false,
+  "top_level_csv_mtimes_after_refresh": {
+    "loo_lppd_summary.csv": "2026-05-12T05:06:32.738372+00:00",
+    "loo_pareto_k.csv": "2026-05-12T05:06:32.752213+00:00",
+    "main_synthetic_validation_report.md": "2026-05-12T05:06:32.766979+00:00",
+    "pass_fail_summary.csv": "2026-05-12T05:06:32.755107+00:00",
+    "posterior_predictive_rating_distribution_by_system.csv": "2026-05-12T05:06:32.712301+00:00",
+    "posterior_predictive_summary.csv": "2026-05-12T05:06:32.711887+00:00",
+    "rho_recovery_summary.csv": "2026-05-12T05:06:32.711147+00:00",
+    "sampler_diagnostics_summary.csv": "2026-05-12T05:06:32.754699+00:00",
+    "validation_cases.csv": "2026-05-12T05:06:32.710153+00:00",
+    "validation_manifest.csv": "2026-05-12T05:06:32.709441+00:00"
+  },
+  "top_level_csv_mtimes_before_refresh": {
+    "loo_lppd_summary.csv": "2026-05-12T05:06:32.738372+00:00",
+    "loo_pareto_k.csv": "2026-05-12T05:06:32.752213+00:00",
+    "main_synthetic_validation_report.md": "2026-05-12T05:06:32.766979+00:00",
+    "pass_fail_summary.csv": "2026-05-12T05:06:32.755107+00:00",
+    "posterior_predictive_rating_distribution_by_system.csv": "2026-05-12T05:06:32.712301+00:00",
+    "posterior_predictive_summary.csv": "2026-05-12T05:06:32.711887+00:00",
+    "rho_recovery_summary.csv": "2026-05-12T05:06:32.711147+00:00",
+    "sampler_diagnostics_summary.csv": "2026-05-12T05:06:32.754699+00:00",
+    "validation_cases.csv": "2026-05-12T05:06:32.710153+00:00",
+    "validation_manifest.csv": "2026-05-12T05:06:32.709441+00:00"
+  }
+}

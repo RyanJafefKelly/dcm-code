@@ -1,0 +1,5 @@
+system,per_seed_excess_probability_under_oracle,observed_n_excess_seeds,n_seeds,prob_ge_observed_excess_under_oracle,family_prob_any_system_ge_observed_excess,interpretation
+Human,0.05,2,10,0.08613835589931637,0.2775677032066789,compatible_with_sparse_finite_sample_noise
+ELIZA,0.05,1,10,0.4012630607616209,0.2775677032066789,single_excess_not_recurrent
+Chicken,0.05,0,10,1.0,0.2775677032066789,no_observed_excess
+LLMs,0.038180000000000006,0,10,1.0,0.2775677032066789,no_observed_excess

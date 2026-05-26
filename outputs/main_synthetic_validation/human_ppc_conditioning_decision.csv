@@ -1,0 +1,7 @@
+decision,current_truth_probability_semantics,current_truth_comparable_to_fitted_ppc,review_weighted_mean_tv_fit_vs_current_truth,review_weighted_mean_tv_fit_vs_oracle_ppc,review_median_tv_fit_vs_oracle_ppc,review_q90_tv_fit_vs_oracle_ppc,review_max_tv_fit_vs_oracle_ppc,review_revised_n_genuine_fit_oracle_mismatch,review_revised_n_moderate_fit_oracle_warning,review_revised_n_sparse_observation_noise,fit_vs_oracle_ppc_status,human_nuisance_recovery_severe_issue,sampler_pass_from_pilot,loo_pass_from_pilot,recommended_command
+READY_FOR_50_SEED_FULL_VALIDATION,realised_latent_predictive,False,0.22422051397413426,0.07012184443493678,0.07314122605965985,0.11825138816459842,0.14518412980042145,0,0,60,pass,False,True,True,".venv/bin/python scripts/main_synthetic_validation.py \
+  --output-dir outputs/main_synthetic_validation \
+  --mode full \
+  --fit-variants targeted_strong_lower_override \
+  --n-seeds 50 \
+  --seed 20260511"

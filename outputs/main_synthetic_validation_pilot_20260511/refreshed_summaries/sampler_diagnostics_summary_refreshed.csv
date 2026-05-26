@@ -1,0 +1,11 @@
+fit_variant,seed,max_rhat,n_rhat_gt_1p01,n_rhat_gt_1p05,min_ess_bulk,min_ess_tail,median_ess_bulk,median_ess_tail,n_divergences,divergence_rate,max_tree_depth_hits,max_tree_depth_hit_rate,mean_acceptance_rate,runtime_seconds,run_dir
+targeted_strong_lower_override,20260511,1.01,0,0,2679.0,1569.0,7631.0,2784.0,0,0.0,0,0.0,0.9481066738517945,2219.48277926445,runs/targeted_strong_lower_override/seed_20260511
+targeted_strong_lower_override,20260512,1.01,0,0,2105.0,882.0,5473.0,2823.0,0,0.0,0,0.0,0.9469924360503229,1943.2491059303284,runs/targeted_strong_lower_override/seed_20260512
+targeted_strong_lower_override,20260513,1.0,0,0,2621.0,1494.0,5170.0,2870.0,0,0.0,0,0.0,0.9476581702240532,1982.3579950332642,runs/targeted_strong_lower_override/seed_20260513
+targeted_strong_lower_override,20260514,1.01,0,0,1904.0,1509.0,5113.0,2865.0,0,0.0,0,0.0,0.945674662138895,2078.1532340049744,runs/targeted_strong_lower_override/seed_20260514
+targeted_strong_lower_override,20260515,1.0,0,0,2421.0,1284.0,6040.0,2848.0,0,0.0,0,0.0,0.9416599051188478,2438.662581920624,runs/targeted_strong_lower_override/seed_20260515
+targeted_strong_lower_override,20260516,1.01,0,0,3208.0,1515.0,8436.0,2738.0,0,0.0,0,0.0,0.9422629145674727,2523.494682073593,runs/targeted_strong_lower_override/seed_20260516
+targeted_strong_lower_override,20260517,1.01,0,0,2889.0,1596.0,5456.0,2812.0,0,0.0,0,0.0,0.9450935351413602,2239.3780410289764,runs/targeted_strong_lower_override/seed_20260517
+targeted_strong_lower_override,20260518,1.01,0,0,2962.0,1875.0,9482.0,2710.0,0,0.0,0,0.0,0.9447605959698802,2418.3014960289,runs/targeted_strong_lower_override/seed_20260518
+targeted_strong_lower_override,20260519,1.01,0,0,2763.0,1587.0,9900.0,2734.0,0,0.0,0,0.0,0.9451600879256429,2347.861070871353,runs/targeted_strong_lower_override/seed_20260519
+targeted_strong_lower_override,20260520,1.0,0,0,2211.0,1327.0,4786.0,2984.0,0,0.0,0,0.0,0.9449682884003582,1646.0511581897736,runs/targeted_strong_lower_override/seed_20260520

@@ -1,0 +1,29 @@
+% notebooks/spar_final_report_2026-05-20/section_4_2_results.tex
+% Working draft for Section 4.2 (Ryan's results). Copy across to main.tex / Overleaf as ready.
+% Figure assumed to live in Overleaf root: results_llm_focused_all_stances.pdf
+%                                          results_all_stances_credences.pdf (appendix)
+% Locally regenerated from results/all_stances_exact_baseline/ by make_figures.py in this directory.
+
+\subsection{Observation model and inference results}\label{subsec:ryan-results}
+
+The updated model runs as a joint multi-system Bayesian model for each of the 13 DCM stances, replacing the repeated binary-collapse simulation loop of the initial DCM with a single joint posterior per stance as described in Section~\ref{subsec:ryan-methods}. NUTS sampled cleanly in every run, with $\hat R = 1.00$, no divergent transitions, and minimum effective sample size of $2599$. Figure~\ref{fig:results-llm-stances} reports the headline output. The 2024 LLM posterior medians span 0.11 to 0.22 and Chicken medians span 0.13 to 0.26, both clustering near the Beta(1,5) prior mean of $1/6 \approx 0.167$ with broad 94\% credible intervals. Human and ELIZA sit near their soft-anchored extremes. The 2024 LLM medians are tighter than the initial DCM's 0.02 to 0.57 range, though the comparison is not one-to-one (the observation layer, marginalisation scheme, anchors, and fitting structure all differ). The Beta(1,5) prior is doing much of the work in these posteriors, and more data would be needed to pull the medians away from $1/6$ and tighten the credible intervals.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{results_llm_focused_all_stances.pdf}
+    \caption{Posterior probability of consciousness for 2024 LLMs across all 13 DCM stances (posterior median, 94\% credible interval). Chicken posteriors are shown directly below the LLM markers on each row (open grey circles). Stances are ordered by 2024 LLM posterior median, descending. The dashed grey line marks the Beta$(1,5)$ prior mean ($1/6 \approx 0.167$). Human and ELIZA are omitted for readability (see Appendix Figure~\ref{fig:results-all-stances}).}
+    \label{fig:results-llm-stances}
+\end{figure}
+
+As in the initial DCM paper, we focus on the relative orderings, which are more robust to the prior choice. Chicken receives a higher posterior median than 2024 LLMs under 11 of the 13 stances, with only Cognitive Complexity and Person-like reversing the direction. The 2024 LLM median moves upward from the Beta(1,5) prior mean only under Cognitive Complexity and Person-like, and downward under the remaining 11. Chicken moves upward under 10 stances and downward under three (Attention Schema Theory, Cognitive Complexity, Person-like). Taken together, the pattern is an intuitive biology-versus-cognition split, with biological and embodiment-oriented stances giving Chicken higher credence and cognition-oriented stances giving 2024 LLMs higher credence.
+
+The updated model also enables Bayesian workflow diagnostics not available in the initial DCM. A prior-predictive check on the leaf ratings showed that even with $R=1$ (Human) and $R=0$ (ELIZA) fixed at the root, the predicted rating distributions are nearly identical, which localises the posterior compression to the tree-edge priors rather than to the ordinal observation layer. An exploratory revision of the tree-edge priors restores some root-to-leaf transmission and passes a 10-seed synthetic recovery pilot, with a principled revision reserved for future work.
+
+% ===================== APPENDIX FIGURE (place inside appendix) =====================
+%
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=\textwidth]{results_all_stances_credences.pdf}
+%     \caption{Posterior probability of consciousness across all 13 DCM stances for the four systems, with 94\% credible intervals. Reference systems (Human, ELIZA, narrower panels) remain stable at their soft-anchored extremes across the stance set. Chicken and 2024 LLMs cluster near the Beta$(1,5)$ prior mean (dashed line). Biology-leaning stances place Chicken higher than 2024 LLMs and cognition-oriented stances reverse the ordering.}
+%     \label{fig:results-all-stances}
+% \end{figure}
