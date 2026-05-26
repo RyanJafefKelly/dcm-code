@@ -234,8 +234,16 @@ def build_fit_config(args: argparse.Namespace) -> ModelConfig:
         chains = args.chains if args.chains is not None else 4
         target_accept = args.target_accept if args.target_accept is not None else 0.95
 
+    overrides: Dict[str, Any] = {}
+    if args.beta_pres_mean is not None:
+        overrides["BETA_PRES_OVERRIDE_MEAN"] = float(args.beta_pres_mean)
+    if args.beta_abs_mean is not None:
+        overrides["BETA_ABS_OVERRIDE_MEAN"] = float(args.beta_abs_mean)
+    if args.beta_override_sigma is not None:
+        overrides["BETA_OVERRIDE_SIGMA"] = float(args.beta_override_sigma)
+
     return ModelConfig(
-        INDICATOR_STATE_MODEL="three_state",
+        INDICATOR_STATE_MODEL=args.state_model,
         USE_EXPERT_SHIFTS=False,
         USE_HIERARCHICAL_EXPERT_CUTPOINTS=False,
         POOL_BETAS_BY_LABEL=True,
@@ -245,7 +253,20 @@ def build_fit_config(args: argparse.Namespace) -> ModelConfig:
         NUM_TUNE=tune,
         NUM_CHAINS=chains,
         TARGET_ACCEPT=target_accept,
+        **overrides,
     )
+
+
+def _override_tag(args: argparse.Namespace) -> str:
+    """Compact suffix for run_id when prior overrides are set."""
+    parts = []
+    if args.beta_pres_mean is not None:
+        parts.append(f"pres{int(round(float(args.beta_pres_mean) * 100)):02d}")
+    if args.beta_abs_mean is not None:
+        parts.append(f"abs{int(round(float(args.beta_abs_mean) * 100)):02d}")
+    if args.beta_override_sigma is not None:
+        parts.append(f"sig{int(round(float(args.beta_override_sigma) * 100)):02d}")
+    return "_".join(parts)
 
 
 def posterior_draws(post: Any, var: str) -> np.ndarray:
@@ -1091,6 +1112,32 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--chains", type=int, default=None)
     parser.add_argument("--target-accept", type=float, default=None)
     parser.add_argument(
+        "--state-model",
+        type=str,
+        default="three_state",
+        choices=["binary", "three_state", "direct_q"],
+        help="ModelConfig.INDICATOR_STATE_MODEL. Default three_state preserves "
+             "the existing baseline; direct_q is the Pro_A leaf ablation.",
+    )
+    parser.add_argument(
+        "--beta-pres-mean",
+        type=float,
+        default=None,
+        help="If set, override paper_mu_pres for ALL pres groups in the label-pool path with this value.",
+    )
+    parser.add_argument(
+        "--beta-abs-mean",
+        type=float,
+        default=None,
+        help="If set, override paper_mu_abs for ALL abs groups in the label-pool path with this value.",
+    )
+    parser.add_argument(
+        "--beta-override-sigma",
+        type=float,
+        default=None,
+        help="If set, override LABEL_POOL_SIGMA for the override path (defaults to LABEL_POOL_SIGMA=0.5).",
+    )
+    parser.add_argument(
         "--postprocess-only",
         action="store_true",
         help="Reuse an existing run directory with fit.nc and regenerate recovery outputs.",
@@ -1103,9 +1150,17 @@ def main() -> None:
     args = parse_args()
     cfg = build_fit_config(args)
     labels = dict(LABELS)
+    override_tag = _override_tag(args)
+    sm_tag = (
+        f"sm{args.state_model}"
+        if args.state_model != "three_state"
+        else ""
+    )
     run_id = args.run_id or (
         f"{labels['dgp']}__{labels['fit']}__{labels['leaf']}__"
         f"{labels['nuisance_truth']}__{labels['design']}__seed{args.seed}"
+        + (f"__{sm_tag}" if sm_tag else "")
+        + (f"__{override_tag}" if override_tag else "")
         + ("__smoke" if args.smoke else "")
     )
     runs_dir = args.runs_dir if args.runs_dir.is_absolute() else REPO_ROOT / args.runs_dir

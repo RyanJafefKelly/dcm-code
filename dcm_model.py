@@ -90,9 +90,16 @@ class ModelConfig:
     #   "three_state" — m_j ∈ {0,1,2}, m_j ~ Binomial(2, q_j);
     #                   emission centres at η ∈ {0, a/2, a};
     #                   z_j = m_j/2 gives expected_z = q_j
-    # Marginalisation is per-indicator in both cases (m_j or z_j is shared across the
-    # indicator's ratings), analytic in both cases, so NUTS sees a fully continuous model.
-    INDICATOR_STATE_MODEL: Literal["binary", "three_state"] = "binary"
+    #   "direct_q"    — no latent indicator state; emission centre is the
+    #                   indicator-effective probability itself,
+    #                   η_je = a · q̃_j + b_e. q̃_j = β_abs + q_j(β_pres - β_abs)
+    #                   in the composite path (already supplied by the upstream
+    #                   propagation) and = β_pres / β_abs (conditional on parent
+    #                   binary state) in the exact-tree path.
+    # Marginalisation is per-indicator for binary / three_state (m_j or z_j is
+    # shared across the indicator's ratings), analytic in all cases, so NUTS
+    # sees a fully continuous model.
+    INDICATOR_STATE_MODEL: Literal["binary", "three_state", "direct_q"] = "binary"
 
     # Ordinal observation model
     USE_EXPERT_SHIFTS: bool = True  # If False, all experts share b=0
@@ -520,6 +527,37 @@ def pt_three_state_ll_terms(
     )
 
 
+def pt_direct_q_ll(
+    ratings: np.ndarray,
+    expert_idx: np.ndarray,
+    q_j_eff: pt.TensorVariable,
+    a: pt.TensorVariable,
+    kappa: pt.TensorVariable,
+    b: pt.TensorVariable,
+    kappa_by_expert: Optional[pt.TensorVariable] = None,
+    sigma_by_expert: Optional[pt.TensorVariable] = None,
+) -> pt.TensorVariable:
+    """Direct-q leaf log-likelihood: η_je = a · q_j_eff + b_e.
+
+    No latent indicator state. ``q_j_eff`` is the **indicator-effective**
+    probability $\\tilde q_j$ — caller's responsibility to compute as
+    $\\beta^{\\rm abs}_j + q_j(\\beta^{\\rm pres}_j - \\beta^{\\rm abs}_j)$ in
+    the composite path, or as the indicator's own β (β_pres or β_abs) when
+    conditioning on the parent's binary state in the exact-tree path.
+    Returns the scalar sum of log P_OP across this indicator's ratings.
+    """
+    eta_shift = a * q_j_eff
+    if kappa_by_expert is not None:
+        return pt_ordinal_logp_expert_kappa(
+            ratings, expert_idx, kappa_by_expert, eta_shift,
+            sigma_by_expert=sigma_by_expert,
+        )
+    return pt_ordinal_logp(
+        ratings, expert_idx, kappa, b, eta_shift,
+        sigma_by_expert=sigma_by_expert,
+    )
+
+
 def add_indicator_marginal_likelihood(
     name: str,
     potential_name: str,
@@ -581,9 +619,18 @@ def add_indicator_marginal_likelihood(
         pm.Deterministic(f"{name}_p_m2", p_m2)
         pm.Deterministic(f"{name}_expected_z", 0.5 * p_m1 + p_m2)
         return
+    if state_model == "direct_q":
+        ll = pt_direct_q_ll(
+            ratings, expert_indices, q_j, a, kappa, b,
+            kappa_by_expert=kappa_by_expert,
+            sigma_by_expert=sigma_by_expert,
+        )
+        pm.Potential(potential_name, ll)
+        pm.Deterministic(f"{name}_q_eff", q_j)
+        return
     raise ValueError(
         f"Unknown INDICATOR_STATE_MODEL: {state_model!r}. "
-        f"Expected 'binary' or 'three_state'."
+        f"Expected 'binary', 'three_state', or 'direct_q'."
     )
 
 
@@ -610,9 +657,12 @@ def add_no_data_prior_deterministics(
         pm.Deterministic(f"{name}_p_m2", p_m2_prior)
         pm.Deterministic(f"{name}_expected_z", 0.5 * p_m1_prior + p_m2_prior)
         return
+    if state_model == "direct_q":
+        pm.Deterministic(f"{name}_q_eff", q_j)
+        return
     raise ValueError(
         f"Unknown INDICATOR_STATE_MODEL: {state_model!r}. "
-        f"Expected 'binary' or 'three_state'."
+        f"Expected 'binary', 'three_state', or 'direct_q'."
     )
 
 

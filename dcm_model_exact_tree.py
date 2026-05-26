@@ -32,6 +32,7 @@ from dcm_model import (
     build_ordinal_observation_layer,
     build_safe_gain_node_beta,
     node_key,
+    pt_direct_q_ll,
     pt_three_state_ll_terms,
     pt_indicator_logps,
 )
@@ -57,10 +58,10 @@ class MultiSystemExactTreeBuilder(MultiSystemModelBuilder):
             f"{len(self.system_configs)} systems, {n_experts} experts, K={K}"
         )
 
-        if self.config.INDICATOR_STATE_MODEL not in {"binary", "three_state"}:
+        if self.config.INDICATOR_STATE_MODEL not in {"binary", "three_state", "direct_q"}:
             raise ValueError(
-                f"Exact-tree builder supports binary or three_state leaf only; "
-                f"got {self.config.INDICATOR_STATE_MODEL!r}"
+                f"Exact-tree builder supports binary, three_state, or direct_q "
+                f"leaf only; got {self.config.INDICATOR_STATE_MODEL!r}"
             )
 
         model = pm.Model()
@@ -190,7 +191,7 @@ class MultiSystemExactTreeBuilder(MultiSystemModelBuilder):
         leaf log-likelihood tensors (ℓ_0, ℓ_½, ℓ_1) for three-state OR
         (ℓ_0, ℓ_1) for binary. Returned dict keyed by (sys_name, node_key).
         """
-        out: Dict[Tuple[str, str], Tuple[pt.TensorVariable, ...]] = {}
+        out: Dict[Tuple[str, str], Tuple[Any, ...]] = {}
         state_model = self.config.INDICATOR_STATE_MODEL
         root_path = (stance_data["name"],)
 
@@ -216,6 +217,12 @@ class MultiSystemExactTreeBuilder(MultiSystemModelBuilder):
                             sigma_by_expert=self.sigma_by_expert,
                         )
                         out[(sys_name, key)] = (ll0, llh, ll1)
+                    elif state_model == "direct_q":
+                        # No precomputable leaf log-lik tensors — η depends on
+                        # β, which is the parent-conditional q. Stash the raw
+                        # (ratings, expert_idx) so leaf_log_B can call
+                        # pt_direct_q_ll at the right β.
+                        out[(sys_name, key)] = (ratings, expert_indices)
                     else:
                         ll0, ll1 = pt_indicator_logps(
                             ratings, expert_indices, self.a, self.kappa, self.b,
@@ -254,8 +261,19 @@ class MultiSystemExactTreeBuilder(MultiSystemModelBuilder):
             """Three-state mixture B(β) = (1-β)² ℓ_0 + 2β(1-β) ℓ_½ + β² ℓ_1.
 
             For binary leaf: B(β) = (1-β) ℓ_0 + β ℓ_1.
+            For direct_q leaf: leaf_lls is (ratings, expert_idx); evaluate
+            pt_direct_q_ll at q_eff = β (no marginalisation).
             Returned as scalar log.
             """
+            if state_model == "direct_q":
+                ratings, expert_idx = leaf_lls
+                beta_c = pt.clip(beta, eps, 1.0 - eps)
+                return pt_direct_q_ll(
+                    ratings, expert_idx, beta_c,
+                    self.a, self.kappa, self.b,
+                    kappa_by_expert=self.kappa_by_expert,
+                    sigma_by_expert=self.sigma_by_expert,
+                )
             beta_c = pt.clip(beta, eps, 1.0 - eps)
             if state_model == "three_state":
                 ll0, llh, ll1 = leaf_lls
