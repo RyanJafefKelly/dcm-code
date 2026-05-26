@@ -10,18 +10,19 @@ from __future__ import annotations
 import matplotlib as mpl
 
 PALETTE = {
-    "root":      "#3a5a40",  # Pr(conscious) green
-    "stance":    "#0f3b3a",  # dark teal
-    "feature":   "#b07a3b",  # ochre
-    "indicator": "#b8472b",  # terracotta
+    "root":       "#3a5a40",  # Pr(conscious) green
+    "stance":     "#0f3b3a",  # dark teal
+    "feature":    "#b07a3b",  # ochre
+    "subfeature": "#c46a3f",  # muted terracotta-orange (between feature and indicator)
+    "indicator":  "#b8472b",  # terracotta
     # New ordinal layer
-    "q":         "#7a9bb0",  # propagated marginal probability (deterministic)
-    "m":         "#9b59b6",  # latent indicator state m_j
-    "s":         "#d98c5f",  # latent expert signal s_jk
-    "r":         "#5d8aa8",  # observed rating r_jk
-    "muted":     "#cccccc",
-    "edge":      "#6c757d",
-    "edge_dot":  "#9aa4ab",
+    "q":          "#7a9bb0",  # propagated marginal probability (deterministic)
+    "m":          "#9b59b6",  # latent indicator state z_j
+    "s":          "#d98c5f",  # latent expert signal s_ej
+    "r":          "#5d8aa8",  # observed rating r_ej
+    "muted":      "#cccccc",
+    "edge":       "#6c757d",
+    "edge_dot":   "#9aa4ab",
 }
 
 FONT = {

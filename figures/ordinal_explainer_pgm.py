@@ -44,14 +44,14 @@ VARIANTS = ("baseline", "expert_shifts", "expert_cutpoints", "expert_scales")
 # Drawing primitives
 # ---------------------------------------------------------------------------
 
-def box(ax, x, y, w, h, text, fc, tc="white", lw=0.6):
+def box(ax, x, y, w, h, text, fc, tc="white", lw=0.6, fontsize=11):
     patch = FancyBboxPatch(
         (x - w / 2, y - h / 2), w, h,
         boxstyle="round,pad=0.02,rounding_size=0.05",
         linewidth=lw, edgecolor="black", facecolor=fc,
     )
     ax.add_patch(patch)
-    ax.text(x, y, text, ha="center", va="center", color=tc, fontsize=9)
+    ax.text(x, y, text, ha="center", va="center", color=tc, fontsize=fontsize)
 
 
 def arrow(ax, x0, y0, x1, y1, color=None, dotted=False, lw=0.9):
@@ -70,46 +70,70 @@ def arrow(ax, x0, y0, x1, y1, color=None, dotted=False, lw=0.9):
 # ---------------------------------------------------------------------------
 
 def draw_paper_tree(ax):
-    # Layer 1 - root
-    box(ax, 6, 8.4, 1.5, 0.55, r"Pr(conscious)", PALETTE["root"])
+    """Per-stance tree: root C_s, features, subfeatures, indicators.
 
-    # Layer 2 - stances
-    stance_x = [4.0, 6.0, 8.0]
-    for x in stance_x:
-        box(ax, x, 7.3, 1.0, 0.45, "stance", PALETTE["stance"])
-        arrow(ax, 6, 8.13, x, 7.53, dotted=True, color=PALETTE["edge_dot"])
+    Strict tree (each child has one parent within this stance). One example
+    edge is annotated with the (beta_pres, beta_abs) transmission parameters
+    that the methods text introduces. The model is fit independently per
+    stance; this figure shows one such tree.
+    """
+    # Root: per-stance C_s
+    box(ax, 6.0, 8.4, 1.0, 0.55, r"$C_s$", PALETTE["root"])
+    ax.text(6.0, 8.83, r"(one of 13 stances per system)",
+            ha="center", va="bottom", fontsize=9, color="#777",
+            fontstyle="italic")
 
-    # Layer 3 - features
-    feature_x = [2.5, 4.0, 5.5, 7.0, 8.5, 10.0]
+    # Features (3, evenly spaced, each from C_s)
+    feature_x = [3.0, 6.0, 9.0]
     for x in feature_x:
-        box(ax, x, 6.2, 1.0, 0.45, "feature", PALETTE["feature"])
+        box(ax, x, 7.3, 1.0, 0.45, "feature", PALETTE["feature"])
+        arrow(ax, 6.0, 8.13, x, 7.53, color=PALETTE["edge"])
 
-    # Stance -> feature edges (explicit; each stance fans to ~3 nearby features)
-    stance_feature_edges = [
-        (4.0, 2.5), (4.0, 4.0), (4.0, 5.5),
-        (6.0, 4.0), (6.0, 5.5), (6.0, 7.0), (6.0, 8.5),
-        (8.0, 7.0), (8.0, 8.5), (8.0, 10.0),
+    # Subfeatures: variable count per feature for visual realism.
+    # Feature 3.0 has 1 subfeature directly below; features 6.0 and 9.0
+    # have 2 subfeatures each at +/-0.7 offset.
+    subfeature_specs = [
+        (3.0, (0.0,)),         # 1 subfeature at 3.0
+        (6.0, (-0.7, 0.7)),    # 2 subfeatures at 5.3, 6.7
+        (9.0, (-0.7, 0.7)),    # 2 subfeatures at 8.3, 9.7
     ]
-    for sx, fx in stance_feature_edges:
-        arrow(ax, sx, 7.07, fx, 6.43, color=PALETTE["edge"])
+    for fx, offsets in subfeature_specs:
+        for off in offsets:
+            sx = fx + off
+            box(ax, sx, 6.2, 0.95, 0.4, "subfeature",
+                PALETTE["subfeature"], fontsize=9)
+            arrow(ax, fx, 7.07, sx, 6.40, color=PALETTE["edge"])
 
-    # Layer 4 - indicators (every indicator linked to >=1 feature)
-    ind_x = [1.5, 2.7, 3.9, 5.1, 6.3, 7.5, 8.7, 9.9, 11.0]
-    for x in ind_x:
-        box(ax, x, 5.1, 0.95, 0.45, "indicator", PALETTE["indicator"])
+    # Edge-parameter annotation on the feature 6.0 -> subfeature 5.3 edge,
+    # drawn as a callout with a leader arrow so the labelled edge is unambiguous.
+    ax.annotate(
+        r"$\beta^{\mathrm{pres}}_u,\ \beta^{\mathrm{abs}}_u$",
+        xy=(5.65, 6.74),       # midpoint of the example edge
+        xytext=(4.45, 7.05),   # text position (upper-left of the edge)
+        ha="center", va="center", fontsize=9,
+        color="#444", fontstyle="italic",
+        arrowprops=dict(arrowstyle="->", color="#999", lw=0.6,
+                        connectionstyle="arc3,rad=0.2"),
+    )
 
-    feature_indicator_edges = [
-        (2.5, 1.5), (2.5, 2.7),
-        (4.0, 2.7), (4.0, 3.9),
-        (5.5, 3.9), (5.5, 5.1), (5.5, 6.3),
-        (7.0, 5.1), (7.0, 6.3), (7.0, 7.5),
-        (8.5, 7.5), (8.5, 8.7),
-        (10.0, 8.7), (10.0, 9.9), (10.0, 11.0),
+    # Indicators: variable count per subfeature, strict tree, no crossings.
+    # Subfeature 3.0 has 2 indicators; the other 4 subfeatures have 1 each.
+    # Focus indicator hangs under subfeature 6.7.
+    indicator_specs = [
+        (3.0, (-0.5, 0.5)),    # 2 indicators at 2.5, 3.5
+        (5.3, (0.0,)),         # 1 indicator at 5.3
+        (6.7, (0.0,)),         # 1 indicator at 6.7 (focus)
+        (8.3, (0.0,)),         # 1 indicator at 8.3
+        (9.7, (0.0,)),         # 1 indicator at 9.7
     ]
-    for fx, ix in feature_indicator_edges:
-        arrow(ax, fx, 5.97, ix, 5.33, color=PALETTE["edge"])
+    for sx, offsets in indicator_specs:
+        for off in offsets:
+            ix = sx + off
+            box(ax, ix, 5.1, 0.95, 0.45, "indicator",
+                PALETTE["indicator"], fontsize=9)
+            arrow(ax, sx, 5.97, ix, 5.33, color=PALETTE["edge"])
 
-    return 6.3  # focus indicator x-coordinate (centre)
+    return 6.7  # focus indicator x-coordinate
 
 
 # ---------------------------------------------------------------------------
@@ -129,15 +153,15 @@ def draw_ordinal_layer(ax, j_x, variant):
     box(ax, j_x, 4.0, 0.7, 0.45, r"$q_j$", PALETTE["q"], tc="black")
     arrow(ax, j_x, 4.87, j_x, 4.23, color=PALETTE["edge"])
 
-    # Latent indicator state m_j
-    box(ax, j_x, 3.0, 1.15, 0.5, r"$m_j \in \{0,1,2\}$", PALETTE["m"])
+    # Latent indicator state z_j (three-state baseline)
+    box(ax, j_x, 3.0, 1.6, 0.5, r"$z_j \in \{0,\, 1/2,\, 1\}$", PALETTE["m"])
     arrow(ax, j_x, 3.77, j_x, 3.25, color=PALETTE["edge"])
 
-    # Expert plate: s_{jk}, r_{jk}
-    expert_xs = [4.6, 6.3, 8.0]
+    # Expert plate: s_{ej}, r_{ej}
+    expert_xs = [5.0, 6.7, 8.4]
     for ek in expert_xs:
-        box(ax, ek, 1.9, 0.85, 0.45, r"$s_{jk}$", PALETTE["s"])
-        # observed: thicker edge + diagonal-hatched fill for r_{jk}
+        box(ax, ek, 1.9, 0.85, 0.45, r"$s_{ej}$", PALETTE["s"])
+        # observed: thicker edge + diagonal-hatched fill for r_{ej}
         patch = FancyBboxPatch(
             (ek - 0.425, 0.625), 0.85, 0.45,
             boxstyle="round,pad=0.02,rounding_size=0.05",
@@ -145,32 +169,32 @@ def draw_ordinal_layer(ax, j_x, variant):
             facecolor=PALETTE["r"], hatch="///",
         )
         ax.add_patch(patch)
-        ax.text(ek, 0.85, r"$r_{jk}$", ha="center", va="center",
-                color="white", fontsize=9)
+        ax.text(ek, 0.85, r"$r_{ej}$", ha="center", va="center",
+                color="white", fontsize=11)
         arrow(ax, j_x, 2.77, ek, 2.13, color=PALETTE["edge"])
         arrow(ax, ek, 1.67, ek, 1.08, color=PALETTE["edge"])
 
     # Expert plate
     plate_e = mpatches.FancyBboxPatch(
-        (4.05, 0.40), 4.4, 1.95,
+        (4.45, 0.40), 4.4, 1.95,
         boxstyle="round,pad=0.0,rounding_size=0.08",
         linewidth=0.8, edgecolor=PALETTE["edge"], facecolor="none",
         linestyle="--",
     )
     ax.add_patch(plate_e)
-    ax.text(8.40, 2.40, r"experts  $k$", ha="right", va="bottom",
-            fontsize=8, color=PALETTE["edge"])
+    ax.text(8.80, 2.40, r"experts  $e$", ha="right", va="bottom",
+            fontsize=10, color=PALETTE["edge"])
 
     # Indicator plate
     plate_j = mpatches.FancyBboxPatch(
-        (3.80, 0.20), 4.95, 4.30,
+        (4.20, 0.20), 4.95, 4.30,
         boxstyle="round,pad=0.0,rounding_size=0.10",
         linewidth=0.8, edgecolor=PALETTE["edge"], facecolor="none",
         linestyle="--",
     )
     ax.add_patch(plate_j)
-    ax.text(8.70, 4.55, r"indicators  $j$", ha="right", va="bottom",
-            fontsize=8, color=PALETTE["edge"])
+    ax.text(9.10, 4.55, r"indicators  $j$", ha="right", va="bottom",
+            fontsize=10, color=PALETTE["edge"])
 
     # ---- Shared ordinal parameters ----------------------------------------
     # Always: a (-> s), kappa (-> r). Variant-specific extras layered on top.
@@ -181,14 +205,14 @@ def draw_ordinal_layer(ax, j_x, variant):
         box(ax, 10.6, 1.95, 0.7, 0.45, r"$a$",     PALETTE["muted"], tc="black")
         box(ax, 10.6, 0.85, 0.7, 0.45, r"$\kappa$", PALETTE["muted"], tc="black")
         ax.text(11.05, 1.95, "discrim.",   ha="left", va="center",
-                fontsize=7, color="#888", fontstyle="italic")
+                fontsize=9, color="#888", fontstyle="italic")
         ax.text(11.05, 0.85, "thresholds", ha="left", va="center",
-                fontsize=7, color="#888", fontstyle="italic")
+                fontsize=9, color="#888", fontstyle="italic")
         # Shared signal-noise label (sigma fixed = 1)
         ax.text(10.6, 2.55, r"$\varepsilon \sim \mathcal{N}(0,1)$",
-                ha="center", va="bottom", fontsize=7.5, color="#444")
+                ha="center", va="bottom", fontsize=9, color="#444")
         # Edges into plate boundary
-        plate_right = 8.45
+        plate_right = 8.85
         arrow(ax, 10.25, 1.95, plate_right + 0.05, 1.95, color=PALETTE["edge"], lw=0.6)
         arrow(ax, 10.25, 0.85, plate_right + 0.05, 0.85, color=PALETTE["edge"], lw=0.6)
 
@@ -203,7 +227,7 @@ def draw_ordinal_layer(ax, j_x, variant):
                 fontsize=7, color="#888", fontstyle="italic")
         ax.text(11.05, 1.50, "thresholds", ha="left", va="center",
                 fontsize=7, color="#888", fontstyle="italic")
-        plate_right = 8.45
+        plate_right = 8.85
         arrow(ax, 10.25, 2.40, plate_right + 0.05, 1.95, color=PALETTE["edge"], lw=0.6)
         arrow(ax, 10.25, 1.50, plate_right + 0.05, 0.85, color=PALETTE["edge"], lw=0.6)
 
@@ -219,7 +243,7 @@ def draw_ordinal_layer(ax, j_x, variant):
         ax.text(8.40, 0.05, "per-expert thresholds (hierarchical)",
                 ha="right", va="bottom",
                 fontsize=7, color="#888", fontstyle="italic")
-        plate_right = 8.45
+        plate_right = 8.85
         arrow(ax, 10.25, 1.95, plate_right + 0.05, 1.95, color=PALETTE["edge"], lw=0.6)
 
     elif variant == "expert_scales":
@@ -233,7 +257,7 @@ def draw_ordinal_layer(ax, j_x, variant):
                 fontsize=7, color="#888", fontstyle="italic")
         ax.text(11.05, 1.50, "thresholds", ha="left", va="center",
                 fontsize=7, color="#888", fontstyle="italic")
-        plate_right = 8.45
+        plate_right = 8.85
         arrow(ax, 10.25, 2.40, plate_right + 0.05, 1.95, color=PALETTE["edge"], lw=0.6)
         arrow(ax, 10.25, 1.50, plate_right + 0.05, 0.85, color=PALETTE["edge"], lw=0.6)
 
@@ -246,28 +270,28 @@ def draw_ordinal_layer(ax, j_x, variant):
 # ---------------------------------------------------------------------------
 
 def draw_frame(ax, variant):
-    label_kw = dict(ha="left", va="center", fontsize=8, color="#444",
+    label_kw = dict(ha="left", va="center", fontsize=10, color="#444",
                     fontstyle="italic")
-    ax.text(0.1, 8.4, "system",        **label_kw)
-    ax.text(0.1, 7.3, "stance",        **label_kw)
-    ax.text(0.1, 6.2, "feature",       **label_kw)
+    ax.text(0.1, 8.4, r"root $C_s$",   **label_kw)
+    ax.text(0.1, 7.3, "feature",       **label_kw)
+    ax.text(0.1, 6.2, "subfeature",    **label_kw)
     ax.text(0.1, 5.1, "indicator",     **label_kw)
-    ax.text(0.1, 4.0, "marginal $q_j$", **label_kw)
+    ax.text(0.1, 4.0, r"tree-implied $q_j$", **label_kw)
     ax.text(0.1, 3.0, "latent state",  **label_kw)
     ax.text(0.1, 1.9, "latent signal", **label_kw)
     ax.text(0.1, 0.85, "rating (1-7, ordinal)", **label_kw)
 
     ax.axhline(4.55, xmin=0.06, xmax=0.97, color="#dddddd", lw=0.6, ls=":")
     ax.text(11.7, 4.55, "ordinal layer", ha="right", va="center",
-            fontsize=8, color="#888", fontstyle="italic")
+            fontsize=10, color="#888", fontstyle="italic")
 
     title = {
-        "baseline":          "DCM with ordinal observation layer  -  baseline",
-        "expert_shifts":     "DCM ordinal layer  -  variant: expert location shifts $b_e$",
-        "expert_cutpoints":  "DCM ordinal layer  -  variant: per-expert cutpoints $\\kappa_e$",
-        "expert_scales":     "DCM ordinal layer  -  variant: per-expert noise scale $\\sigma_e$",
+        "baseline":          "DCM with ordinal observation layer (baseline)",
+        "expert_shifts":     "DCM ordinal layer variant: expert location shifts $b_e$",
+        "expert_cutpoints":  "DCM ordinal layer variant: per-expert cutpoints $\\kappa_e$",
+        "expert_scales":     "DCM ordinal layer variant: per-expert noise scale $\\sigma_e$",
     }[variant]
-    ax.figure.suptitle(title, fontsize=11, y=0.98)
+    ax.figure.suptitle(title, fontsize=13, y=0.98)
 
 
 # ---------------------------------------------------------------------------
